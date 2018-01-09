@@ -1,0 +1,11 @@
+:local {
+  .getting-started {
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar; // Ensures scrollbars do not affect width in IE10
+    overflow: auto;
+    padding: 1.429rem;
+    position: absolute;
+    width: 100%;
+  }
+}

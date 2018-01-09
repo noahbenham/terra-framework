@@ -38,6 +38,9 @@
     "terra-button": "^1.12.0",
     "terra-collapsible-menu-view": "^1.1.1",
     "terra-content-container": "^1.11.1",
+    "terra-embedded-content-consumer": "^1.10.0",
+    "terra-grid": "^3.18.0",
+    "terra-heading": "^1.16.0",
     "terra-i18n": "^1.10.1",
     "terra-i18n-plugin": "^1.7.0",
     "terra-icon": "^1.12.1",
@@ -51,7 +54,8 @@
     "terra-responsive-element": "^1.13.0",
     "terra-slide-panel": "^1.11.1",
     "terra-theme-provider": "^1.6.1",
-    "terra-toggle-button": "^1.15.0"
+    "terra-toggle-button": "^1.15.0",
+    "xfc": "^1.2.1"
   },
   "peerDependencies": {
     "react": "^15.4.2",

@@ -28,10 +28,15 @@ class App extends React.Component {
       dir: 'ltr',
       locale,
       theme: 'Default Theme',
+      configType: 'Standard',
     };
     this.handleBidiChange = this.handleBidiChange.bind(this);
     this.handleThemeChange = this.handleThemeChange.bind(this);
     this.handleLocaleChange = this.handleLocaleChange.bind(this);
+    this.handleConfigChange = this.handleConfigChange.bind(this);
+
+    this.navForConfigType = this.navForConfigType.bind(this);
+    this.configForConfigType = this.configForConfigType.bind(this);
   }
 
   handleBidiChange(e) {
@@ -47,7 +52,102 @@ class App extends React.Component {
     this.setState({ theme: e.currentTarget.id });
   }
 
+  handleConfigChange(e) {
+    this.setState({ configType: e.currentTarget.id });
+  }
+
+  navForConfigType() {
+    switch (this.state.configType) {
+      case 'Documentation':
+        return {
+          index: '/home',
+          links: [{
+            path: '/home',
+            text: 'Home',
+          }, {
+            path: '/getting-started',
+            text: 'Getting Started',
+          }, {
+            path: '/components',
+            text: 'Components',
+          }],
+        };
+      case 'Leisure':
+        return {
+          index: '/leisure',
+          links: [],
+        };
+      default:
+      case 'Standard':
+        return {
+          index: '/home',
+          links: [{
+            path: '/home',
+            text: 'Home',
+          }, {
+            path: '/components',
+            text: 'Components',
+          }, {
+            path: '/tests',
+            text: 'Tests',
+          }],
+        };
+    }
+  }
+
+  configForConfigType() {
+    const contentCopy = Object.assign({}, this.props.routeConfig.content);
+    const menuCopy = Object.assign({}, this.props.routeConfig.menu);
+
+    switch (this.state.configType) {
+      case 'Documentation':
+        const updatedContent = {};
+        Object.keys(contentCopy).filter(pathName => ['/tests', '/leisure'].indexOf(pathName) < 0).map((validPathName) => {
+          updatedContent[validPathName] = contentCopy[validPathName];
+        });
+
+        const updatedMenu = {};
+        Object.keys(menuCopy).filter(pathName => ['/tests', '/leisure'].indexOf(pathName) < 0).map((validPathName) => {
+          updatedMenu[validPathName] = menuCopy[validPathName];
+        });
+
+        return Object.assign({}, {
+          content: updatedContent,
+        }, {
+          menu: updatedMenu,
+        });
+      case 'Leisure':
+        const leisureContent = {};
+        Object.keys(contentCopy).filter(pathName => pathName === '/leisure').map((validPathName) => {
+          leisureContent[validPathName] = contentCopy[validPathName];
+        });
+
+        return Object.assign({}, {
+          content: leisureContent,
+        });
+      default:
+      case 'Standard':
+        const standardContent = {};
+        Object.keys(contentCopy).filter(pathName => ['/getting-started', '/leisure'].indexOf(pathName) < 0).map((validPathName) => {
+          standardContent[validPathName] = contentCopy[validPathName];
+        });
+
+        const standardMenu = {};
+        Object.keys(menuCopy).filter(pathName => ['/getting-started', '/leisure'].indexOf(pathName) < 0).map((validPathName) => {
+          standardMenu[validPathName] = menuCopy[validPathName];
+        });
+
+        return Object.assign({}, {
+          content: standardContent,
+        }, {
+          menu: standardMenu,
+        });
+    }
+  }
+
   render() {
+    const nav = this.navForConfigType();
+
     const applicationHeader = (
       <ApplicationHeader
         locale={this.state.locale}
@@ -56,7 +156,9 @@ class App extends React.Component {
         onDirChange={this.handleBidiChange}
         theme={this.state.theme}
         onThemeChange={this.handleThemeChange}
-        navigation={this.props.navigation}
+        configType={this.state.configType}
+        onConfigChange={this.handleConfigChange}
+        navigation={nav}
       />
     );
 
@@ -67,8 +169,8 @@ class App extends React.Component {
             <NavigationLayout
               header={applicationHeader}
               menuText="Menu"
-              indexPath={this.props.navigation.index}
-              config={this.props.routeConfig}
+              indexPath={nav.index}
+              config={this.configForConfigType()}
             />
           </Base>
         </ThemeProvider>

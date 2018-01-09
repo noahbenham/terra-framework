@@ -1,0 +1,18 @@
+/* stylelint-disable selector-class-pattern */
+:local {
+  .leisure-container {
+    height: 100%;
+
+    :global {
+      .xfc {
+        height: 100%;
+
+        iframe {
+          height: 100%;
+          width: 100%;
+          border: none;
+        }
+      }
+    }
+  }
+}

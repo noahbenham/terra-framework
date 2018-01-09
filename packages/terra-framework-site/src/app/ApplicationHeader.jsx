@@ -25,6 +25,9 @@ const propTypes = {
 
   theme: PropTypes.string,
   onThemeChange: PropTypes.func,
+
+  configType: PropTypes.string,
+  onConfigChange: PropTypes.func,
 };
 
 class ApplicationHeader extends React.Component {
@@ -75,11 +78,23 @@ class ApplicationHeader extends React.Component {
       themeSwitcher = <div />;
     }
 
+    const configSwitcher = (
+      <HeaderUtility.Item
+        text={`Navigation Configuration: ${this.props.configType}`}
+        key="NavigationConfig"
+        subMenuItems={[
+          <HeaderUtility.ItemGroup isSelectable key="config-options" onChange={this.props.onConfigChange} >
+            {['Standard', 'Documentation', 'Leisure'].map(configType => <HeaderUtility.Item id={configType} text={configType} key={configType} isSelected={this.props.configType === configType} />)}
+          </HeaderUtility.ItemGroup>,
+        ]}
+      />
+    );
+
     const utility = (
       <HeaderUtility
         accessory={<IconSettings />}
         title={'Config'}
-        menuItems={[themeSwitcher, localeContent, <HeaderUtility.Divider key="DIVIDER-1" />, bidiContent]}
+        menuItems={[configSwitcher, themeSwitcher, localeContent, <HeaderUtility.Divider key="DIVIDER-1" />, bidiContent]}
         size={this.props.layoutConfig.size}
       />
     );

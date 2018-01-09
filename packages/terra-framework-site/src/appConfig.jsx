@@ -11,6 +11,12 @@ import ComponentsMenu from './app/components/ComponentsMenu';
 import ComponentTests from './app/tests/ComponentTests';
 import ComponentTestsMenu from './app/tests/ComponentTestsMenu';
 
+import GettingStarted from './app/getting-started/GettingStarted';
+import GettingStartedMenu from './app/getting-started/GettingStartedMenu';
+
+
+import Leisure from './app/leisure/Leisure';
+
 const injectConfig = config => (
   ComponentClass => (
     props => (
@@ -49,11 +55,17 @@ const navigation = {
     path: '/home',
     text: 'Home',
   }, {
+    path: '/getting-started',
+    text: 'Getting Started',
+  }, {
     path: '/components',
     text: 'Components',
   }, {
     path: '/tests',
     text: 'Tests',
+  }, {
+    path: '/leisure',
+    text: 'Leisure',
   }],
 };
 
@@ -80,6 +92,22 @@ const routes = Object.freeze({
       component: {
         default: {
           componentClass: Tests,
+        },
+      },
+    },
+    '/getting-started': {
+      path: '/getting-started',
+      component: {
+        default: {
+          componentClass: GettingStarted,
+        },
+      },
+    },
+    '/leisure': {
+      path: '/leisure',
+      component: {
+        default: {
+          componentClass: Leisure,
         },
       },
     },
@@ -116,6 +144,14 @@ const routes = Object.freeze({
       component: {
         default: {
           componentClass: injectConfig(componentConfig)(TestsMenu),
+        },
+      },
+    },
+    '/getting-started': {
+      path: '/getting-started',
+      component: {
+        default: {
+          componentClass: GettingStartedMenu,
         },
       },
     },
