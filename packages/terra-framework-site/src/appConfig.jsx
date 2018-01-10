@@ -55,17 +55,11 @@ const navigation = {
     path: '/home',
     text: 'Home',
   }, {
-    path: '/getting-started',
-    text: 'Getting Started',
-  }, {
     path: '/components',
     text: 'Components',
   }, {
     path: '/tests',
     text: 'Tests',
-  }, {
-    path: '/leisure',
-    text: 'Leisure',
   }],
 };
 
