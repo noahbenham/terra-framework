@@ -13,6 +13,14 @@
     "--terra-application-header-name-word-break": "normal",
     "--terra-application-header-name-word-wrap": "normal"
   },
+  "ApplicationList": {
+    "--terra-application-list-color": "#1c1f21",
+    "--terra-application-list-font-size": "1.071rem",
+    "--terra-application-list-line-height": "3.214rem",
+    "--terra-application-list-padding-right": "0.7143rem",
+    "--terra-application-list-background-hover": "linear-gradient(-90deg, #fff, #f1f1f2)",
+    "--terra-application-list-selected-background-image": "linear-gradient(-270deg, #fff, #e8e9ea)"
+  },
   "ApplicationMenuName": {
     "--terra-application-menu-name-align-items": "center",
     "--terra-application-menu-name-color": "#000",
@@ -27,17 +35,8 @@
     "--terra-application-menu-name-word-break": "normal",
     "--terra-application-menu-name-word-wrap": "normal"
   },
-  "ApplicationList": {
-    "--terra-application-list-color": "#1c1f21",
-    "--terra-application-list-font-size": "1.071rem",
-    "--terra-application-list-line-height": "3.214rem",
-    "--terra-application-list-padding-right": "0.7143rem",
-    "--terra-application-list-background-hover": "linear-gradient(-90deg, #fff, #f1f1f2)",
-    "--terra-application-list-selected-background-image": "linear-gradient(-270deg, #fff, #e8e9ea)"
-  },
   "ApplicationTabs": {
     "--terra-application-tabs-spacer-width": "2rem",
-    "--terra-application-tabs-margin-next-to-icon": "0.357rem",
     "--terra-application-tabs-menu-arrow-left-margin": "0.5rem",
     "--terra-application-tabs-background-image": "linear-gradient(to bottom, #007ee0, #007ee0)",
     "--terra-application-tabs-background-position": "top-left",
@@ -78,15 +77,7 @@
     "--terra-base-color": "#1c1f21",
     "--terra-base-body-height": "100%",
     "--terra-base-line-height": "1.42857",
-    "--terra-base-body-margin": "0",
-    "--terra-link-color": "#0065a3",
-    "--terra-link-visted-color": "#0065a3",
-    "--terra-link-hover-color": "#004c76",
-    "--terra-link-focus-background-color": "transparent",
-    "--terra-link-focus-border-radius": "0.2142rem",
-    "--terra-link-focus-box-shadow": "0 0 1px 3px rgba(76, 178, 233, 0.5), 0 0 7px 4px rgba(76, 178, 233, 0.35)",
-    "--terra-link-focus-color": "#004c76",
-    "--terra-link-active-color": "#004c76"
+    "--terra-base-body-margin": "0"
   },
   "Button": {
     "--terra-button-border-radius": "0.25em",

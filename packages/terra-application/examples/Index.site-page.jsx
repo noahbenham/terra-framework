@@ -12,10 +12,14 @@ import ApplicationSrc from '!raw-loader!../src/Application.jsx';
 
 // Example Files
 
+import ExampleApplication from './index-examples/ExampleApplication';
+
 const ApplicationExamples = () => (
   <div>
     <div id="version">Version: {version}</div>
     <Markdown id="readme" src={ReadMe} />
+    <h2>Examples</h2>
+    <ExampleApplication />
     <PropsTable id="props-header" src={ApplicationSrc} componentName="Application" />
   </div>
 );
