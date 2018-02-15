@@ -9,7 +9,7 @@ import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelega
 
 import 'terra-base/lib/baseStyles';
 
-import ApplicationMenuUtility from './mock-components/MockApplicationUtility';
+import ApplicationMenuUtility from '../mock-components/MockApplicationMenuUtility';
 
 import styles from './ApplicationMenu.scss';
 

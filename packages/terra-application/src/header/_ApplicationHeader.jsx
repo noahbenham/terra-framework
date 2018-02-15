@@ -13,7 +13,7 @@ import Popup from 'terra-popup';
 
 import 'terra-base/lib/baseStyles';
 
-import ApplicationHeaderUtility from './mock-components/MockApplicationUtility';
+import ApplicationHeaderUtility from '../mock-components/MockApplicationHeaderUtility';
 
 import styles from './ApplicationHeader.scss';
 
