@@ -87,6 +87,50 @@ import { ApplicationTabs, ApplicationList } from 'terra-application-links';
 //   },
 // };
 
+class ApplicationMenuVessel extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    const { name } = this.props;
+
+    const primaryNavList = (
+      <ApplicationList
+        links={[
+          {
+            id: '/page1',
+            path: '/page1',
+            text: 'Page 1',
+          },
+          {
+            id: '/page2',
+            path: '/page2',
+            text: 'Page 2',
+          },
+          {
+            id: '/page3',
+            path: '/page3',
+            text: 'Page 3',
+          },
+        ]}
+      />
+    );
+
+    return (
+      <div style={{ height: '100%', width: '100%' }}>
+        <ApplicationMenuLayout
+          header={<ApplicationMenuName title={name} />}
+          footer={<div>Utils</div>}
+          extensions={<div>Extensions</div>}
+          content={primaryNavList}
+        />
+      </div>
+    );
+  }
+}
+
 class Application extends React.Component {
   constructor(props) {
     super(props);
@@ -123,22 +167,24 @@ class Application extends React.Component {
     );
 
     return (
-      <div style={{ height: '50px', width: '100%', backgroundColor: 'blue' }}>
+      <div style={{ height: '50px', width: '100%', backgroundColor: 'lightblue' }}>
         <ApplicationHeaderLayout
           toggle={<button>Toggle</button>}
-          logo={<div>{name}</div>}
+          logo={<ApplicationHeaderName title={name} />}
           navigation={primaryNav}
+          utilities={<div>Utils</div>}
         />
       </div>
     );
   }
+
 
   render() {
     return (
       <NavigationLayout
         config={{}}
         header={this.renderHeader()}
-        menu={<div>Menu</div>}
+        menu={<ApplicationMenuVessel name={this.props.name} />}
         menuText="Application Menu"
       >
         <div>Content</div>
@@ -150,6 +196,7 @@ class Application extends React.Component {
 Application.propTypes = {
   name: PropTypes.string,
   brandIcon: PropTypes.node,
+  location: PropTypes.string,
 };
 
 const WithRouterApplication = withRouter(Application);
@@ -160,7 +207,7 @@ const ExampleApplication = withRouter(({ location }) => (
     <div style={{ height: '768px', width: '100%' }}>
       <WithRouterApplication
         name="Example Application"
-        indexPath="/"
+        indexPath="/page1"
         extraConfig={{}}
       />
     </div>
@@ -168,7 +215,10 @@ const ExampleApplication = withRouter(({ location }) => (
 ));
 
 const AppRouter = () => (
-  <MemoryRouter>
+  <MemoryRouter
+    initialEntries={['/page1']}
+    initialIndex={0}
+  >
     <ExampleApplication />
   </MemoryRouter>
 );
