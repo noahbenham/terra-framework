@@ -4,8 +4,10 @@
 import TerraAggregatorIndex from './packages/terra-aggregator/examples/Index.site-page';
 import TerraAppDelegateIndex from './packages/terra-app-delegate/examples/Index.site-page';
 import TerraApplicationHeaderLayoutIndex from './packages/terra-application-header-layout/examples/Index.site-page';
+import TerraApplicationHeaderIndex from './packages/terra-application-header/examples/Index.site-page';
 import TerraApplicationLinksIndex from './packages/terra-application-links/examples/Index.site-page';
 import TerraApplicationMenuLayoutIndex from './packages/terra-application-menu-layout/examples/Index.site-page';
+import TerraApplicationMenuIndex from './packages/terra-application-menu/examples/Index.site-page';
 import TerraApplicationNameIndex from './packages/terra-application-name/examples/Index.site-page';
 import TerraApplicationIndex from './packages/terra-application/examples/Index.site-page';
 import TerraDisclosureManagerIndex from './packages/terra-disclosure-manager/examples/Index.site-page';
@@ -31,6 +33,7 @@ import LayoutDefault from './packages/terra-layout/examples/test-examples/Layout
 import LayoutLongText from './packages/terra-layout/examples/test-examples/LayoutLongText';
 import LayoutNoHeader from './packages/terra-layout/examples/test-examples/LayoutNoHeader';
 import LayoutNoMenu from './packages/terra-layout/examples/test-examples/LayoutNoMenu';
+import LayoutSlidePanelExample from './packages/terra-layout/examples/test-examples/LayoutSlidePanelExample';
 import ModalManagerDefault from './packages/terra-modal-manager/examples/test-examples/ModalManagerDefault';
 import NavigationLayoutBasic from './packages/terra-navigation-layout/examples/test-examples/NavigationLayoutBasic';
 import NavigationLayoutComplex from './packages/terra-navigation-layout/examples/test-examples/NavigationLayoutComplex';
@@ -94,6 +97,17 @@ const componentConfig = {
       },
     ],
   },
+  'terra-application-header': {
+    name: 'Application Header',
+    path: '/application-header',
+    pages: [
+      {
+        name: 'Index',
+        path: '/index',
+        component: TerraApplicationHeaderIndex,
+      },
+    ],
+  },
   'terra-application-links': {
     name: 'Application Links',
     path: '/application-links',
@@ -132,6 +146,17 @@ const componentConfig = {
         name: 'Application Menu Default',
         path: '/application-menu-default',
         component: ApplicationMenuDefault,
+      },
+    ],
+  },
+  'terra-application-menu': {
+    name: 'Application Menu',
+    path: '/application-menu',
+    pages: [
+      {
+        name: 'Index',
+        path: '/index',
+        component: TerraApplicationMenuIndex,
       },
     ],
   },
@@ -239,6 +264,11 @@ const componentConfig = {
         name: 'Layout No Menu',
         path: '/layout-no-menu',
         component: LayoutNoMenu,
+      },
+      {
+        name: 'Layout Slide Panel Example',
+        path: '/layout-slide-panel-example',
+        component: LayoutSlidePanelExample,
       },
     ],
   },
