@@ -115,6 +115,8 @@ class ApplicationHeader extends React.Component {
       customProps.className,
     ]);
 
+    const isSmallFormFactor = ['tiny', 'small'].indexOf(layoutConfig.size) >= 0;
+
     let toggle;
     if (layoutConfig.toggleMenu) {
       toggle = (
@@ -125,16 +127,17 @@ class ApplicationHeader extends React.Component {
     }
 
     let appName;
-    if (nameConfig.accessory || nameConfig.title) {
-      appName = <ApplicationHeaderName accessory={nameConfig.accessory} title={nameConfig.title} />;
-    }
-
     let navigation;
-    if (applicationLinks.length) {
-      navigation = <ApplicationTabs links={applicationLinks} />;
+    let utilities;
+    if (!isSmallFormFactor) {
+      if (nameConfig.accessory || nameConfig.title) {
+        appName = <ApplicationHeaderName accessory={nameConfig.accessory} title={nameConfig.title} />;
+      }
+      if (applicationLinks.length) {
+        navigation = <ApplicationTabs links={applicationLinks} />;
+      }
+      utilities = <ApplicationHeaderUtility {...utilityConfig} onDiscloseUtilityMenu={this.onDiscloseUtilty} data-application-header-utility />;
     }
-
-    const utilities = <ApplicationHeaderUtility {...utilityConfig} onDiscloseUtilityMenu={this.onDiscloseUtilty} data-application-header-utility />;
 
     let popup;
     if (this.state.utilityComponent) {

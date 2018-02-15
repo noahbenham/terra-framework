@@ -95,12 +95,16 @@ class ApplicationMenu extends React.Component {
       customProps.className,
     ]);
 
-    let header;
-    if (nameConfig.accessory || nameConfig.title) {
-      header = <ApplicationMenuName accessory={nameConfig.accessory} title={nameConfig.title} />;
-    }
+    const isSmallFormFactor = ['tiny', 'small'].indexOf(layoutConfig.size) >= 0;
 
-    const footer = <ApplicationMenuUtility {...utilityConfig} onDiscloseUtilityMenu={this.onDiscloseUtilty} />;
+    let header;
+    let footer;
+    if (isSmallFormFactor) {
+      if (nameConfig.accessory || nameConfig.title) {
+        header = <ApplicationMenuName accessory={nameConfig.accessory} title={nameConfig.title} />;
+      }
+      footer = <ApplicationMenuUtility {...utilityConfig} onDiscloseUtilityMenu={this.onDiscloseUtilty} />;
+    }
 
     let clonedContent;
     if (content) {
