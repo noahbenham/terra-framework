@@ -33,6 +33,10 @@ const propTypes = {
     text: PropTypes.string.isRequired,
   })),
   /**
+   * The element to be placed within the fit start area for extensions within the layout.
+   */
+  extensions: PropTypes.element,
+  /**
    * Configuration values for the ApplicationName component.
    */
   nameConfig: PropTypes.shape({
@@ -103,6 +107,7 @@ class ApplicationHeader extends React.Component {
     const {
       app,
       applicationLinks,
+      extensions,
       layoutConfig,
       nameConfig,
       routingStackDelegate,
@@ -129,12 +134,16 @@ class ApplicationHeader extends React.Component {
     let appName;
     let navigation;
     let utilities;
+    let extensionsElement;
     if (!isSmallFormFactor) {
       if (nameConfig.accessory || nameConfig.title) {
         appName = <ApplicationHeaderName accessory={nameConfig.accessory} title={nameConfig.title} />;
       }
       if (applicationLinks.length) {
         navigation = <ApplicationTabs links={applicationLinks} />;
+      }
+      if (extensions) {
+        extensionsElement = React.cloneElement(extensions, { app });
       }
       utilities = <ApplicationHeaderUtility {...utilityConfig} onDiscloseUtilityMenu={this.onDiscloseUtilty} data-application-header-utility />;
     }
@@ -162,6 +171,7 @@ class ApplicationHeader extends React.Component {
           toggle={toggle}
           logo={appName}
           navigation={navigation}
+          extensions={extensionsElement}
           utilities={utilities}
         />
         {popup}

@@ -25,6 +25,10 @@ const propTypes = {
    */
   content: PropTypes.element,
   /**
+   * The element to be placed within the fit top area for extensions within the layout.
+   */
+  extensions: PropTypes.element,
+  /**
    * Layout config provided from the Layout component.
    */
   layoutConfig: PropTypes.shape({
@@ -83,6 +87,7 @@ class ApplicationMenu extends React.Component {
     const {
       app,
       content,
+      extensions,
       layoutConfig,
       nameConfig,
       routingStackDelegate,
@@ -99,9 +104,13 @@ class ApplicationMenu extends React.Component {
 
     let header;
     let footer;
+    let extensionsElement;
     if (isSmallFormFactor) {
       if (nameConfig.accessory || nameConfig.title) {
         header = <ApplicationMenuName accessory={nameConfig.accessory} title={nameConfig.title} />;
+      }
+      if (extensions) {
+        extensionsElement = React.cloneElement(extensions, { app });
       }
       footer = <ApplicationMenuUtility {...utilityConfig} onDiscloseUtilityMenu={this.onDiscloseUtilty} />;
     }
@@ -115,6 +124,7 @@ class ApplicationMenu extends React.Component {
       <div {...customProps} className={menuClassNames}>
         <ApplicationMenuLayout
           header={header}
+          extensions={extensionsElement}
           content={clonedContent}
           footer={footer}
         />
