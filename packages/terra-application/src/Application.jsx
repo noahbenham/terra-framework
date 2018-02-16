@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import NavigationLayout from 'terra-navigation-layout';
-import { ApplicationTabs, ApplicationList } from 'terra-application-links';
 
 
 const propTypes = {

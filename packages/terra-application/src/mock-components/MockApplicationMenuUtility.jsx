@@ -11,7 +11,7 @@ const propTypes = {
   onDiscloseUtilityMenu: PropTypes.func,
 };
 
-class ApplicationMenu extends React.Component {
+class MockApplicationMenuUtility extends React.Component {
   constructor(props) {
     super(props);
     this.onButtonClick = this.onButtonClick.bind(this);
@@ -45,6 +45,6 @@ class ApplicationMenu extends React.Component {
   }
 }
 
-ApplicationMenu.propTypes = propTypes;
+MockApplicationMenuUtility.propTypes = propTypes;
 
-export default ApplicationMenu;
+export default MockApplicationMenuUtility;

@@ -3,11 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { MemoryRouter, withRouter } from 'react-router-dom';
 import NavigationLayout from 'terra-navigation-layout';
-import ApplicationHeaderLayout from 'terra-application-header-layout';
-import ApplicationHeaderName from 'terra-application-name/src/ApplicationHeaderName';
-import ApplicationMenuName from 'terra-application-name/src/ApplicationMenuName';
-import ApplicationMenuLayout from 'terra-application-menu-layout';
-import { ApplicationTabs, ApplicationList } from 'terra-application-links';
+import { ApplicationList } from 'terra-application-links';
+
+import ApplicationHeader from '../../src/header/_ApplicationHeader';
+import ApplicationMenu from '../../src/menu/_ApplicationMenu';
 
 // import Application from '../../lib/Application';
 
@@ -120,9 +119,10 @@ class ApplicationMenuVessel extends React.Component {
 
     return (
       <div style={{ height: '100%', width: '100%' }}>
-        <ApplicationMenuLayout
-          header={<ApplicationMenuName title={name} />}
-          footer={<div>Utils</div>}
+        <ApplicationMenu
+          layoutConfig={this.props.layoutConfig}
+          nameConfig={{ title: name }}
+          utilityConfig={{ userName: 'John Rambo' }}
           extensions={<div>Extensions</div>}
           content={primaryNavList}
         />
@@ -135,55 +135,36 @@ class Application extends React.Component {
   constructor(props) {
     super(props);
 
-    this.renderHeader = this.renderHeader.bind(this);
-
     this.state = {};
   }
-
-  renderHeader() {
-    const { name, brandIcon } = this.props;
-
-    const primaryNav = (
-      <ApplicationTabs
-        style={{ width: '100%' }}
-        links={[
-          {
-            id: '/page1',
-            path: '/page1',
-            text: 'Page 1',
-          },
-          {
-            id: '/page2',
-            path: '/page2',
-            text: 'Page 2',
-          },
-          {
-            id: '/page3',
-            path: '/page3',
-            text: 'Page 3',
-          },
-        ]}
-      />
-    );
-
-    return (
-      <div style={{ height: '50px', width: '100%', backgroundColor: 'lightblue' }}>
-        <ApplicationHeaderLayout
-          toggle={<button>Toggle</button>}
-          logo={<ApplicationHeaderName title={name} />}
-          navigation={primaryNav}
-          utilities={<div>Utils</div>}
-        />
-      </div>
-    );
-  }
-
 
   render() {
     return (
       <NavigationLayout
         config={{}}
-        header={this.renderHeader()}
+        header={(
+          <ApplicationHeader
+            applicationLinks={[
+              {
+                id: '/page1',
+                path: '/page1',
+                text: 'Page 1',
+              },
+              {
+                id: '/page2',
+                path: '/page2',
+                text: 'Page 2',
+              },
+              {
+                id: '/page3',
+                path: '/page3',
+                text: 'Page 3',
+              },
+            ]}
+            nameConfig={{ title: name }}
+            utilityConfig={{ userName: 'John Rambo' }}
+          />
+        )}
         menu={<ApplicationMenuVessel name={this.props.name} />}
         menuText="Application Menu"
       >
@@ -196,7 +177,7 @@ class Application extends React.Component {
 Application.propTypes = {
   name: PropTypes.string,
   brandIcon: PropTypes.node,
-  location: PropTypes.string,
+  location: PropTypes.object,
 };
 
 const WithRouterApplication = withRouter(Application);
