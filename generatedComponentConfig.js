@@ -26,6 +26,7 @@ import ApplicationMenuDefault from './packages/terra-application-menu-layout/exa
 import ApplicationHeaderNameDefault from './packages/terra-application-name/examples/test-examples/ApplicationHeaderNameDefault';
 import ApplicationMenuNameDefault from './packages/terra-application-name/examples/test-examples/ApplicationMenuNameDefault';
 import DefaultApplicationUtility from './packages/terra-application-utility/examples/test-examples/DefaultApplicationUtility';
+import ApplicationTest from './packages/terra-application/examples/test-examples/ApplicationTest';
 import DefaultEmbeddedComponent from './packages/terra-embedded-component/examples/test-examples/DefaultEmbeddedComponent';
 import LayoutDefault from './packages/terra-layout/examples/test-examples/LayoutDefault';
 import LayoutLongText from './packages/terra-layout/examples/test-examples/LayoutLongText';
@@ -178,6 +179,13 @@ const componentConfig = {
         name: 'Index',
         path: '/index',
         component: TerraApplicationIndex,
+      },
+    ],
+    tests: [
+      {
+        name: 'Application Test',
+        path: '/application-test',
+        component: ApplicationTest,
       },
     ],
   },

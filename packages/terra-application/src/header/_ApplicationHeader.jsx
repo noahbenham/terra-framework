@@ -132,13 +132,14 @@ class ApplicationHeader extends React.Component {
     }
 
     let appName;
+    if (nameConfig.accessory || nameConfig.title) {
+      appName = <ApplicationHeaderName accessory={nameConfig.accessory} title={nameConfig.title} />;
+    }
+
     let navigation;
     let utilities;
     let extensionsElement;
     if (!isSmallFormFactor) {
-      if (nameConfig.accessory || nameConfig.title) {
-        appName = <ApplicationHeaderName accessory={nameConfig.accessory} title={nameConfig.title} />;
-      }
       if (applicationLinks.length) {
         navigation = <ApplicationTabs links={applicationLinks} />;
       }

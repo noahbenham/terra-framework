@@ -86,6 +86,28 @@ import ApplicationMenu from '../../src/menu/_ApplicationMenu';
 //   },
 // };
 
+const ApplicationListMenu = ({ layoutConfig }) => (
+  <ApplicationList
+    links={[
+      {
+        id: '/page1',
+        path: '/page1',
+        text: 'Page 1',
+      },
+      {
+        id: '/page2',
+        path: '/page2',
+        text: 'Page 2',
+      },
+      {
+        id: '/page3',
+        path: '/page3',
+        text: 'Page 3',
+      },
+    ]}
+  />
+);
+
 class ApplicationMenuVessel extends React.Component {
   constructor(props) {
     super(props);
@@ -93,43 +115,44 @@ class ApplicationMenuVessel extends React.Component {
   }
 
   render() {
-    const { name } = this.props;
-
-    const primaryNavList = (
-      <ApplicationList
-        links={[
-          {
-            id: '/page1',
-            path: '/page1',
-            text: 'Page 1',
-          },
-          {
-            id: '/page2',
-            path: '/page2',
-            text: 'Page 2',
-          },
-          {
-            id: '/page3',
-            path: '/page3',
-            text: 'Page 3',
-          },
-        ]}
-      />
-    );
+    const { name, layoutConfig } = this.props;
 
     return (
-      <div style={{ height: '100%', width: '100%' }}>
-        <ApplicationMenu
-          layoutConfig={this.props.layoutConfig}
-          nameConfig={{ title: name }}
-          utilityConfig={{ userName: 'John Rambo' }}
-          extensions={<div>Extensions</div>}
-          content={primaryNavList}
-        />
-      </div>
+      <ApplicationMenu
+        layoutConfig={layoutConfig}
+        nameConfig={{ title: name }}
+        utilityConfig={{ userName: 'John Rambo' }}
+        extensions={<div>Extensions</div>}
+        content={<ApplicationListMenu />}
+      />
     );
   }
 }
+
+const ApplicationHeaderVessel = ({ name, layoutConfig, navigationLayoutRoutes, navigationLayoutSize }) => (
+  <ApplicationHeader
+    layoutConfig={layoutConfig}
+    applicationLinks={[
+      {
+        id: '/page1',
+        path: '/page1',
+        text: 'Page 1',
+      },
+      {
+        id: '/page2',
+        path: '/page2',
+        text: 'Page 2',
+      },
+      {
+        id: '/page3',
+        path: '/page3',
+        text: 'Page 3',
+      },
+    ]}
+    nameConfig={{ title: name }}
+    utilityConfig={{ userName: 'John Rambo' }}
+  />
+);
 
 class Application extends React.Component {
   constructor(props) {
@@ -142,34 +165,10 @@ class Application extends React.Component {
     return (
       <NavigationLayout
         config={{}}
-        header={(
-          <ApplicationHeader
-            applicationLinks={[
-              {
-                id: '/page1',
-                path: '/page1',
-                text: 'Page 1',
-              },
-              {
-                id: '/page2',
-                path: '/page2',
-                text: 'Page 2',
-              },
-              {
-                id: '/page3',
-                path: '/page3',
-                text: 'Page 3',
-              },
-            ]}
-            nameConfig={{ title: name }}
-            utilityConfig={{ userName: 'John Rambo' }}
-          />
-        )}
+        header={<ApplicationHeaderVessel name={this.props.name} />}
         menu={<ApplicationMenuVessel name={this.props.name} />}
         menuText="Application Menu"
-      >
-        <div>Content</div>
-      </NavigationLayout>
+      />
     );
   }
 }
