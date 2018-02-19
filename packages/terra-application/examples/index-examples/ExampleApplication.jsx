@@ -10,101 +10,80 @@ import ApplicationMenu from '../../src/menu/_ApplicationMenu';
 
 // import Application from '../../lib/Application';
 
-// import HeaderExample from './HeaderExample';
-// import MenuExample from './MenuExample';
-// import Page1Content from './Page1Content';
-// import Page2Content from './Page2Content';
-// import Page3Content from './Page3Content';
-// import Page1Menu from './Page1Menu';
-// import Page2Menu from './Page2Menu';
+import Page1Content from './Page1Content';
+import Page2Content from './Page2Content';
+import Page3Content from './Page3Content';
+import Page1Menu from './Page1Menu';
+import Page2Menu from './Page2Menu';
 
-// const config = {
-//   header: {
-//     '/': {
-//       path: '/',
-//       component: {
-//         default: {
-//           componentClass: HeaderExample,
-//         },
-//       },
-//     },
-//   },
-//   menu: {
-//     '/': {
-//       path: '/',
-//       component: {
-//         tiny: {
-//           componentClass: MenuExample,
-//         },
-//         small: {
-//           componentClass: MenuExample,
-//         },
-//       },
-//     },
-//     '/page1': {
-//       path: '/page1',
-//       component: {
-//         default: {
-//           componentClass: Page1Menu,
-//         },
-//       },
-//     },
-//     '/page2': {
-//       path: '/page2',
-//       component: {
-//         default: {
-//           componentClass: Page2Menu,
-//         },
-//       },
-//     },
-//   },
-//   content: {
-//     '/page1': {
-//       path: '/page1',
-//       component: {
-//         default: {
-//           componentClass: Page1Content,
-//         },
-//       },
-//     },
-//     '/page2': {
-//       path: '/page2',
-//       component: {
-//         default: {
-//           componentClass: Page2Content,
-//         },
-//       },
-//     },
-//     '/page3': {
-//       path: '/page3',
-//       component: {
-//         default: {
-//           componentClass: Page3Content,
-//         },
-//       },
-//     },
-//   },
-// };
+const config = {
+  menu: {
+    '/page1': {
+      path: '/page1',
+      component: {
+        default: {
+          componentClass: Page1Menu,
+        },
+      },
+    },
+    '/page2': {
+      path: '/page2',
+      component: {
+        default: {
+          componentClass: Page2Menu,
+        },
+      },
+    },
+  },
+  content: {
+    '/page1': {
+      path: '/page1',
+      component: {
+        default: {
+          componentClass: Page1Content,
+        },
+      },
+    },
+    '/page2': {
+      path: '/page2',
+      component: {
+        default: {
+          componentClass: Page2Content,
+        },
+      },
+    },
+    '/page3': {
+      path: '/page3',
+      component: {
+        default: {
+          componentClass: Page3Content,
+        },
+      },
+    },
+  },
+};
+
+const primaryRoutes = [{
+  path: '/page1',
+  text: '1',
+}, {
+  path: '/page2',
+  text: '2',
+}, {
+  path: '/page3',
+  text: '3',
+}];
 
 const ApplicationListMenu = ({ layoutConfig }) => (
   <ApplicationList
-    links={[
-      {
-        id: '/page1',
-        path: '/page1',
-        text: 'Page 1',
-      },
-      {
-        id: '/page2',
-        path: '/page2',
-        text: 'Page 2',
-      },
-      {
-        id: '/page3',
-        path: '/page3',
-        text: 'Page 3',
-      },
-    ]}
+    links={primaryRoutes.map((route) => {
+      const routeData = {};
+      routeData.id = route.path;
+      routeData.path = route.path;
+      routeData.text = route.text;
+
+      return routeData;
+    })}
   />
 );
 
@@ -115,15 +94,25 @@ class ApplicationMenuVessel extends React.Component {
   }
 
   render() {
-    const { name, layoutConfig } = this.props;
+    const { name, layoutConfig, navigationLayoutRoutes, navigationLayoutSize, terraApplicationProps, ...customProps } = this.props;
+
+    // Propagate layout/routing props to content.
+    const Content = terraApplicationProps.overrideComponentClass;
+    const contentProps = {
+      layoutConfig,
+      navigationLayoutRoutes,
+      navigationLayoutSize,
+      ...customProps,
+    };
 
     return (
       <ApplicationMenu
+        key={terraApplicationProps.key}
         layoutConfig={layoutConfig}
-        nameConfig={{ title: name }}
+        nameConfig={{ title: terraApplicationProps.name }}
         utilityConfig={{ userName: 'John Rambo' }}
         extensions={<div>Extensions</div>}
-        content={<ApplicationListMenu />}
+        content={<Content {...contentProps} />}
       />
     );
   }
@@ -132,23 +121,14 @@ class ApplicationMenuVessel extends React.Component {
 const ApplicationHeaderVessel = ({ name, layoutConfig, navigationLayoutRoutes, navigationLayoutSize }) => (
   <ApplicationHeader
     layoutConfig={layoutConfig}
-    applicationLinks={[
-      {
-        id: '/page1',
-        path: '/page1',
-        text: 'Page 1',
-      },
-      {
-        id: '/page2',
-        path: '/page2',
-        text: 'Page 2',
-      },
-      {
-        id: '/page3',
-        path: '/page3',
-        text: 'Page 3',
-      },
-    ]}
+    applicationLinks={primaryRoutes.map((route) => {
+      const routeData = {};
+      routeData.id = route.path;
+      routeData.path = route.path;
+      routeData.text = route.text;
+
+      return routeData;
+    })}
     nameConfig={{ title: name }}
     utilityConfig={{ userName: 'John Rambo' }}
   />
@@ -162,11 +142,44 @@ class Application extends React.Component {
   }
 
   render() {
+    const updatedConfig = Object.assign({}, config);
+
+    const newMenus = {};
+    Object.keys(updatedConfig.menu).forEach((menuKey) => {
+      const newMenu = Object.assign({}, updatedConfig.menu[menuKey]);
+
+      const newMenuComponent = Object.assign({}, newMenu.component);
+
+      ['default', 'tiny', 'small', 'medium', 'large', 'huge'].forEach((size) => {
+        if (!newMenuComponent[size]) {
+          return;
+        }
+
+        const configForSize = Object.assign({}, newMenuComponent[size]);
+
+        const propsForSize = Object.assign({}, configForSize.props);
+
+        propsForSize.terraApplicationProps = {
+          overrideComponentClass: configForSize.componentClass,
+          name: this.props.name,
+          key: 'MenuVessel',
+        };
+        configForSize.props = propsForSize;
+        configForSize.componentClass = ApplicationMenuVessel;
+
+        newMenuComponent[size] = configForSize;
+      });
+
+      newMenu.component = newMenuComponent;
+      newMenus[menuKey] = newMenu;
+    });
+
+    updatedConfig.menu = newMenus;
+
     return (
       <NavigationLayout
-        config={{}}
+        config={updatedConfig}
         header={<ApplicationHeaderVessel name={this.props.name} />}
-        menu={<ApplicationMenuVessel name={this.props.name} />}
         menuText="Application Menu"
       />
     );
