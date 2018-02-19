@@ -56,7 +56,7 @@ const propTypes = {
   /**
    * Delegate prop that is padded by the NavigationLayout.
    */
-  routingStackDelegate: RoutingStackDelegate.propType,
+  routingStackDelegate: RoutingStackDelegate.propType.isRequired,
   /**
    * Configuration to be provided to the ApplicationUtility component.
    */
@@ -147,6 +147,9 @@ class ApplicationHeader extends React.Component {
         extensionsElement = React.cloneElement(extensions, { app });
       }
       utilities = <ApplicationHeaderUtility {...utilityConfig} onDiscloseUtilityMenu={this.onDiscloseUtilty} data-application-header-utility />;
+    } else {
+      navigation = appName;
+      appName = undefined;
     }
 
     let popup;

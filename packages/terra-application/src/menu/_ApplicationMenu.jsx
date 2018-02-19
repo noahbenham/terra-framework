@@ -48,7 +48,7 @@ const propTypes = {
   /**
    * Delegate prop that is provided by the NavigationLayout.
    */
-  routingStackDelegate: RoutingStackDelegate.propType,
+  routingStackDelegate: RoutingStackDelegate.propType.isRequired,
   /**
    * Configration to be passed to the ApplicationUtility component.
    */
