@@ -65,18 +65,18 @@ const config = {
 
 const primaryRoutes = [{
   path: '/page1',
-  text: '1',
+  text: 'Page 1',
 }, {
   path: '/page2',
-  text: '2',
+  text: 'Page 2',
 }, {
   path: '/page3',
-  text: '3',
+  text: 'Page 3',
 }];
 
-const ApplicationListMenu = ({ layoutConfig }) => (
+const ApplicationListMenu = ({ layoutConfig, routes }) => (
   <ApplicationList
-    links={primaryRoutes.map((route) => {
+    links={routes.map((route) => {
       const routeData = {};
       routeData.id = route.path;
       routeData.path = route.path;
@@ -144,9 +144,29 @@ class Application extends React.Component {
   render() {
     const updatedConfig = Object.assign({}, config);
 
-    const newMenus = {};
-    Object.keys(updatedConfig.menu).forEach((menuKey) => {
-      const newMenu = Object.assign({}, updatedConfig.menu[menuKey]);
+    const newMenus = Object.assign({}, config.menu);
+    if (primaryRoutes.length > 1) {
+      newMenus['/'] = {
+        path: '/',
+        component: {
+          tiny: {
+            componentClass: ApplicationListMenu,
+            props: {
+              routes: primaryRoutes,
+            },
+          },
+          small: {
+            componentClass: ApplicationListMenu,
+            props: {
+              routes: primaryRoutes,
+            },
+          },
+        },
+      };
+    }
+
+    Object.keys(newMenus).forEach((menuKey) => {
+      const newMenu = Object.assign({}, newMenus[menuKey]);
 
       const newMenuComponent = Object.assign({}, newMenu.component);
 
@@ -181,6 +201,7 @@ class Application extends React.Component {
         config={updatedConfig}
         header={<ApplicationHeaderVessel name={this.props.name} />}
         menuText="Application Menu"
+        indexPath={this.props.indexPath}
       />
     );
   }
@@ -201,17 +222,13 @@ const ExampleApplication = withRouter(({ location }) => (
       <WithRouterApplication
         name="Example Application"
         indexPath="/page1"
-        extraConfig={{}}
       />
     </div>
   </div>
 ));
 
 const AppRouter = () => (
-  <MemoryRouter
-    initialEntries={['/page1']}
-    initialIndex={0}
-  >
+  <MemoryRouter>
     <ExampleApplication />
   </MemoryRouter>
 );
