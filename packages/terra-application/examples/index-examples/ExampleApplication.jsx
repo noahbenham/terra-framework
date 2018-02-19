@@ -2,13 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { MemoryRouter, withRouter } from 'react-router-dom';
-import NavigationLayout from 'terra-navigation-layout';
-import { ApplicationList } from 'terra-application-links';
 
-import ApplicationHeader from '../../src/header/_ApplicationHeader';
-import ApplicationMenu from '../../src/menu/_ApplicationMenu';
-
-// import Application from '../../lib/Application';
+import Application from '../../src/Application';
 
 import Page1Content from './Page1Content';
 import Page2Content from './Page2Content';
@@ -74,154 +69,15 @@ const primaryRoutes = [{
   text: 'Page 3',
 }];
 
-const ApplicationListMenu = ({ layoutConfig, routes }) => (
-  <ApplicationList
-    links={routes.map((route) => {
-      const routeData = {};
-      routeData.id = route.path;
-      routeData.path = route.path;
-      routeData.text = route.text;
-
-      return routeData;
-    })}
-  />
-);
-
-class ApplicationMenuVessel extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    const { name, layoutConfig, navigationLayoutRoutes, navigationLayoutSize, terraApplicationProps, ...customProps } = this.props;
-
-    // Propagate layout/routing props to content.
-    const Content = terraApplicationProps.overrideComponentClass;
-    const contentProps = {
-      layoutConfig,
-      navigationLayoutRoutes,
-      navigationLayoutSize,
-      ...customProps,
-    };
-
-    return (
-      <ApplicationMenu
-        key={terraApplicationProps.key}
-        layoutConfig={layoutConfig}
-        nameConfig={{ title: terraApplicationProps.name }}
-        utilityConfig={{ userName: 'John Rambo' }}
-        extensions={<div>Extensions</div>}
-        content={<Content {...contentProps} />}
-      />
-    );
-  }
-}
-
-const ApplicationHeaderVessel = ({ name, layoutConfig, navigationLayoutRoutes, navigationLayoutSize }) => (
-  <ApplicationHeader
-    layoutConfig={layoutConfig}
-    applicationLinks={primaryRoutes.map((route) => {
-      const routeData = {};
-      routeData.id = route.path;
-      routeData.path = route.path;
-      routeData.text = route.text;
-
-      return routeData;
-    })}
-    nameConfig={{ title: name }}
-    utilityConfig={{ userName: 'John Rambo' }}
-  />
-);
-
-class Application extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
-  render() {
-    const updatedConfig = Object.assign({}, config);
-
-    const newMenus = Object.assign({}, config.menu);
-    if (primaryRoutes.length > 1) {
-      newMenus['/'] = {
-        path: '/',
-        component: {
-          tiny: {
-            componentClass: ApplicationListMenu,
-            props: {
-              routes: primaryRoutes,
-            },
-          },
-          small: {
-            componentClass: ApplicationListMenu,
-            props: {
-              routes: primaryRoutes,
-            },
-          },
-        },
-      };
-    }
-
-    Object.keys(newMenus).forEach((menuKey) => {
-      const newMenu = Object.assign({}, newMenus[menuKey]);
-
-      const newMenuComponent = Object.assign({}, newMenu.component);
-
-      ['default', 'tiny', 'small', 'medium', 'large', 'huge'].forEach((size) => {
-        if (!newMenuComponent[size]) {
-          return;
-        }
-
-        const configForSize = Object.assign({}, newMenuComponent[size]);
-
-        const propsForSize = Object.assign({}, configForSize.props);
-
-        propsForSize.terraApplicationProps = {
-          overrideComponentClass: configForSize.componentClass,
-          name: this.props.name,
-          key: 'MenuVessel',
-        };
-        configForSize.props = propsForSize;
-        configForSize.componentClass = ApplicationMenuVessel;
-
-        newMenuComponent[size] = configForSize;
-      });
-
-      newMenu.component = newMenuComponent;
-      newMenus[menuKey] = newMenu;
-    });
-
-    updatedConfig.menu = newMenus;
-
-    return (
-      <NavigationLayout
-        config={updatedConfig}
-        header={<ApplicationHeaderVessel name={this.props.name} />}
-        menuText="Application Menu"
-        indexPath={this.props.indexPath}
-      />
-    );
-  }
-}
-
-Application.propTypes = {
-  name: PropTypes.string,
-  brandIcon: PropTypes.node,
-  location: PropTypes.object,
-};
-
-const WithRouterApplication = withRouter(Application);
-
 const ExampleApplication = withRouter(({ location }) => (
   <div>
     <h3>{`Browser Location: ${location.pathname}`}</h3>
     <div style={{ height: '768px', width: '100%' }}>
-      <WithRouterApplication
+      <Application
         name="Example Application"
         indexPath="/page1"
+        config={config}
+        primaryRoutes={primaryRoutes}
       />
     </div>
   </div>

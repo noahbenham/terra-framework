@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import 'terra-base/lib/baseStyles';
 import List from 'terra-list';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import styles from './ApplicationList.scss';
 
 const cx = classNames.bind(styles);
@@ -25,12 +25,14 @@ const defaultProps = {
 
 const ApplicationList = ({
   links,
+  location,
   ...customProps
 }) => {
   const listItems = links.map(link => (
     <List.Item
       content={
         <NavLink
+          location={location}
           aria-label={link.text}
           className={cx(['list-item'])}
           id={link.id}
@@ -55,4 +57,4 @@ const ApplicationList = ({
 ApplicationList.propTypes = propTypes;
 ApplicationList.defaultProps = defaultProps;
 
-export default ApplicationList;
+export default withRouter(ApplicationList);
