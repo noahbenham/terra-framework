@@ -7,22 +7,6 @@ import ApplicationMenuWrapper from './ApplicationMenuWrapper';
 
 import ApplicationHeader from './header/_ApplicationHeader';
 
-const ApplicationHeaderVessel = ({ name, primaryRoutes, layoutConfig, navigationLayoutRoutes, navigationLayoutSize }) => (
-  <ApplicationHeader
-    layoutConfig={layoutConfig}
-    applicationLinks={primaryRoutes.map((route) => {
-      const routeData = {};
-      routeData.id = route.path;
-      routeData.path = route.path;
-      routeData.text = route.text;
-
-      return routeData;
-    })}
-    nameConfig={{ title: name }}
-    utilityConfig={{ userName: 'John Rambo' }}
-  />
-);
-
 class Application extends React.Component {
   constructor(props) {
     super(props);
@@ -31,7 +15,7 @@ class Application extends React.Component {
   }
 
   render() {
-    const { config, primaryRoutes, indexPath } = this.props;
+    const { name, config, primaryRoutes, indexPath } = this.props;
 
     const updatedConfig = Object.assign({}, config);
 
@@ -90,7 +74,20 @@ class Application extends React.Component {
     return (
       <NavigationLayout
         config={updatedConfig}
-        header={<ApplicationHeaderVessel name={this.props.name} primaryRoutes={primaryRoutes} />}
+        header={(
+          <ApplicationHeader
+            applicationLinks={primaryRoutes.map((route) => {
+              const routeData = {};
+              routeData.id = route.path;
+              routeData.path = route.path;
+              routeData.text = route.text;
+
+              return routeData;
+            })}
+            nameConfig={{ title: name }}
+            utilityConfig={{ userName: 'John Rambo' }}
+          />
+        )}
         indexPath={indexPath}
       />
     );
