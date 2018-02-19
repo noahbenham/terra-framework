@@ -29,7 +29,6 @@ import DefaultApplicationUtility from './packages/terra-application-utility/exam
 import ApplicationTest from './packages/terra-application/examples/test-examples/ApplicationTest';
 import DefaultEmbeddedComponent from './packages/terra-embedded-component/examples/test-examples/DefaultEmbeddedComponent';
 import LayoutDefault from './packages/terra-layout/examples/test-examples/LayoutDefault';
-import LayoutLongText from './packages/terra-layout/examples/test-examples/LayoutLongText';
 import LayoutNoHeader from './packages/terra-layout/examples/test-examples/LayoutNoHeader';
 import LayoutNoMenu from './packages/terra-layout/examples/test-examples/LayoutNoMenu';
 import LayoutSlidePanelExample from './packages/terra-layout/examples/test-examples/LayoutSlidePanelExample';
@@ -233,11 +232,6 @@ const componentConfig = {
         name: 'Layout Default',
         path: '/layout-default',
         component: LayoutDefault,
-      },
-      {
-        name: 'Layout Long Text',
-        path: '/layout-long-text',
-        component: LayoutLongText,
       },
       {
         name: 'Layout No Header',
