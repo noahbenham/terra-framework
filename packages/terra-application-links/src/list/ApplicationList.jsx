@@ -39,6 +39,7 @@ const ApplicationList = ({
           to={link.path}
           key={link.path}
           activeClassName={cx(['selected'])}
+          onClick={link.onClick}
         >
           <div className={cx('title')}>
             {link.text}
