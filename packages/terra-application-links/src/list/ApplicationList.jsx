@@ -25,14 +25,12 @@ const defaultProps = {
 
 const ApplicationList = ({
   links,
-  location,
   ...customProps
 }) => {
   const listItems = links.map(link => (
     <List.Item
       content={
         <NavLink
-          location={location}
           aria-label={link.text}
           className={cx(['list-item'])}
           id={link.id}

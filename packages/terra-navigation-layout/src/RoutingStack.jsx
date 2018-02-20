@@ -107,11 +107,16 @@ class RoutingStack extends React.Component {
           path={routeData.path}
           key={routeData.path}
           render={() => (
-            <ComponentClass
-              {...ancestorProps}
-              {...routeData.componentProps}
-              routingStackDelegate={RoutingStackDelegate.create(delegateData)}
-              app={app}
+            <Route
+              location={this.props.location}
+              render={() => (
+                <ComponentClass
+                  {...ancestorProps}
+                  {...routeData.componentProps}
+                  routingStackDelegate={RoutingStackDelegate.create(delegateData)}
+                  app={app}
+                />
+              )}
             />
           )}
         />
