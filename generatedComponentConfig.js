@@ -7,6 +7,7 @@ import TerraApplicationHeaderLayoutIndex from './packages/terra-application-head
 import TerraApplicationLinksIndex from './packages/terra-application-links/examples/Index.site-page';
 import TerraApplicationMenuLayoutIndex from './packages/terra-application-menu-layout/examples/Index.site-page';
 import TerraApplicationNameIndex from './packages/terra-application-name/examples/Index.site-page';
+import TerraApplicationUtilityIndex from './packages/terra-application-utility/examples/Index.site-page';
 import TerraApplicationIndex from './packages/terra-application/examples/Index.site-page';
 import TerraDisclosureManagerIndex from './packages/terra-disclosure-manager/examples/Index.site-page';
 import TerraEmbeddedComponentIndex from './packages/terra-embedded-component/examples/Index.site-page';
@@ -25,7 +26,8 @@ import ApplicationTabsDefault from './packages/terra-application-links/examples/
 import ApplicationMenuDefault from './packages/terra-application-menu-layout/examples/test-examples/ApplicationMenuDefault';
 import ApplicationHeaderNameDefault from './packages/terra-application-name/examples/test-examples/ApplicationHeaderNameDefault';
 import ApplicationMenuNameDefault from './packages/terra-application-name/examples/test-examples/ApplicationMenuNameDefault';
-import DefaultApplicationUtility from './packages/terra-application-utility/examples/test-examples/DefaultApplicationUtility';
+import DefaultApplicationHeaderUtility from './packages/terra-application-utility/examples/test-examples/DefaultApplicationHeaderUtility';
+import DefaultUserData from './packages/terra-application-utility/examples/test-examples/DefaultUserData';
 import ApplicationTest from './packages/terra-application/examples/test-examples/ApplicationTest';
 import DefaultEmbeddedComponent from './packages/terra-embedded-component/examples/test-examples/DefaultEmbeddedComponent';
 import LayoutDefault from './packages/terra-layout/examples/test-examples/LayoutDefault';
@@ -162,11 +164,23 @@ const componentConfig = {
   'terra-application-utility': {
     name: 'Application Utility',
     path: '/application-utility',
+    pages: [
+      {
+        name: 'Index',
+        path: '/index',
+        component: TerraApplicationUtilityIndex,
+      },
+    ],
     tests: [
       {
-        name: 'Default Application Utility',
-        path: '/default-application-utility',
-        component: DefaultApplicationUtility,
+        name: 'Default Application Header Utility',
+        path: '/default-application-header-utility',
+        component: DefaultApplicationHeaderUtility,
+      },
+      {
+        name: 'Default User Data',
+        path: '/default-user-data',
+        component: DefaultUserData,
       },
     ],
   },
