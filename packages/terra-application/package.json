@@ -22,21 +22,27 @@
   },
   "homepage": "https://github.com/cerner/terra-framework#readme",
   "devDependencies": {
+    "terra-app-delegate": "^1.11.0",
     "terra-base": "^2.10.0"
   },
   "peerDependencies": {
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "terra-app-delegate": "^1.11.0",
     "terra-base": "^2.10.0"
   },
   "dependencies": {
     "classnames": "^2.2.5",
     "prop-types": "^15.5.8",
     "terra-application-links": "^1.0.0",
-    "terra-navigation-layout": "^1.0.0",
     "terra-application-header-layout": "^1.1.0",
     "terra-application-name": "^1.0.0",
-    "terra-application-menu-layout": "^1.1.0"
+    "terra-application-menu-layout": "^1.1.0",
+    "terra-application-utility": "^0.x",
+    "terra-button": "^2.0.1",
+    "terra-icon": "^2.0.1",
+    "terra-navigation-layout": "^1.0.0",
+    "terra-popup": "^2.0.1"
   },
   "scripts": {
     "compile": "npm run compile:clean && npm run compile:build",

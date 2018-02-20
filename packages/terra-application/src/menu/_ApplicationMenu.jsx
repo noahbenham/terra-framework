@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import AppDelegate from 'terra-app-delegate';
 import ApplicationMenuLayout from 'terra-application-menu-layout';
-// import { ApplicationMenuUtility } from 'terra-application-utility';
+import { ApplicationMenuUtility } from 'terra-application-utility';
 import { ApplicationMenuName } from 'terra-application-name';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 
 import 'terra-base/lib/baseStyles';
-
-import ApplicationMenuUtility from '../mock-components/MockApplicationMenuUtility';
 
 import styles from './ApplicationMenu.scss';
 
@@ -56,7 +54,7 @@ const propTypes = {
     userName: PropTypes.string,
     userPhoto: PropTypes.element,
     userDetails: PropTypes.string,
-    onUtilityChange: PropTypes.func,
+    onChange: PropTypes.func,
   }).isRequired,
 };
 
@@ -112,7 +110,7 @@ class ApplicationMenu extends React.Component {
       if (extensions) {
         extensionsElement = React.cloneElement(extensions, { app });
       }
-      footer = <ApplicationMenuUtility {...utilityConfig} onDiscloseUtilityMenu={this.onDiscloseUtilty} />;
+      footer = <ApplicationMenuUtility {...utilityConfig} onDisclose={this.onDiscloseUtilty} />;
     }
 
     let clonedContent;

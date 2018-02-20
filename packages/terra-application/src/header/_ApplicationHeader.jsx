@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import AppDelegate from 'terra-app-delegate';
 import ApplicationHeaderLayout from 'terra-application-header-layout';
-// import { ApplicationHeaderUtility } from 'terra-application-utility';
+import { ApplicationHeaderUtility } from 'terra-application-utility';
 import { ApplicationHeaderName } from 'terra-application-name';
 import { ApplicationTabs } from 'terra-application-links';
 import IconMenu from 'terra-icon/lib/icon/IconMenu';
@@ -11,8 +11,6 @@ import Button from 'terra-button';
 import Popup from 'terra-popup';
 
 import 'terra-base/lib/baseStyles';
-
-import ApplicationHeaderUtility from '../mock-components/MockApplicationHeaderUtility';
 
 import styles from './ApplicationHeader.scss';
 
@@ -59,7 +57,7 @@ const propTypes = {
     userName: PropTypes.string,
     userPhoto: PropTypes.element,
     userDetails: PropTypes.string,
-    onUtilityChange: PropTypes.func,
+    onChange: PropTypes.func,
   }).isRequired,
 };
 
@@ -140,28 +138,26 @@ class ApplicationHeader extends React.Component {
       if (extensions) {
         extensionsElement = React.cloneElement(extensions, { app });
       }
-      utilities = <ApplicationHeaderUtility {...utilityConfig} onDiscloseUtilityMenu={this.onDiscloseUtilty} data-application-header-utility />;
+      utilities = <ApplicationHeaderUtility {...utilityConfig} onDisclose={this.onDiscloseUtilty} data-application-header-utility />;
     } else {
       navigation = appName;
       appName = undefined;
     }
 
-    let popup;
-    if (this.state.utilityComponent) {
-      popup = (
-        <Popup
-          contentAttachment="top center"
-          contentHeight="auto"
-          contentWidth="240"
-          isArrowDisplayed
-          isOpen
-          onRequestClose={this.handleRequestClose}
-          targetRef={this.getTargetRef}
-        >
-          {this.state.utilityComponent}
-        </Popup>
-      );
-    }
+    const popup = (
+      <Popup
+        attachmentBehavior="none"
+        contentAttachment="top center"
+        contentHeight="auto"
+        contentWidth="240"
+        isArrowDisplayed
+        isOpen={!!this.state.utilityComponent}
+        onRequestClose={this.handleRequestClose}
+        targetRef={this.getTargetRef}
+      >
+        {this.state.utilityComponent || null}
+      </Popup>
+    );
 
     return (
       <div {...customProps} className={headerClassNames} ref={this.setContentNode}>
