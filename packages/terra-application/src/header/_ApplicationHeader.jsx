@@ -93,7 +93,9 @@ class ApplicationHeader extends React.Component {
   }
 
   handleRequestClose() {
-    this.setState({ utilityComponent: null });
+    if (this.state.utilityComponent) {
+      this.setState({ utilityComponent: null });
+    }
   }
 
   render() {
@@ -138,7 +140,7 @@ class ApplicationHeader extends React.Component {
       if (extensions) {
         extensionsElement = React.cloneElement(extensions, { app });
       }
-      utilities = <ApplicationHeaderUtility {...utilityConfig} onDisclose={this.onDiscloseUtilty} data-application-header-utility />;
+      utilities = <ApplicationHeaderUtility {...utilityConfig} onChange={() => {}} onDisclose={this.onDiscloseUtilty} data-application-header-utility />;
     } else {
       navigation = appName;
       appName = undefined;
