@@ -8,15 +8,25 @@ const propTypes = {
     path: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
   })),
+  layoutConfig: PropTypes.object,
 };
 
-const PrimaryNavigationMenu = ({ routes }) => (
+const PrimaryNavigationMenu = ({ routes, layoutConfig }) => (
   <ApplicationList
     links={routes.map((route) => {
       const routeData = {};
       routeData.id = route.path;
       routeData.path = route.path;
       routeData.text = route.text;
+      routeData.hasSubMenu = route.hasSubMenu;
+
+      routeData.onClick = () => {
+        if (!route.hasSubMenu && layoutConfig && layoutConfig.toggleMenu) {
+          requestAnimationFrame(() => {
+            layoutConfig.toggleMenu();
+          });
+        }
+      };
 
       return routeData;
     })}

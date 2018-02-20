@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import NavigationLayout from 'terra-navigation-layout';
+import { matchPath } from 'react-router-dom';
 import PrimaryNavigationMenu from './PrimaryNavigationMenu';
 import ApplicationMenuWrapper from './ApplicationMenuWrapper';
 import ApplicationHeaderWrapper from './ApplicationHeaderWrapper';
@@ -16,6 +17,17 @@ class Application extends React.Component {
   render() {
     const { nameConfig, utilityConfig, routingConfig, navigationItems, indexPath } = this.props;
 
+    const menuPaths = Object.keys(routingConfig.menu || {}).map(key => (routingConfig.menu[key].path));
+    const processedNavigationItems = navigationItems.map((navigationItem) => {
+      const childMenuPaths = menuPaths.filter(configPath => matchPath(navigationItem.path, { path: configPath }));
+
+      return {
+        path: navigationItem.path,
+        text: navigationItem.text,
+        hasSubMenu: childMenuPaths.length > 0,
+      };
+    });
+
     const updatedConfig = Object.assign({}, routingConfig);
 
     const newMenus = Object.assign({}, updatedConfig.menu);
@@ -26,13 +38,13 @@ class Application extends React.Component {
           tiny: {
             componentClass: PrimaryNavigationMenu,
             props: {
-              routes: navigationItems,
+              routes: processedNavigationItems,
             },
           },
           small: {
             componentClass: PrimaryNavigationMenu,
             props: {
-              routes: navigationItems,
+              routes: processedNavigationItems,
             },
           },
         },
@@ -88,6 +100,10 @@ Application.propTypes = {
   nameConfig: PropTypes.object,
   utilityConfig: PropTypes.object,
   location: PropTypes.object,
+};
+
+Application.defaultProps = {
+  navigationItems: [],
 };
 
 export default Application;
