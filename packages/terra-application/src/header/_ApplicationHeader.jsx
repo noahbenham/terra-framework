@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import AppDelegate from 'terra-app-delegate';
-import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 import ApplicationHeaderLayout from 'terra-application-header-layout';
 // import { ApplicationHeaderUtility } from 'terra-application-utility';
 import { ApplicationHeaderName } from 'terra-application-name';
@@ -53,10 +52,6 @@ const propTypes = {
     togglePin: PropTypes.bool,
     menuIsPinned: PropTypes.bool,
   }).isRequired,
-  /**
-   * Delegate prop that is padded by the NavigationLayout.
-   */
-  routingStackDelegate: RoutingStackDelegate.propType.isRequired,
   /**
    * Configuration to be provided to the ApplicationUtility component.
    */
@@ -110,7 +105,6 @@ class ApplicationHeader extends React.Component {
       extensions,
       layoutConfig,
       nameConfig,
-      routingStackDelegate,
       utilityConfig,
       ...customProps
     } = this.props;

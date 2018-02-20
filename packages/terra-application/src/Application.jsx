@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import NavigationLayout from 'terra-navigation-layout';
 import PrimaryNavigationMenu from './PrimaryNavigationMenu';
 import ApplicationMenuWrapper from './ApplicationMenuWrapper';
-
-import ApplicationHeader from './header/_ApplicationHeader';
+import ApplicationHeaderWrapper from './ApplicationHeaderWrapper';
 
 class Application extends React.Component {
   constructor(props) {
@@ -74,20 +73,10 @@ class Application extends React.Component {
     return (
       <NavigationLayout
         config={updatedConfig}
-        header={(
-          <ApplicationHeader
-            applicationLinks={primaryRoutes.map((route) => {
-              const routeData = {};
-              routeData.id = route.path;
-              routeData.path = route.path;
-              routeData.text = route.text;
-
-              return routeData;
-            })}
-            nameConfig={{ title: name }}
-            utilityConfig={{ userName: 'John Rambo' }}
-          />
-        )}
+        header={<ApplicationHeaderWrapper
+          primaryRoutes={primaryRoutes} nameConfig={{ title: name }} utilityConfig={{ userName: 'John Rambo' }}
+        />
+        }
         indexPath={indexPath}
       />
     );

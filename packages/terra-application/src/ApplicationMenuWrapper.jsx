@@ -20,10 +20,12 @@ const propTypes = {
   }).isRequired,
 };
 
-const ApplicationMenuWrapper = ({ layoutConfig, navigationLayoutRoutes, navigationLayoutSize, terraApplicationProps, ...customProps }) => {
+const ApplicationMenuWrapper = ({ app, layoutConfig, navigationLayoutRoutes, navigationLayoutSize, routingStackDelegate, terraApplicationProps, ...customProps }) => {
   const Content = terraApplicationProps.overrideComponentClass;
   const contentProps = {
+    app,
     layoutConfig,
+    routingStackDelegate,
     navigationLayoutRoutes,
     navigationLayoutSize,
     ...customProps,
@@ -31,11 +33,13 @@ const ApplicationMenuWrapper = ({ layoutConfig, navigationLayoutRoutes, navigati
 
   return (
     <ApplicationMenu
+      app={app}
       key={terraApplicationProps.key}
       layoutConfig={layoutConfig}
+      routingStackDelegate={routingStackDelegate}
       nameConfig={{ title: terraApplicationProps.name }}
       utilityConfig={{ userName: 'John Rambo' }}
-      extensions={<div>Extensions</div>}
+      // extensions={<div>Extensions</div>}
       content={<Content {...contentProps} />}
     />
   );
