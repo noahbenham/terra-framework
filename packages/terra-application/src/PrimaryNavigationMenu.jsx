@@ -10,8 +10,9 @@ const propTypes = {
   })),
 };
 
-const PrimaryNavigationMenu = ({ routes }) => (
+const PrimaryNavigationMenu = ({ routes, routingStackDelegate }) => (
   <ApplicationList
+    location={routingStackDelegate.location}
     links={routes.map((route) => {
       const routeData = {};
       routeData.id = route.path;

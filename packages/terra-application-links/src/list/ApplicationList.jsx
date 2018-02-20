@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import 'terra-base/lib/baseStyles';
 import List from 'terra-list';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styles from './ApplicationList.scss';
 
 const cx = classNames.bind(styles);
@@ -57,4 +57,4 @@ const ApplicationList = ({
 ApplicationList.propTypes = propTypes;
 ApplicationList.defaultProps = defaultProps;
 
-export default withRouter(ApplicationList);
+export default ApplicationList;
