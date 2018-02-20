@@ -18,6 +18,8 @@ const propTypes = {
     name: PropTypes.string,
     key: PropTypes.string,
   }).isRequired,
+  app: PropTypes.object,
+  routingStackDelegate: PropTypes.object,
 };
 
 const ApplicationMenuWrapper = ({ app, layoutConfig, navigationLayoutRoutes, navigationLayoutSize, routingStackDelegate, terraApplicationProps, ...customProps }) => {
@@ -37,8 +39,8 @@ const ApplicationMenuWrapper = ({ app, layoutConfig, navigationLayoutRoutes, nav
       key={terraApplicationProps.key}
       layoutConfig={layoutConfig}
       routingStackDelegate={routingStackDelegate}
-      nameConfig={{ title: terraApplicationProps.name }}
-      utilityConfig={{ userName: 'John Rambo' }}
+      nameConfig={terraApplicationProps.nameConfig}
+      utilityConfig={terraApplicationProps.utilityConfig}
       // extensions={<div>Extensions</div>}
       content={<Content {...contentProps} />}
     />

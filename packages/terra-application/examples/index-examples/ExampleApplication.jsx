@@ -69,24 +69,42 @@ const primaryRoutes = [{
   text: 'Page 3',
 }];
 
-const ExampleApplication = withRouter(({ location }) => (
+const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, navigationItems, routingConfig, indexPath }) => (
   <div>
     <h3>{`Browser Location: ${location.pathname}`}</h3>
-    <div style={{ height: '768px', width: '100%' }}>
+    <div style={{ height: '600px', width: '100%' }}>
       <Application
-        name="Example Application"
-        indexPath="/page1"
-        config={config}
-        primaryRoutes={primaryRoutes}
+        nameConfig={nameConfig}
+        utilityConfig={utilityConfig}
+        navigationItems={navigationItems}
+        routingConfig={routingConfig}
+        indexPath={indexPath}
       />
     </div>
   </div>
 ));
 
 const AppRouter = () => (
-  <MemoryRouter>
-    <ExampleApplication />
-  </MemoryRouter>
+  <div style={{ height: '100vh', overflow: 'auto' }}>
+    <MemoryRouter>
+      <ExampleApplication
+        nameConfig={{ title: 'Example Application' }}
+        utilityConfig={{ userName: 'John Rambo' }}
+        navigationItems={primaryRoutes}
+        routingConfig={config}
+        indexPath="/page1"
+      />
+    </MemoryRouter>
+    <br />
+    <MemoryRouter>
+      <ExampleApplication
+        nameConfig={{ title: 'No Nav Application' }}
+        utilityConfig={{ userName: 'John Rambo' }}
+        routingConfig={config}
+        indexPath="/page1"
+      />
+    </MemoryRouter>
+  </div>
 );
 
 export default AppRouter;

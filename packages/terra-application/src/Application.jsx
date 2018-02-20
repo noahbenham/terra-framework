@@ -14,25 +14,25 @@ class Application extends React.Component {
   }
 
   render() {
-    const { name, config, primaryRoutes, indexPath } = this.props;
+    const { nameConfig, utilityConfig, routingConfig, navigationItems, indexPath } = this.props;
 
-    const updatedConfig = Object.assign({}, config);
+    const updatedConfig = Object.assign({}, routingConfig);
 
-    const newMenus = Object.assign({}, config.menu);
-    if (primaryRoutes.length > 1) {
+    const newMenus = Object.assign({}, updatedConfig.menu);
+    if (navigationItems && navigationItems.length > 1) {
       newMenus['/'] = {
         path: '/',
         component: {
           tiny: {
             componentClass: PrimaryNavigationMenu,
             props: {
-              routes: primaryRoutes,
+              routes: navigationItems,
             },
           },
           small: {
             componentClass: PrimaryNavigationMenu,
             props: {
-              routes: primaryRoutes,
+              routes: navigationItems,
             },
           },
         },
@@ -55,7 +55,8 @@ class Application extends React.Component {
 
         propsForSize.terraApplicationProps = {
           overrideComponentClass: configForSize.componentClass,
-          name: this.props.name,
+          nameConfig,
+          utilityConfig,
           key: 'MenuVessel',
         };
         configForSize.props = propsForSize;
@@ -74,7 +75,7 @@ class Application extends React.Component {
       <NavigationLayout
         config={updatedConfig}
         header={<ApplicationHeaderWrapper
-          primaryRoutes={primaryRoutes} nameConfig={{ title: name }} utilityConfig={{ userName: 'John Rambo' }}
+          primaryRoutes={navigationItems} nameConfig={nameConfig} utilityConfig={utilityConfig}
         />
         }
         indexPath={indexPath}
@@ -84,8 +85,8 @@ class Application extends React.Component {
 }
 
 Application.propTypes = {
-  name: PropTypes.string,
-  brandIcon: PropTypes.node,
+  nameConfig: PropTypes.object,
+  utilityConfig: PropTypes.object,
   location: PropTypes.object,
 };
 
