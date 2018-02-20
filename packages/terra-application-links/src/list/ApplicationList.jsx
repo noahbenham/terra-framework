@@ -18,6 +18,7 @@ const propTypes = {
     id: PropTypes.string,
     path: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
   })),
 };
 
