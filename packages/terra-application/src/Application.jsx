@@ -7,18 +7,27 @@ import PrimaryNavigationMenu from './PrimaryNavigationMenu';
 import ApplicationMenuWrapper from './ApplicationMenuWrapper';
 import ApplicationHeaderWrapper from './ApplicationHeaderWrapper';
 
+const navigationLayoutSizes = ['default', 'tiny', 'small', 'medium', 'large', 'huge'];
+
 class Application extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.buildMenuNavigationItems = this.buildMenuNavigationItems.bind(this);
+    this.buildNavigationMenuConfig = this.buildNavigationMenuConfig.bind(this);
+    this.wrapMenuConfig = this.wrapMenuConfig.bind(this);
+    this.updateRoutingConfig = this.updateRoutingConfig.bind(this);
   }
 
-  render() {
-    const { nameConfig, utilityConfig, routingConfig, navigationItems, indexPath } = this.props;
+  buildMenuNavigationItems() {
+    const { navigationItems, routingConfig } = this.props;
 
-    const menuPaths = Object.keys(routingConfig.menu || {}).map(key => (routingConfig.menu[key].path));
-    const processedNavigationItems = navigationItems.map((navigationItem) => {
+    if (!routingConfig.menu) {
+      return navigationItems;
+    }
+
+    const menuPaths = Object.keys(routingConfig.menu).map(key => (routingConfig.menu[key].path));
+    return navigationItems.map((navigationItem) => {
       const childMenuPaths = menuPaths.filter(configPath => matchPath(navigationItem.path, { path: configPath }));
 
       return {
@@ -27,36 +36,42 @@ class Application extends React.Component {
         hasSubMenu: childMenuPaths.length > 0,
       };
     });
+  }
 
-    const updatedConfig = Object.assign({}, routingConfig);
+  buildNavigationMenuConfig() {
+    const menuNavigationItems = this.buildMenuNavigationItems();
 
-    const newMenus = Object.assign({}, updatedConfig.menu);
-    if (navigationItems && navigationItems.length > 1) {
-      newMenus['/'] = {
+    return {
+      '/': {
         path: '/',
         component: {
           tiny: {
             componentClass: PrimaryNavigationMenu,
             props: {
-              routes: processedNavigationItems,
+              routes: menuNavigationItems,
             },
           },
           small: {
             componentClass: PrimaryNavigationMenu,
             props: {
-              routes: processedNavigationItems,
+              routes: menuNavigationItems,
             },
           },
         },
-      };
-    }
+      },
+    };
+  }
 
-    Object.keys(newMenus).forEach((menuKey) => {
-      const newMenu = Object.assign({}, newMenus[menuKey]);
+  wrapMenuConfig(menuConfig) {
+    const { nameConfig, utilityConfig } = this.props;
+
+    const updatedMenuConfig = {};
+    Object.keys(menuConfig).forEach((menuKey) => {
+      const newMenu = Object.assign({}, menuConfig[menuKey]);
 
       const newMenuComponent = Object.assign({}, newMenu.component);
 
-      ['default', 'tiny', 'small', 'medium', 'large', 'huge'].forEach((size) => {
+      navigationLayoutSizes.forEach((size) => {
         if (!newMenuComponent[size]) {
           return;
         }
@@ -69,7 +84,7 @@ class Application extends React.Component {
           overrideComponentClass: configForSize.componentClass,
           nameConfig,
           utilityConfig,
-          key: 'MenuVessel',
+          key: 'MenuWrapper',
         };
         configForSize.props = propsForSize;
         configForSize.componentClass = ApplicationMenuWrapper;
@@ -78,18 +93,40 @@ class Application extends React.Component {
       });
 
       newMenu.component = newMenuComponent;
-      newMenus[menuKey] = newMenu;
+      updatedMenuConfig[menuKey] = newMenu;
     });
 
-    updatedConfig.menu = newMenus;
+    return updatedMenuConfig;
+  }
+
+  updateRoutingConfig() {
+    const { routingConfig, navigationItems } = this.props;
+
+    const updatedConfig = Object.assign({}, routingConfig);
+
+    let newMenus = Object.assign({}, updatedConfig.menu);
+    if (navigationItems && navigationItems.length > 1) {
+      newMenus = Object.assign(newMenus, this.buildNavigationMenuConfig());
+    }
+
+    updatedConfig.menu = this.wrapMenuConfig(newMenus);
+
+    return updatedConfig;
+  }
+
+  render() {
+    const { nameConfig, utilityConfig, navigationItems, indexPath } = this.props;
 
     return (
       <NavigationLayout
-        config={updatedConfig}
-        header={<ApplicationHeaderWrapper
-          primaryRoutes={navigationItems} nameConfig={nameConfig} utilityConfig={utilityConfig}
-        />
-        }
+        config={this.updateRoutingConfig()}
+        header={(
+          <ApplicationHeaderWrapper
+            primaryRoutes={navigationItems}
+            nameConfig={nameConfig}
+            utilityConfig={utilityConfig}
+          />
+        )}
         indexPath={indexPath}
       />
     );
@@ -99,7 +136,9 @@ class Application extends React.Component {
 Application.propTypes = {
   nameConfig: PropTypes.object,
   utilityConfig: PropTypes.object,
-  location: PropTypes.object,
+  routingConfig: PropTypes.object,
+  navigationItems: PropTypes.array,
+  indexPath: PropTypes.string,
 };
 
 Application.defaultProps = {
