@@ -9,6 +9,18 @@ import ApplicationHeaderWrapper from './ApplicationHeaderWrapper';
 
 const navigationLayoutSizes = ['default', 'tiny', 'small', 'medium', 'large', 'huge'];
 
+const propTypes = {
+  nameConfig: PropTypes.object,
+  utilityConfig: PropTypes.object,
+  routingConfig: PropTypes.object,
+  navigationItems: PropTypes.array,
+  indexPath: PropTypes.string,
+};
+
+const defaultProps = {
+  navigationItems: [],
+};
+
 class Application extends React.Component {
   static buildMenuNavigationItems(props) {
     const { navigationItems, routingConfig } = props;
@@ -145,16 +157,8 @@ class Application extends React.Component {
   }
 }
 
-Application.propTypes = {
-  nameConfig: PropTypes.object,
-  utilityConfig: PropTypes.object,
-  routingConfig: PropTypes.object,
-  navigationItems: PropTypes.array,
-  indexPath: PropTypes.string,
-};
+Application.propTypes = propTypes;
 
-Application.defaultProps = {
-  navigationItems: [],
-};
+Application.defaultProps = defaultProps;
 
 export default Application;
