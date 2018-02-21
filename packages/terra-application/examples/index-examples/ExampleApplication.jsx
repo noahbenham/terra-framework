@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { MemoryRouter, withRouter } from 'react-router-dom';
-
+import Image from 'terra-image';
 import Application from '../../src/Application';
 
 import Page1Content from './Page1Content';
@@ -88,7 +88,7 @@ const AppRouter = () => (
   <div style={{ height: '100vh', overflow: 'auto' }}>
     <MemoryRouter>
       <ExampleApplication
-        nameConfig={{ title: 'Example Application' }}
+        nameConfig={{ title: 'Example Application', accessory: <Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" /> }}
         utilityConfig={{ userName: 'John Rambo' }}
         navigationItems={primaryRoutes}
         routingConfig={config}
