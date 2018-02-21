@@ -10,17 +10,8 @@ import ApplicationHeaderWrapper from './ApplicationHeaderWrapper';
 const navigationLayoutSizes = ['default', 'tiny', 'small', 'medium', 'large', 'huge'];
 
 class Application extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.buildMenuNavigationItems = this.buildMenuNavigationItems.bind(this);
-    this.buildNavigationMenuConfig = this.buildNavigationMenuConfig.bind(this);
-    this.wrapMenuConfig = this.wrapMenuConfig.bind(this);
-    this.updateRoutingConfig = this.updateRoutingConfig.bind(this);
-  }
-
-  buildMenuNavigationItems() {
-    const { navigationItems, routingConfig } = this.props;
+  static buildMenuNavigationItems(props) {
+    const { navigationItems, routingConfig } = props;
 
     if (!routingConfig.menu) {
       return navigationItems;
@@ -38,8 +29,8 @@ class Application extends React.Component {
     });
   }
 
-  buildNavigationMenuConfig() {
-    const menuNavigationItems = this.buildMenuNavigationItems();
+  static buildNavigationMenuConfig(props) {
+    const menuNavigationItems = Application.buildMenuNavigationItems(props);
 
     return {
       '/': {
@@ -62,8 +53,8 @@ class Application extends React.Component {
     };
   }
 
-  wrapMenuConfig(menuConfig) {
-    const { nameConfig, utilityConfig } = this.props;
+  static wrapMenuConfig(props, menuConfig) {
+    const { nameConfig, utilityConfig } = props;
 
     const updatedMenuConfig = {};
     Object.keys(menuConfig).forEach((menuKey) => {
@@ -99,27 +90,48 @@ class Application extends React.Component {
     return updatedMenuConfig;
   }
 
-  updateRoutingConfig() {
-    const { routingConfig, navigationItems } = this.props;
+  static updateRoutingConfig(props) {
+    const { routingConfig, navigationItems } = props;
 
     const updatedConfig = Object.assign({}, routingConfig);
 
     let newMenus = Object.assign({}, updatedConfig.menu);
     if (navigationItems && navigationItems.length > 1) {
-      newMenus = Object.assign(newMenus, this.buildNavigationMenuConfig());
+      newMenus = Object.assign(newMenus, Application.buildNavigationMenuConfig(props));
     }
 
-    updatedConfig.menu = this.wrapMenuConfig(newMenus);
+    updatedConfig.menu = Application.wrapMenuConfig(props, newMenus);
 
     return updatedConfig;
   }
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      applicationRoutingConfig: Application.updateRoutingConfig(this.props),
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.nameConfig !== nextProps.nameConfig ||
+        this.props.utilityConfig !== nextProps.utilityConfig ||
+        this.props.routingConfig !== nextProps.routingConfig ||
+        this.props.navigationItems !== nextProps.navigationItems ||
+        this.props.indexPath !== nextProps.indexPath) {
+      this.setState({
+        applicationRoutingConfig: Application.updateRoutingConfig(nextProps),
+      });
+    }
+  }
+
   render() {
     const { nameConfig, utilityConfig, navigationItems, indexPath } = this.props;
+    const { applicationRoutingConfig } = this.state;
 
     return (
       <NavigationLayout
-        config={this.updateRoutingConfig()}
+        config={applicationRoutingConfig}
         header={(
           <ApplicationHeaderWrapper
             primaryRoutes={navigationItems}

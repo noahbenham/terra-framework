@@ -84,12 +84,15 @@ const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, na
   </div>
 ));
 
+const nameConfig = Object.freeze({ title: 'Example Application', accessory: <Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" /> });
+const utilityConfig = Object.freeze({ userName: 'John Rambo' });
+
 const AppRouter = () => (
   <div style={{ height: '100vh', overflow: 'auto' }}>
     <MemoryRouter>
       <ExampleApplication
-        nameConfig={{ title: 'Example Application', accessory: <Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" /> }}
-        utilityConfig={{ userName: 'John Rambo' }}
+        nameConfig={nameConfig}
+        utilityConfig={utilityConfig}
         navigationItems={primaryRoutes}
         routingConfig={config}
         indexPath="/page1"
@@ -98,8 +101,8 @@ const AppRouter = () => (
     <br />
     <MemoryRouter>
       <ExampleApplication
-        nameConfig={{ title: 'No Nav Application' }}
-        utilityConfig={{ userName: 'John Rambo' }}
+        nameConfig={nameConfig}
+        utilityConfig={utilityConfig}
         routingConfig={config}
         indexPath="/page1"
       />
