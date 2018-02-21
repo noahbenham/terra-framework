@@ -51,10 +51,10 @@ const propTypes = {
    * Configration to be passed to the ApplicationUtility component.
    */
   utilityConfig: PropTypes.shape({
-    userName: PropTypes.string,
+    userName: PropTypes.string.isRequired,
     userPhoto: PropTypes.element,
     userDetails: PropTypes.string,
-    onChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
   }).isRequired,
 };
 
@@ -66,6 +66,7 @@ class ApplicationMenu extends React.Component {
   constructor(props) {
     super(props);
     this.onDiscloseUtilty = this.onDiscloseUtilty.bind(this);
+    this.handleOnChange = this.handleOnChange.bind(this);
   }
 
   onDiscloseUtilty(utility) {
@@ -79,6 +80,10 @@ class ApplicationMenu extends React.Component {
         },
       });
     }
+  }
+
+  handleOnChange(event, key) {
+    this.props.utilityConfig.onChange(event, key, this.props.app);
   }
 
   render() {
@@ -110,7 +115,7 @@ class ApplicationMenu extends React.Component {
       if (extensions) {
         extensionsElement = React.cloneElement(extensions, { app });
       }
-      footer = <ApplicationMenuUtility {...utilityConfig} onDisclose={this.onDiscloseUtilty} />;
+      footer = <ApplicationMenuUtility {...utilityConfig} onChange={this.handleOnChange} onDisclose={this.onDiscloseUtilty} />;
     }
 
     let clonedContent;

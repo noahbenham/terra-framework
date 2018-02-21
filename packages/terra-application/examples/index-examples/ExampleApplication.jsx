@@ -85,7 +85,7 @@ const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, na
 ));
 
 const nameConfig = Object.freeze({ title: 'Example Application', accessory: <Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" /> });
-const utilityConfig = Object.freeze({ userName: 'John Rambo' });
+const utilityConfig = Object.freeze({ userName: 'John Rambo', onChange: () => {} });
 
 const AppRouter = () => (
   <div style={{ height: '100vh', overflow: 'auto' }}>

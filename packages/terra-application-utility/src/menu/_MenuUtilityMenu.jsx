@@ -41,7 +41,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  additionalItemsConfig: null,
+  additionalItemsConfig: [],
   isHeightBounded: undefined,
   userData: null,
 };

@@ -54,10 +54,10 @@ const propTypes = {
    * Configuration to be provided to the ApplicationUtility component.
    */
   utilityConfig: PropTypes.shape({
-    userName: PropTypes.string,
+    userName: PropTypes.string.isRequired,
     userPhoto: PropTypes.element,
     userDetails: PropTypes.string,
-    onChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
   }).isRequired,
 };
 
@@ -70,6 +70,7 @@ class ApplicationHeader extends React.Component {
     super(props);
     this.onDiscloseUtilty = this.onDiscloseUtilty.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
+    this.handleOnChange = this.handleOnChange.bind(this);
     this.getTargetRef = this.getTargetRef.bind(this);
     this.setContentNode = this.setContentNode.bind(this);
     this.state = { utilityComponent: null };
@@ -96,6 +97,11 @@ class ApplicationHeader extends React.Component {
     if (this.state.utilityComponent) {
       this.setState({ utilityComponent: null });
     }
+  }
+
+  handleOnChange(event, key) {
+    this.handleRequestClose();
+    this.props.utilityConfig.onChange(event, key, this.props.app);
   }
 
   render() {
@@ -140,26 +146,29 @@ class ApplicationHeader extends React.Component {
       if (extensions) {
         extensionsElement = React.cloneElement(extensions, { app });
       }
-      utilities = <ApplicationHeaderUtility {...utilityConfig} onChange={() => {}} onDisclose={this.onDiscloseUtilty} data-application-header-utility />;
+      utilities = <ApplicationHeaderUtility {...utilityConfig} onChange={this.handleOnChange} onDisclose={this.onDiscloseUtilty} data-application-header-utility />;
     } else {
       navigation = appName;
       appName = undefined;
     }
 
-    const popup = (
-      <Popup
-        attachmentBehavior="none"
-        contentAttachment="top center"
-        contentHeight="auto"
-        contentWidth="240"
-        isArrowDisplayed
-        isOpen={!!this.state.utilityComponent}
-        onRequestClose={this.handleRequestClose}
-        targetRef={this.getTargetRef}
-      >
-        {this.state.utilityComponent || null}
-      </Popup>
-    );
+    let popup;
+    if (this.state.utilityComponent) {
+      popup = (
+        <Popup
+          attachmentBehavior="none"
+          contentAttachment="top center"
+          contentHeight="auto"
+          contentWidth="240"
+          isArrowDisplayed
+          isOpen
+          onRequestClose={this.handleRequestClose}
+          targetRef={this.getTargetRef}
+        >
+          {this.state.utilityComponent}
+        </Popup>
+      );
+    }
 
     return (
       <div {...customProps} className={headerClassNames} ref={this.setContentNode}>
