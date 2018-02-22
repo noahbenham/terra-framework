@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlaceHolder from './Placeholder';
+import Placeholder from './Placeholder';
 
 const propTypes = {
   size: PropTypes.string,
@@ -14,7 +14,7 @@ const ExtensionsExample = ({ size }) => {
     text = 'Nav';
   }
   return (
-    <PlaceHolder text={text} />
+    <Placeholder text={text} />
   );
 };
 

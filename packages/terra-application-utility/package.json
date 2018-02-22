@@ -32,7 +32,9 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "prop-types": "^15.5.8",
-    "terra-base": "^3.0.0"
+    "terra-base": "^3.0.0",
+    "terra-modal-manager": "^2.0.0",
+    "terra-application-header-layout": "^2.0.0"
   },
   "scripts": {
     "compile": "npm run compile:clean && npm run compile:build",
