@@ -6,15 +6,31 @@ import { matchPath } from 'react-router-dom';
 import PrimaryNavigationMenu from './PrimaryNavigationMenu';
 import ApplicationMenuWrapper from './ApplicationMenuWrapper';
 import ApplicationHeaderWrapper from './ApplicationHeaderWrapper';
+import ApplicationUtils from '../ApplicationUtils';
 
 const navigationLayoutSizes = ['default', 'tiny', 'small', 'medium', 'large', 'huge'];
 
 const propTypes = {
-  nameConfig: PropTypes.object,
-  utilityConfig: PropTypes.object,
-  routingConfig: PropTypes.object,
-  navigationItems: PropTypes.array,
+  /**
+   * {Needs Description}.
+   */
   indexPath: PropTypes.string,
+  /**
+   * Configuration values for the ApplicationName component.
+   */
+  nameConfig: ApplicationUtils.nameConfigPropType,
+  /**
+   * {Needs Description}.
+   */
+  navigationItems: PropTypes.array,
+  /**
+   * {Needs Description}.
+   */
+  routingConfig: PropTypes.object,
+  /**
+   * Configuration to be provided to the ApplicationUtility component.
+   */
+  utilityConfig: ApplicationUtils.utilityConfigPropType,
 };
 
 const defaultProps = {

@@ -11,6 +11,7 @@ import Button from 'terra-button';
 import Popup from 'terra-popup';
 
 import 'terra-base/lib/baseStyles';
+import ApplicationUtils from '../ApplicationUtils';
 
 import styles from './ApplicationHeader.scss';
 
@@ -24,41 +25,23 @@ const propTypes = {
   /**
    * Navigational links that will generate list items that will update the path. These paths are matched with react-router to selection.
 +  */
-  applicationLinks: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    path: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-  })),
+  applicationLinks: ApplicationUtils.applicationLinksPropType,
   /**
    * The element to be placed within the fit start area for extensions within the layout.
    */
   extensions: PropTypes.element,
   /**
-   * Configuration values for the ApplicationName component.
-   */
-  nameConfig: PropTypes.shape({
-    accessory: PropTypes.element,
-    title: PropTypes.string,
-  }),
-  /**
    * Layout config provided from the Layout component.
    */
-  layoutConfig: PropTypes.shape({
-    size: PropTypes.string,
-    toggleMenu: PropTypes.func,
-    menuIsOpen: PropTypes.bool,
-    togglePin: PropTypes.bool,
-    menuIsPinned: PropTypes.bool,
-  }).isRequired,
+  layoutConfig: ApplicationUtils.layoutConfigPropType.isRequired,
+  /**
+   * Configuration values for the ApplicationName component.
+   */
+  nameConfig: ApplicationUtils.nameConfigPropType,
   /**
    * Configuration to be provided to the ApplicationUtility component.
    */
-  utilityConfig: PropTypes.shape({
-    userName: PropTypes.string.isRequired,
-    userPhoto: PropTypes.element,
-    userDetails: PropTypes.string,
-    onChange: PropTypes.func.isRequired,
-  }).isRequired,
+  utilityConfig: ApplicationUtils.utilityConfigPropType,
 };
 
 const defaultProps = {
@@ -146,7 +129,9 @@ class ApplicationHeader extends React.Component {
       if (extensions) {
         extensionsElement = React.cloneElement(extensions, { app });
       }
-      utilities = <ApplicationHeaderUtility {...utilityConfig} onChange={this.handleOnChange} onDisclose={this.onDiscloseUtilty} data-application-header-utility />;
+      if (utilityConfig) {
+        utilities = <ApplicationHeaderUtility {...utilityConfig} onChange={this.handleOnChange} onDisclose={this.onDiscloseUtilty} data-application-header-utility />;
+      }
     } else {
       navigation = appName;
       appName = undefined;

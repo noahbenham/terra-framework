@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const KEYS = {
   MENU: 'menu',
   USER_INFORMATION: 'user-information',
@@ -44,11 +46,12 @@ const reconcileChildren = (config, additionalConfig) => {
 /**
  * userData: PropTypes.element,
  *  <UserData userDetail={userDetail} userName={userName} userPhoto={userPhoto} />
- * additionalConfig: PropTypes.object,
+ * additionalConfig: PropTypes.array,
  *  [
  *    {
  *      key: 'additional-1',
  *      title: 'Addtional Title 1',
+ *      isSelectable: false,
  *      isSelected: false,
  *      content: <Component />
  *      contentLocation: 'body',
@@ -66,6 +69,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.MENU,
       title: TITLES.MENU,
+      isSelectable: false,
       isSelected: false,
       childKeys: [
         KEYS.USER_INFORMATION,
@@ -77,6 +81,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
       key: KEYS.USER_INFORMATION,
       title: TITLES.USER_INFORMATION,
       content: userData,
+      isSelectable: false,
       isSelected: false,
       childKeys: [
         KEYS.CHANGE_PHOTO,
@@ -85,6 +90,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.SETTINGS,
       title: TITLES.SETTINGS,
+      isSelectable: false,
       isSelected: false,
       childKeys: [
         KEYS.APPEARANCE,
@@ -94,6 +100,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.LOG_OUT,
       title: TITLES.LOG_OUT,
+      isSelectable: false,
       isSelected: false,
       contentLocation: 'footer',
       childKeys: [],
@@ -101,6 +108,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.HELP,
       title: TITLES.HELP,
+      isSelectable: false,
       isSelected: false,
       childKeys: [
         KEYS.GETTING_STARTED,
@@ -111,36 +119,42 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.CHANGE_PHOTO,
       title: TITLES.SETTINGS,
+      isSelectable: false,
       isSelected: false,
       childKeys: [],
     },
     {
       key: KEYS.APPEARANCE,
       title: TITLES.APPEARANCE,
+      isSelectable: false,
       isSelected: false,
       childKeys: [],
     },
     {
       key: KEYS.SECURITY,
       title: TITLES.SECURITY,
+      isSelectable: false,
       isSelected: false,
       childKeys: [],
     },
     {
       key: KEYS.GETTING_STARTED,
       title: TITLES.GETTING_STARTED,
+      isSelectable: false,
       isSelected: false,
       childKeys: [],
     },
     {
       key: KEYS.ABOUT,
       title: TITLES.ABOUT,
+      isSelectable: false,
       isSelected: false,
       childKeys: [],
     },
     {
       key: KEYS.TERMS_OF_USE,
       title: TITLES.TERMS_OF_USE,
+      isSelectable: false,
       isSelected: false,
       childKeys: [],
     },
@@ -149,10 +163,50 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
   return reconcileChildren(defaultConfig, additionalConfig);
 };
 
+const utilityConfigPropType = PropTypes.shape({
+  userName: PropTypes.string.isRequired,
+  userPhoto: PropTypes.element,
+  onChange: PropTypes.func.isRequired,
+  menuItems: PropTypes.shape({
+    content: PropTypes.element,
+    contentLocation: PropTypes.string,
+    key: PropTypes.string,
+    title: PropTypes.string,
+    isSelectable: PropTypes.bool,
+    isSelected: PropTypes.bool,
+    childKeys: PropTypes.array,
+  }),
+});
+
+const layoutConfigPropType = PropTypes.shape({
+  size: PropTypes.string,
+  toggleMenu: PropTypes.func,
+  menuIsOpen: PropTypes.bool,
+  togglePin: PropTypes.bool,
+  menuIsPinned: PropTypes.bool,
+});
+
+const nameConfigPropType = PropTypes.shape({
+  accessory: PropTypes.element,
+  title: PropTypes.string,
+});
+
+const applicationLinksPropType = PropTypes.arrayOf(PropTypes.shape({
+  hasSubMenu: PropTypes.bool,
+  id: PropTypes.string,
+  path: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+}));
+
 const ApplicationUtils = {
   getDefaultUtilityConfig,
   KEYS,
   TITLES,
+  utilityConfigPropType,
+  layoutConfigPropType,
+  nameConfigPropType,
+  applicationLinksPropType,
 };
 
 export default ApplicationUtils;

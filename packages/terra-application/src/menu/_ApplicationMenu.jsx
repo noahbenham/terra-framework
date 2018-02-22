@@ -8,6 +8,7 @@ import { ApplicationMenuName } from 'terra-application-name';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 
 import 'terra-base/lib/baseStyles';
+import ApplicationUtils from '../ApplicationUtils';
 
 import styles from './ApplicationMenu.scss';
 
@@ -29,33 +30,19 @@ const propTypes = {
   /**
    * Layout config provided from the Layout component.
    */
-  layoutConfig: PropTypes.shape({
-    size: PropTypes.string,
-    toggleMenu: PropTypes.func,
-    menuIsOpen: PropTypes.bool,
-    togglePin: PropTypes.bool,
-    menuIsPinned: PropTypes.bool,
-  }).isRequired,
+  layoutConfig: ApplicationUtils.layoutConfigPropType.isRequired,
   /**
-   * Configutation values for the ApplicationName component.
+   * Configuration values for the ApplicationName component.
    */
-  nameConfig: PropTypes.shape({
-    accessory: PropTypes.element,
-    title: PropTypes.string,
-  }),
+  nameConfig: ApplicationUtils.nameConfigPropType,
   /**
    * Delegate prop that is provided by the NavigationLayout.
    */
   routingStackDelegate: RoutingStackDelegate.propType.isRequired,
   /**
-   * Configration to be passed to the ApplicationUtility component.
+   * Configuration to be provided to the ApplicationUtility component.
    */
-  utilityConfig: PropTypes.shape({
-    userName: PropTypes.string.isRequired,
-    userPhoto: PropTypes.element,
-    userDetails: PropTypes.string,
-    onChange: PropTypes.func.isRequired,
-  }).isRequired,
+  utilityConfig: ApplicationUtils.utilityConfigPropType,
 };
 
 const defaultProps = {
@@ -115,7 +102,9 @@ class ApplicationMenu extends React.Component {
       if (extensions) {
         extensionsElement = React.cloneElement(extensions, { app });
       }
-      footer = <ApplicationMenuUtility {...utilityConfig} onChange={this.handleOnChange} onDisclose={this.onDiscloseUtilty} />;
+      if (utilityConfig) {
+        footer = <ApplicationMenuUtility {...utilityConfig} onChange={this.handleOnChange} onDisclose={this.onDiscloseUtilty} />;
+      }
     }
 
     let clonedContent;
