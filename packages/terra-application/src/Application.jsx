@@ -6,7 +6,7 @@ import { matchPath } from 'react-router-dom';
 import PrimaryNavigationMenu from './PrimaryNavigationMenu';
 import ApplicationMenuWrapper from './ApplicationMenuWrapper';
 import ApplicationHeaderWrapper from './ApplicationHeaderWrapper';
-import ApplicationUtils from '../ApplicationUtils';
+import ApplicationUtils from './ApplicationUtils';
 
 const navigationLayoutSizes = ['default', 'tiny', 'small', 'medium', 'large', 'huge'];
 
