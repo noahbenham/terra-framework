@@ -1,26 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, matchPath } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 
 import NavigationSideMenu from 'terra-navigation-side-menu';
 
-class Page1Menu extends React.Component {
+class Page1ItemsMenu extends React.Component {
   constructor(props) {
     super(props);
 
     this.handleMenuChange = this.handleMenuChange.bind(this);
 
-    let selectedChildKey;
-    if (matchPath(props.location.pathname, { path: '/page1/items' })) {
-      selectedChildKey = 'items';
-    } else if (matchPath(props.location.pathname, { path: '/page1/other_thing' })) {
-      selectedChildKey = 'other thing';
-    }
-
     this.state = {
       selectedMenuKey: 'menu',
-      selectedChildKey,
     };
   }
 
@@ -43,22 +35,18 @@ class Page1Menu extends React.Component {
 
     return (
       <NavigationSideMenu
-        key="Page1"
+        key="Page1Items"
         menuItems={[
-          { key: 'menu', text: 'Page 1', childKeys: ['items', 'other thing'] },
-          { key: 'items',
-            text: 'Items',
-            hasSubMenu: true,
-            metaData: {
-              url: '/page1/items',
-              hasSubMenu: true,
-            } },
-          { key: 'other thing',
-            text: 'Something Else',
-            hasSubMenu: false,
-            metaData: {
-              url: '/page1/other_thing',
-            } },
+          { key: 'menu', text: 'Items', childKeys: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'] },
+          { key: 'A', text: 'A', metaData: { url: '/page1/items/A' } },
+          { key: 'B', text: 'B', metaData: { url: '/page1/items/B' } },
+          { key: 'C', text: 'C', metaData: { url: '/page1/items/C' } },
+          { key: 'D', text: 'D', metaData: { url: '/page1/items/D' } },
+          { key: 'E', text: 'E', metaData: { url: '/page1/items/E' } },
+          { key: 'F', text: 'F', metaData: { url: '/page1/items/F' } },
+          { key: 'G', text: 'G', metaData: { url: '/page1/items/G' } },
+          { key: 'H', text: 'H', metaData: { url: '/page1/items/H' } },
+          { key: 'I', text: 'I', metaData: { url: '/page1/items/I' } },
         ]}
         onChange={this.handleMenuChange}
         routingStackBack={routingStackDelegate.showParent}
@@ -69,7 +57,7 @@ class Page1Menu extends React.Component {
   }
 }
 
-Page1Menu.propTypes = {
+Page1ItemsMenu.propTypes = {
   layoutConfig: PropTypes.shape({
     toggleMenu: PropTypes.func,
     togglePin: PropTypes.func,
@@ -78,4 +66,4 @@ Page1Menu.propTypes = {
   routingStackDelegate: RoutingStackDelegate.propType,
 };
 
-export default withRouter(Page1Menu);
+export default withRouter(Page1ItemsMenu);

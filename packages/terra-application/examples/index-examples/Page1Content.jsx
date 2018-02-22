@@ -8,13 +8,20 @@ const Page1Content = ({ layoutConfig }) => (
       <h2 style={{ margin: '0' }}>Page 1 Content</h2>
       {layoutConfig.toggleMenu && <button style={{ display: 'inline', marginLeft: '5px', height: '25px', border: '1px dashed lightgrey' }} onClick={layoutConfig.toggleMenu}>Toggle Menu</button>}
       <Route
-        path="/page1/item1" render={() => (
-          <h2>Item 1</h2>
+        path="/page1/items" render={() => (
+          <div>
+            <h2>Items</h2>
+            <Route
+              path="/page1/items/:item" render={({ match }) => (
+                <h2>{match.params.item}</h2>
+              )}
+            />
+          </div>
         )}
       />
       <Route
-        path="/page1/item2" render={() => (
-          <h2>Item 2</h2>
+        path="/page1/other_thing" render={() => (
+          <h2>Other Thing</h2>
         )}
       />
     </div>

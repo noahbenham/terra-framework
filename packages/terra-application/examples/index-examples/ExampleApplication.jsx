@@ -9,6 +9,7 @@ import Page1Content from './Page1Content';
 import Page2Content from './Page2Content';
 import Page3Content from './Page3Content';
 import Page1Menu from './Page1Menu';
+import Page1ItemsMenu from './Page1ItemsMenu';
 import Page2Menu from './Page2Menu';
 
 const config = {
@@ -18,6 +19,14 @@ const config = {
       component: {
         default: {
           componentClass: Page1Menu,
+        },
+      },
+    },
+    '/page1/items': {
+      path: '/page1/items',
+      component: {
+        default: {
+          componentClass: Page1ItemsMenu,
         },
       },
     },
@@ -76,8 +85,8 @@ const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, na
       <Application
         nameConfig={nameConfig}
         utilityConfig={utilityConfig}
-        navigationItems={navigationItems}
         routingConfig={routingConfig}
+        navigationItems={navigationItems}
         indexPath={indexPath}
       />
     </div>
