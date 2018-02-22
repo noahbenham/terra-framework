@@ -11,6 +11,7 @@ import 'terra-base/lib/baseStyles';
 import ApplicationUtils from '../ApplicationUtils';
 
 import styles from './ApplicationMenu.scss';
+import UtilityMenuWrapper from './_UtilityMenuWrapper';
 
 const cx = classNames.bind(styles);
 
@@ -45,24 +46,20 @@ const propTypes = {
   utilityConfig: ApplicationUtils.utilityConfigPropType,
 };
 
-const defaultProps = {
-  nameConfig: {},
-};
-
 class ApplicationMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.onDiscloseUtilty = this.onDiscloseUtilty.bind(this);
+    this.handleRequestDisclose = this.handleRequestDisclose.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
   }
 
-  onDiscloseUtilty(utility) {
+  handleRequestDisclose(utility) {
     if (this.props.app && utility) {
       this.props.app.disclose({
         preferredType: 'modal',
         size: 'small',
         content: {
-          component: utility,
+          component: <UtilityMenuWrapper>{utility}</UtilityMenuWrapper>,
           key: 'application-utility-menu',
         },
       });
@@ -103,7 +100,7 @@ class ApplicationMenu extends React.Component {
         extensionsElement = React.cloneElement(extensions, { app });
       }
       if (utilityConfig) {
-        footer = <ApplicationMenuUtility {...utilityConfig} onChange={this.handleOnChange} onDisclose={this.onDiscloseUtilty} />;
+        footer = <ApplicationMenuUtility {...utilityConfig} onChange={this.handleOnChange} onRequestDisclose={this.handleRequestDisclose} />;
       }
     }
 
@@ -126,6 +123,5 @@ class ApplicationMenu extends React.Component {
 }
 
 ApplicationMenu.propTypes = propTypes;
-ApplicationMenu.defaultProps = defaultProps;
 
 export default ApplicationMenu;

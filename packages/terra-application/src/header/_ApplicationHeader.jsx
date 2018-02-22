@@ -44,25 +44,15 @@ const propTypes = {
   utilityConfig: ApplicationUtils.utilityConfigPropType,
 };
 
-const defaultProps = {
-  applicationLinks: [],
-};
-
 class ApplicationHeader extends React.Component {
   constructor(props) {
     super(props);
-    this.onDiscloseUtilty = this.onDiscloseUtilty.bind(this);
-    this.handleRequestClose = this.handleRequestClose.bind(this);
+    this.handleOnRequestDisclose = this.handleOnRequestDisclose.bind(this);
+    this.handleOnRequestClose = this.handleOnRequestClose.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.getTargetRef = this.getTargetRef.bind(this);
     this.setContentNode = this.setContentNode.bind(this);
     this.state = { utilityComponent: null };
-  }
-
-  onDiscloseUtilty(utility) {
-    if (utility) {
-      this.setState({ utilityComponent: utility });
-    }
   }
 
   setContentNode(node) {
@@ -76,7 +66,13 @@ class ApplicationHeader extends React.Component {
     return undefined;
   }
 
-  handleRequestClose() {
+  handleOnRequestDisclose(utility) {
+    if (utility) {
+      this.setState({ utilityComponent: utility });
+    }
+  }
+
+  handleOnRequestClose() {
     if (this.state.utilityComponent) {
       this.setState({ utilityComponent: null });
     }
@@ -109,7 +105,14 @@ class ApplicationHeader extends React.Component {
     if (layoutConfig.toggleMenu) {
       toggle = (
         <div className={cx('toolbar-toggle')}>
-          <Button className={cx('toggle-button')} variant={Button.Opts.Variants['DE-EMPSHASIS']} icon={<IconMenu />} onClick={layoutConfig.toggleMenu} isIconOnly text="Toggle Menu" />
+          <Button
+            className={cx('toggle-button')}
+            variant={Button.Opts.Variants['DE-EMPSHASIS']}
+            icon={<IconMenu />}
+            onClick={layoutConfig.toggleMenu}
+            isIconOnly
+            text="Toggle Menu"
+          />
         </div>
       );
     }
@@ -130,7 +133,14 @@ class ApplicationHeader extends React.Component {
         extensionsElement = React.cloneElement(extensions, { app });
       }
       if (utilityConfig) {
-        utilities = <ApplicationHeaderUtility {...utilityConfig} onChange={this.handleOnChange} onDisclose={this.onDiscloseUtilty} data-application-header-utility />;
+        utilities = (
+          <ApplicationHeaderUtility
+            {...utilityConfig}
+            onChange={this.handleOnChange}
+            onRequestDisclose={this.handleOnRequestDisclose}
+            data-application-header-utility
+          />
+        );
       }
     } else {
       navigation = appName;
@@ -146,8 +156,9 @@ class ApplicationHeader extends React.Component {
           contentHeight="auto"
           contentWidth="240"
           isArrowDisplayed
+          isHeaderDisabled
           isOpen
-          onRequestClose={this.handleRequestClose}
+          onRequestClose={this.handleOnRequestClose}
           targetRef={this.getTargetRef}
         >
           {this.state.utilityComponent}
@@ -171,6 +182,5 @@ class ApplicationHeader extends React.Component {
 }
 
 ApplicationHeader.propTypes = propTypes;
-ApplicationHeader.defaultProps = defaultProps;
 
 export default ApplicationHeader;
