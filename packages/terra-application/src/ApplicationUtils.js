@@ -26,17 +26,19 @@ const TITLES = {
   LOG_OUT: 'Log Out',
 };
 
-const reconcileChildren = (config) => {
-  config.forEach((item) => {
-    if (item.parentKeys) {
-      item.parentKeys.forEach((key) => {
-        const parent = config[key];
-        if (parent.childKeys && parent.childKeys.indexOf(item.key) < 0) {
-          parent.childKeys.push(item.key);
-        }
-      });
+const reconcileChildren = (config, additionalConfig) => {
+  additionalConfig.forEach((item) => {
+    if (item.parentKey) {
+      const parent = config[item.parentKey];
+      if (!parent.childKeys) {
+        parent.childKeys = [item.key];
+      } else if (parent.childKeys.indexOf(item.key) < 0) {
+        parent.childKeys.push(item.key);
+      }
     }
   });
+
+  return config.concat(additionalConfig);
 };
 
 /**
@@ -54,10 +56,7 @@ const reconcileChildren = (config) => {
  *        'additional-sub-1',
  *        'additional-sub-2',
  *      ],
- *      parentKeys: [
- *        'existing-parent-1',
- *        'existing-parent-2',
- *      ],
+ *      parentKey: 'existing-parent-1',
  *    },
  *    ...
  *  ]
@@ -147,9 +146,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     },
   ];
 
-  const menuConfig = defaultConfig.concat(additionalConfig);
-
-  return reconcileChildren(menuConfig);
+  return reconcileChildren(defaultConfig, additionalConfig);
 };
 
 const ApplicationUtils = {
