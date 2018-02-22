@@ -45,7 +45,8 @@
     "terra-navigation-layout": "^2.0.0",
     "terra-popup": "^2.0.0",
     "terra-clinical-action-header": "^2.0.0",
-    "terra-content-container": "^2.0.0"
+    "terra-content-container": "^2.0.0",
+    "terra-navigation-side-menu": "^0.x"
   },
   "scripts": {
     "compile": "npm run compile:clean && npm run compile:build",

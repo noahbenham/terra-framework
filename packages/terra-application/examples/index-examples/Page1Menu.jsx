@@ -5,28 +5,53 @@ import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelega
 import ContentContainer from 'terra-content-container';
 import ActionHeader from 'terra-clinical-action-header';
 
-const Page1Menu = ({ layoutConfig, routingStackDelegate }) => (
-  <ContentContainer
-    fill
-    header={(
-      <ActionHeader
-        title="Page 1"
-        onBack={routingStackDelegate && routingStackDelegate.showParent}
+import NavigationSideMenu from 'terra-navigation-side-menu';
+
+class Page1Menu extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleMenuChange = this.handleMenuChange.bind(this);
+
+    this.state = {
+      selectedMenuKey: 'menu',
+    };
+  }
+
+  handleMenuChange(event, data) {
+    if (data.selectedChildKey === 'item1') {
+      this.props.history.push('/page1/item1');
+    } else if (data.selectedChildKey === 'item2') {
+      this.props.history.push('/page1/item2');
+    }
+
+    if (this.props.layoutConfig.toggleMenu) {
+      requestAnimationFrame(() => {
+        this.props.layoutConfig.toggleMenu();
+      });
+    }
+
+    this.setState({ selectedMenuKey: data.selectedMenuKey, selectedChildKey: data.selectedChildKey });
+  }
+
+  render() {
+    const { layoutConfig, routingStackDelegate } = this.props;
+
+    return (
+      <NavigationSideMenu
+        menuItems={[
+          { key: 'menu', text: 'Page 1', childKeys: ['item1', 'item2'] },
+          { key: 'item1', text: 'Item 1' },
+          { key: 'item2', text: 'Item 2' },
+        ]}
+        onChange={this.handleMenuChange}
+        routingStackBack={routingStackDelegate.showParent}
+        selectedMenuKey={this.state.selectedMenuKey}
+        selectedChildKey={this.state.selectedChildKey}
       />
-    )}
-  >
-    <div style={{ height: 'calc(100% - 10px)', width: 'calc(100% - 10px)', border: '4px dashed lightgrey', margin: '5px', position: 'relative' }}>
-      <div style={{ position: 'absolute', top: '50%', left: '50%', color: 'grey', transform: 'translate3d(-50%, -50%, 0)' }}>
-        {layoutConfig.toggleMenu && <button style={{ display: 'inline', marginLeft: '5px', height: '25px', border: '1px dashed lightgrey' }} onClick={layoutConfig.toggleMenu}>Toggle Menu</button>}
-        <h2 style={{ margin: '0' }}>Page 1 Menu</h2>
-        <br />
-        <Link to="/page1/item1">Item 1</Link>
-        <br />
-        <Link to="/page1/item2">Item 2</Link>
-      </div>
-    </div>
-  </ContentContainer>
-);
+    );
+  }
+}
 
 Page1Menu.propTypes = {
   layoutConfig: PropTypes.shape({

@@ -41,7 +41,6 @@ const ApplicationMenuWrapper = ({ app, layoutConfig, navigationLayoutRoutes, nav
       routingStackDelegate={routingStackDelegate}
       nameConfig={terraApplicationProps.nameConfig}
       utilityConfig={terraApplicationProps.utilityConfig}
-      // extensions={<div>Extensions</div>}
       content={<Content {...contentProps} />}
     />
   );
