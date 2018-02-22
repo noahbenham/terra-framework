@@ -41,8 +41,17 @@ class Page1Menu extends React.Component {
       <NavigationSideMenu
         menuItems={[
           { key: 'menu', text: 'Page 1', childKeys: ['item1', 'item2'] },
-          { key: 'item1', text: 'Item 1' },
+          { key: 'item1', text: 'Item 1', childKeys: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'] },
           { key: 'item2', text: 'Item 2' },
+          { key: 'A', text: 'A' },
+          { key: 'B', text: 'B' },
+          { key: 'C', text: 'C' },
+          { key: 'D', text: 'D' },
+          { key: 'E', text: 'E' },
+          { key: 'F', text: 'F' },
+          { key: 'G', text: 'G' },
+          { key: 'H', text: 'H' },
+          { key: 'I', text: 'I' },
         ]}
         onChange={this.handleMenuChange}
         routingStackBack={routingStackDelegate.showParent}
