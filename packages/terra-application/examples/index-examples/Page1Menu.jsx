@@ -26,7 +26,7 @@ class Page1Menu extends React.Component {
 
   handleMenuChange(event, data) {
     if (data.metaData && data.metaData.url) {
-      this.props.history.push(data.metaData.url);
+      this.props.routingStackDelegate.show({ path: data.metaData.url });
     }
 
     if (data.metaData && !data.metaData.hasSubMenu && this.props.layoutConfig.toggleMenu) {
@@ -39,7 +39,7 @@ class Page1Menu extends React.Component {
   }
 
   render() {
-    const { layoutConfig, routingStackDelegate } = this.props;
+    const { routingStackDelegate } = this.props;
 
     return (
       <NavigationSideMenu

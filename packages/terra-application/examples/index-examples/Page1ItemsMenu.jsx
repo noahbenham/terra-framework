@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, matchPath } from 'react-router-dom';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 
 import NavigationSideMenu from 'terra-navigation-side-menu';
@@ -11,8 +11,16 @@ class Page1ItemsMenu extends React.Component {
 
     this.handleMenuChange = this.handleMenuChange.bind(this);
 
+    let selectedChildKey;
+    ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'].forEach((item) => {
+      if (matchPath(props.location.pathname, { path: `/page1/items/${item}` })) {
+        selectedChildKey = item;
+      }
+    });
+
     this.state = {
       selectedMenuKey: 'menu',
+      selectedChildKey,
     };
   }
 
