@@ -13,7 +13,7 @@ const propTypes = {
   }).isRequired,
   navigationLayoutRoutes: PropTypes.array,
   navigationLayoutSize: PropTypes.string,
-  terraApplicationProps: PropTypes.shape({
+  applicationMenuWrapperProps: PropTypes.shape({
     overrideComponentClass: PropTypes.func,
     name: PropTypes.string,
     key: PropTypes.string,
