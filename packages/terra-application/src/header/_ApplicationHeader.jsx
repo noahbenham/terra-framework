@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import AppDelegate from 'terra-app-delegate';
 import ApplicationHeaderLayout from 'terra-application-header-layout';
-import { ApplicationHeaderUtility } from 'terra-application-utility';
+// import { ApplicationHeaderUtility } from 'terra-application-utility';
 import { ApplicationHeaderName } from 'terra-application-name';
 import { ApplicationTabs } from 'terra-application-links';
 import IconMenu from 'terra-icon/lib/icon/IconMenu';
@@ -12,7 +12,7 @@ import Popup from 'terra-popup';
 
 import 'terra-base/lib/baseStyles';
 import ApplicationUtils from '../ApplicationUtils';
-
+import ApplicationHeaderUtility from '../mock-utils/Mock-Header';
 import styles from './ApplicationHeader.scss';
 
 const cx = classNames.bind(styles);
@@ -68,7 +68,7 @@ class ApplicationHeader extends React.Component {
 
   handleOnRequestDisclose(utility) {
     if (utility) {
-      this.setState({ utilityComponent: utility });
+      this.setState({ utilityComponent: React.cloneElement(utility, { onRequestClose: this.handleOnRequestClose }) });
     }
   }
 

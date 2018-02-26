@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import AppDelegate from 'terra-app-delegate';
 import ApplicationMenuLayout from 'terra-application-menu-layout';
-import { ApplicationMenuUtility } from 'terra-application-utility';
+// import { ApplicationMenuUtility } from 'terra-application-utility';
 import { ApplicationMenuName } from 'terra-application-name';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 
@@ -12,6 +12,7 @@ import ApplicationUtils from '../ApplicationUtils';
 
 import styles from './ApplicationMenu.scss';
 import UtilityMenuWrapper from './_UtilityMenuWrapper';
+import ApplicationMenuUtility from '../mock-utils/Mock-Menu';
 
 const cx = classNames.bind(styles);
 
