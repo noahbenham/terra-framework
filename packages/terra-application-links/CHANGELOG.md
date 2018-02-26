@@ -7,7 +7,7 @@ Unreleased
 * ApplicationList hover/selected gradient transparent styling.
 
 ### Changed
-* Remove application list and update tabs to use buttons.
+* Code formatting and documentation spacing.
 
 1.2.0 - (February 15, 2018)
 ------------------
