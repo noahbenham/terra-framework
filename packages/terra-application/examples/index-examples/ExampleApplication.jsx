@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies, import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions  */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { MemoryRouter, withRouter } from 'react-router-dom';
 import Image from 'terra-image';
+
 import Application from '../../src/Application';
 
 import Page1Content from './Page1Content';
@@ -78,11 +78,12 @@ const primaryRoutes = [{
   text: 'Page 3',
 }];
 
-const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, navigationItems, routingConfig, indexPath }) => (
+const ExampleApplication = withRouter(({ app, location, nameConfig, utilityConfig, navigationItems, routingConfig, indexPath }) => (
   <div>
     <h3>{`Browser Location: ${location.pathname}`}</h3>
     <div style={{ height: '600px', width: '100%' }}>
       <Application
+        app={app}
         nameConfig={nameConfig}
         utilityConfig={utilityConfig}
         routingConfig={routingConfig}

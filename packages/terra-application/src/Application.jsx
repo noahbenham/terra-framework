@@ -1,8 +1,11 @@
 /* eslint-disable import/no-extraneous-dependencies, import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import AppDelegate from 'terra-app-delegate';
 import NavigationLayout from 'terra-navigation-layout';
 import { matchPath } from 'react-router-dom';
+import { withModalManager } from 'terra-modal-manager';
+
 import PrimaryNavigationMenu from './PrimaryNavigationMenu';
 import ApplicationMenuWrapper from './ApplicationMenuWrapper';
 import ApplicationHeaderWrapper from './ApplicationHeaderWrapper';
@@ -11,6 +14,10 @@ import ApplicationUtils from './ApplicationUtils';
 const navigationLayoutSizes = ['default', 'tiny', 'small', 'medium', 'large', 'huge'];
 
 const propTypes = {
+  /**
+   * {Needs Description}
+   */
+  app: AppDelegate.propType,
   /**
    * {Needs Description}.
    */
@@ -154,11 +161,12 @@ class Application extends React.Component {
   }
 
   render() {
-    const { nameConfig, utilityConfig, navigationItems, indexPath } = this.props;
+    const { app, nameConfig, utilityConfig, navigationItems, indexPath } = this.props;
     const { applicationRoutingConfig } = this.state;
 
     return (
       <NavigationLayout
+        app={app}
         config={applicationRoutingConfig}
         header={(
           <ApplicationHeaderWrapper
@@ -174,7 +182,6 @@ class Application extends React.Component {
 }
 
 Application.propTypes = propTypes;
-
 Application.defaultProps = defaultProps;
 
-export default Application;
+export default withModalManager(Application);
