@@ -66,9 +66,8 @@ class PrimaryNavigationMenu extends React.Component {
 
     return (
       <NavigationSideMenu
-        key="navigationMenu"
         menuItems={[
-          { key: 'navigationMenu', text: 'Navigation', childKeys },
+          { key: 'navigationMenu', childKeys, isRootMenu: true },
         ].concat(...childItems)}
         onChange={this.handleMenuChange}
         routingStackBack={routingStackDelegate.showParent}

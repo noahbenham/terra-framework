@@ -124,7 +124,7 @@ class Application extends React.Component {
     const updatedConfig = Object.assign({}, routingConfig);
 
     let newMenus = Object.assign({}, updatedConfig.menu);
-    if (navigationItems && navigationItems.length > 1) {
+    if (navigationItems && navigationItems.length) {
       newMenus = Object.assign(newMenus, Application.buildNavigationMenuConfig(props));
     }
 
