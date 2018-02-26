@@ -99,7 +99,7 @@ class Application extends React.Component {
 
         const propsForSize = Object.assign({}, configForSize.props);
 
-        propsForSize.terraApplicationProps = {
+        propsForSize.applicationMenuWrapperProps = {
           overrideComponentClass: configForSize.componentClass,
           nameConfig,
           utilityConfig,

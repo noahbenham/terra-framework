@@ -202,7 +202,7 @@ describe('Application', () => {
       expect(Object.keys(result).length).toBe(2);
       expect(result['/test_1'].component.default.componentClass).toBe(ApplicationMenuWrapper);
       expect(result['/test_1'].component.default.props.test).toBe('1');
-      expect(result['/test_1'].component.default.props.terraApplicationProps).toEqual({
+      expect(result['/test_1'].component.default.props.applicationMenuWrapperProps).toEqual({
         overrideComponentClass: TestComponent,
         nameConfig,
         utilityConfig,
@@ -212,7 +212,7 @@ describe('Application', () => {
       ['tiny', 'small', 'medium', 'large', 'huge'].forEach((size) => {
         expect(result['/test_2'].component[size].componentClass).toBe(ApplicationMenuWrapper);
         expect(result['/test_2'].component[size].props.test).toBe('2');
-        expect(result['/test_2'].component[size].props.terraApplicationProps).toEqual({
+        expect(result['/test_2'].component[size].props.applicationMenuWrapperProps).toEqual({
           overrideComponentClass: TestComponent,
           nameConfig,
           utilityConfig,

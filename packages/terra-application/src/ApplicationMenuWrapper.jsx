@@ -22,8 +22,8 @@ const propTypes = {
   routingStackDelegate: PropTypes.object,
 };
 
-const ApplicationMenuWrapper = ({ app, layoutConfig, navigationLayoutRoutes, navigationLayoutSize, routingStackDelegate, terraApplicationProps, ...customProps }) => {
-  const Content = terraApplicationProps.overrideComponentClass;
+const ApplicationMenuWrapper = ({ app, layoutConfig, navigationLayoutRoutes, navigationLayoutSize, routingStackDelegate, applicationMenuWrapperProps, ...customProps }) => {
+  const Content = applicationMenuWrapperProps.overrideComponentClass;
   const contentProps = {
     app,
     layoutConfig,
@@ -36,11 +36,11 @@ const ApplicationMenuWrapper = ({ app, layoutConfig, navigationLayoutRoutes, nav
   return (
     <ApplicationMenu
       app={app}
-      key={terraApplicationProps.key}
+      key={applicationMenuWrapperProps.key}
       layoutConfig={layoutConfig}
       routingStackDelegate={routingStackDelegate}
-      nameConfig={terraApplicationProps.nameConfig}
-      utilityConfig={terraApplicationProps.utilityConfig}
+      nameConfig={applicationMenuWrapperProps.nameConfig}
+      utilityConfig={applicationMenuWrapperProps.utilityConfig}
       content={<Content {...contentProps} />}
     />
   );
