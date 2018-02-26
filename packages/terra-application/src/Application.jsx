@@ -67,13 +67,13 @@ class Application extends React.Component {
           tiny: {
             componentClass: PrimaryNavigationMenu,
             props: {
-              routes: menuNavigationItems,
+              navigationItems: menuNavigationItems,
             },
           },
           small: {
             componentClass: PrimaryNavigationMenu,
             props: {
-              routes: menuNavigationItems,
+              navigationItems: menuNavigationItems,
             },
           },
         },

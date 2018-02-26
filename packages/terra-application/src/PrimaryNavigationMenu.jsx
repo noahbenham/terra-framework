@@ -5,7 +5,7 @@ import { withRouter, matchPath } from 'react-router-dom';
 import NavigationSideMenu from 'terra-navigation-side-menu';
 
 const propTypes = {
-  routes: PropTypes.arrayOf(PropTypes.shape({
+  navigationItems: PropTypes.arrayOf(PropTypes.shape({
     path: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     hasSubMenu: PropTypes.bool,
@@ -15,21 +15,35 @@ const propTypes = {
   location: PropTypes.object,
 };
 
+const navMenuKey = 'navigationMenu';
+
 class PrimaryNavigationMenu extends React.Component {
+  static buildChildSideNavItems(items) {
+    return items.map(item => ({
+      key: item.path,
+      text: item.text,
+      hasSubMenu: item.hasSubMenu,
+      metaData: {
+        url: item.path,
+        hasSubMenu: item.hasSubMenu,
+      },
+    }));
+  }
+
   constructor(props) {
     super(props);
 
     this.handleMenuChange = this.handleMenuChange.bind(this);
 
     let selectedChildKey;
-    props.routes.forEach((route) => {
+    props.navigationItems.forEach((route) => {
       if (matchPath(props.location.pathname, { path: route.path })) {
         selectedChildKey = route.path;
       }
     });
 
     this.state = {
-      selectedMenuKey: 'navigationMenu',
+      selectedMenuKey: navMenuKey,
       selectedChildKey,
     };
   }
@@ -51,23 +65,12 @@ class PrimaryNavigationMenu extends React.Component {
   render() {
     const { routingStackDelegate } = this.props;
 
-    const buildChildItems = routes => routes.map(route => ({
-      key: route.path,
-      text: route.text,
-      hasSubMenu: route.hasSubMenu,
-      metaData: {
-        url: route.path,
-        hasSubMenu: route.hasSubMenu,
-      },
-    }));
-
-    const childItems = buildChildItems(this.props.routes);
-    const childKeys = childItems.map(item => (item.key));
+    const childItems = PrimaryNavigationMenu.buildChildSideNavItems(this.props.navigationItems);
 
     return (
       <NavigationSideMenu
         menuItems={[
-          { key: 'navigationMenu', childKeys, isRootMenu: true },
+          { key: navMenuKey, childKeys: childItems.map(item => (item.key)), isRootMenu: true },
         ].concat(...childItems)}
         onChange={this.handleMenuChange}
         routingStackBack={routingStackDelegate.showParent}
@@ -77,29 +80,6 @@ class PrimaryNavigationMenu extends React.Component {
     );
   }
 }
-
-
-// const PrimaryNavigationMenu = ({ routes, layoutConfig }) => (
-//   <ApplicationList
-//     links={routes.map((route) => {
-//       const routeData = {};
-//       routeData.id = route.path;
-//       routeData.path = route.path;
-//       routeData.text = route.text;
-//       routeData.hasSubMenu = route.hasSubMenu;
-
-//       routeData.onClick = () => {
-//         if (!route.hasSubMenu && layoutConfig && layoutConfig.toggleMenu) {
-//           requestAnimationFrame(() => {
-//             layoutConfig.toggleMenu();
-//           });
-//         }
-//       };
-
-//       return routeData;
-//     })}
-//   />
-// );
 
 PrimaryNavigationMenu.propTypes = propTypes;
 
