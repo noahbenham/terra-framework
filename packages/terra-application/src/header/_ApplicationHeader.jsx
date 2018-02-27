@@ -107,7 +107,7 @@ class ApplicationHeader extends React.Component {
         <div className={cx('toolbar-toggle')}>
           <Button
             className={cx('toggle-button')}
-            variant={Button.Opts.Variants['DE-EMPSHASIS']}
+            variant={Button.Opts.Variants['DE-EMPHASIS']}
             icon={<IconMenu />}
             onClick={layoutConfig.toggleMenu}
             isIconOnly
