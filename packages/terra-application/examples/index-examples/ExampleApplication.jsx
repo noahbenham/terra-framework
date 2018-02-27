@@ -114,6 +114,19 @@ const AppRouter = () => (
         nameConfig={nameConfig}
         utilityConfig={utilityConfig}
         routingConfig={config}
+        indexPath="/page3"
+      />
+    </MemoryRouter>
+    <br />
+    <MemoryRouter>
+      <ExampleApplication
+        nameConfig={nameConfig}
+        utilityConfig={utilityConfig}
+        routingConfig={config}
+        navigationItems={[{
+          path: '/page1',
+          text: 'Page 1',
+        }]}
         indexPath="/page1"
       />
     </MemoryRouter>

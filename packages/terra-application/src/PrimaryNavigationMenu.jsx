@@ -63,9 +63,15 @@ class PrimaryNavigationMenu extends React.Component {
   }
 
   render() {
-    const { routingStackDelegate } = this.props;
+    const { routingStackDelegate, navigationItems } = this.props;
 
-    const childItems = PrimaryNavigationMenu.buildChildSideNavItems(this.props.navigationItems);
+    if (!navigationItems.length) {
+      return (
+        <div style={{ height: '100%', background: 'lightgrey', 'box-shadow': 'inset 0 7px 9px -7px rgba(0,0,0,0.4), inset 0 -7px 9px -7px rgba(0,0,0,0.4)' }} />
+      );
+    }
+
+    const childItems = PrimaryNavigationMenu.buildChildSideNavItems(navigationItems);
 
     return (
       <NavigationSideMenu

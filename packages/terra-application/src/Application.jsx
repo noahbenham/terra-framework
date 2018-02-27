@@ -67,22 +67,20 @@ class Application extends React.Component {
   static buildNavigationMenuConfig(props) {
     const menuNavigationItems = Application.buildMenuNavigationItems(props);
 
+    const componentConfig = {
+      componentClass: PrimaryNavigationMenu,
+      props: {
+        navigationItems: menuNavigationItems,
+      },
+      refuseRoutingStackNavigation: menuNavigationItems.length === 0,
+    };
+
     return {
       '/': {
         path: '/',
         component: {
-          tiny: {
-            componentClass: PrimaryNavigationMenu,
-            props: {
-              navigationItems: menuNavigationItems,
-            },
-          },
-          small: {
-            componentClass: PrimaryNavigationMenu,
-            props: {
-              navigationItems: menuNavigationItems,
-            },
-          },
+          tiny: componentConfig,
+          small: componentConfig,
         },
       },
     };
@@ -126,16 +124,11 @@ class Application extends React.Component {
   }
 
   static updateRoutingConfig(props) {
-    const { routingConfig, navigationItems } = props;
+    const { routingConfig } = props;
 
-    const updatedConfig = Object.assign({}, routingConfig);
-
-    let newMenus = Object.assign({}, updatedConfig.menu);
-    if (navigationItems && navigationItems.length) {
-      newMenus = Object.assign(newMenus, Application.buildNavigationMenuConfig(props));
-    }
-
-    updatedConfig.menu = Application.wrapMenuConfig(props, newMenus);
+    const updatedConfig = Object.assign({}, routingConfig, {
+      menu: Application.wrapMenuConfig(props, Object.assign({}, routingConfig.menu, Application.buildNavigationMenuConfig(props))),
+    });
 
     return updatedConfig;
   }
