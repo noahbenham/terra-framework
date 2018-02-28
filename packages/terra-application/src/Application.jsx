@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AppDelegate from 'terra-app-delegate';
 import NavigationLayout from 'terra-navigation-layout';
+import { routeConfigPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
 import { matchPath } from 'react-router-dom';
 import { withModalManager } from 'terra-modal-manager';
 
@@ -15,29 +16,43 @@ const navigationLayoutSizes = ['default', 'tiny', 'small', 'medium', 'large', 'h
 
 const propTypes = {
   /**
-   * {Needs Description}
+   * AppDelegate instance provided by `withModalManager`. If an AppDelegate instance is
+   * explicitly provided to the ApplicationLayout, the ModalManager will wrap it and
+   * fall back to its defined APIs as needed.
    */
   app: AppDelegate.propType,
   /**
-   * {Needs Description}.
+   * The index, or default, path of the routing configuration. The ApplicationLayout will redirect to this path
+   * when the router reaches an unknown location.
    */
-  indexPath: PropTypes.string,
+  indexPath: PropTypes.string.isRequired,
+  /**
+   * An array of Objects describing the ApplicationLayout's primary navigation items. These items are rendered as
+   * Application Tabs at medium/large/huge breakpoints and as navigation menu items at tiny and small breakpoints.
+   */
+  navigationItems: PropTypes.arrayOf(PropTypes.shape({
+    path: PropTypes.string,
+    text: PropTypes.string,
+  })),
   /**
    * Configuration values for the ApplicationName component.
    */
   nameConfig: ApplicationUtils.nameConfigPropType,
   /**
-   * {Needs Description}.
-   */
-  navigationItems: PropTypes.array,
-  /**
-   * {Needs Description}.
-   */
-  routingConfig: PropTypes.object,
-  /**
-   * Configuration to be provided to the ApplicationUtility component.
+   * Configuration values for the ApplicationUtility component.
    */
   utilityConfig: ApplicationUtils.utilityConfigPropType,
+  /**
+   * The routing configuration Object. This is very similar to the routingConfig supported by the NavigationLayout; however,
+   * the ApplicationLayout only supports configuration for the `menu` and `content` regions of the layout. The '/' path is also blacklisted
+   * within this configuration object, as the ApplicationLayout uses it for navigation purposes. Any configuration provided for the '/' path
+   * will be disregarded.
+   */
+  routingConfig: PropTypes.shape({
+    menu: routeConfigPropType,
+    content: routeConfigPropType,
+  }),
+
 };
 
 const defaultProps = {
@@ -108,7 +123,7 @@ class Application extends React.Component {
           overrideComponentClass: configForSize.componentClass,
           nameConfig,
           utilityConfig,
-          key: 'MenuWrapper',
+          key: 'ApplicationLayout_ApplicationMenuWrapper',
         };
         configForSize.props = propsForSize;
         configForSize.componentClass = ApplicationMenuWrapper;
