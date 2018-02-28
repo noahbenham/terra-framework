@@ -1,8 +1,10 @@
 import React from 'react';
 
-import Application from '../../src/Application';
+import WrappedApplication from '../../src/Application';
 import PrimaryNavigationMenu from '../../src/PrimaryNavigationMenu';
 import ApplicationMenuWrapper from '../../src/ApplicationMenuWrapper';
+
+const Application = WrappedApplication.WrappedComponent;
 
 const TestComponent = () => (
   <div className="test">Test</div>
@@ -128,9 +130,41 @@ describe('Application', () => {
       expect(Object.keys(result).length).toBe(1);
       expect(result['/'].path).toBe('/');
       expect(result['/'].component.tiny.componentClass).toBe(PrimaryNavigationMenu);
-      expect(result['/'].component.tiny.props).toEqual({ routes: updatedNavigationItems });
+      expect(result['/'].component.tiny.props).toEqual({ navigationItems: updatedNavigationItems });
+      expect(result['/'].component.tiny.refuseRoutingStackNavigation).toBeFalsy();
       expect(result['/'].component.small.componentClass).toBe(PrimaryNavigationMenu);
-      expect(result['/'].component.small.props).toEqual({ routes: updatedNavigationItems });
+      expect(result['/'].component.small.props).toEqual({ navigationItems: updatedNavigationItems });
+      expect(result['/'].component.small.refuseRoutingStackNavigation).toBeFalsy();
+      expect(result['/'].component.default).toBeUndefined();
+      expect(result['/'].component.medium).toBeUndefined();
+      expect(result['/'].component.large).toBeUndefined();
+      expect(result['/'].component.huge).toBeUndefined();
+    });
+
+    it('should disable stack navigation in menu when no nav items are provided', () => {
+      const updatedNavigationItems = [];
+
+      Application.buildMenuNavigationItems = jest.fn();
+      Application.buildMenuNavigationItems.mockReturnValueOnce(updatedNavigationItems);
+
+      const props = {
+        test: 'props',
+      };
+
+      const result = Application.buildNavigationMenuConfig(props);
+
+      expect(Application.buildMenuNavigationItems.mock.calls.length).toBe(1);
+      expect(Application.buildMenuNavigationItems.mock.calls[0][0]).toBe(props);
+
+      expect(result['/']).toBeDefined();
+      expect(Object.keys(result).length).toBe(1);
+      expect(result['/'].path).toBe('/');
+      expect(result['/'].component.tiny.componentClass).toBe(PrimaryNavigationMenu);
+      expect(result['/'].component.tiny.props).toEqual({ navigationItems: updatedNavigationItems });
+      expect(result['/'].component.tiny.refuseRoutingStackNavigation).toBeTruthy();
+      expect(result['/'].component.small.componentClass).toBe(PrimaryNavigationMenu);
+      expect(result['/'].component.small.props).toEqual({ navigationItems: updatedNavigationItems });
+      expect(result['/'].component.small.refuseRoutingStackNavigation).toBeTruthy();
       expect(result['/'].component.default).toBeUndefined();
       expect(result['/'].component.medium).toBeUndefined();
       expect(result['/'].component.large).toBeUndefined();
@@ -277,51 +311,6 @@ describe('Application', () => {
       const wrapMenuConfigMenus = Application.wrapMenuConfig.mock.calls[0][1];
       expect(Object.keys(wrapMenuConfigMenus).length).toBe(2);
       expect(wrapMenuConfigMenus['/']).toBeDefined();
-      expect(wrapMenuConfigMenus['/test']).toBeDefined();
-    });
-
-    it('should not insert nav menu if no navigation items are provided', () => {
-      const routingConfig = {
-        content: {
-          test: 'contet config',
-        },
-        menu: {
-          '/test': {
-            path: '/test',
-            component: {
-              default: {
-                componentClass: TestComponent,
-                props: {
-                  test: 'prop',
-                },
-              },
-            },
-          },
-        },
-      };
-
-      const navigationItems = [];
-
-      Application.buildNavigationMenuConfig = jest.fn();
-
-      Application.wrapMenuConfig = jest.fn();
-      Application.wrapMenuConfig.mockReturnValueOnce({ new: 'menus' });
-
-      const result = Application.updateRoutingConfig({ routingConfig, navigationItems });
-
-      expect(result.menu).toEqual({ new: 'menus' });
-      expect(result.content).toEqual({
-        test: 'contet config',
-      });
-
-      expect(Application.buildNavigationMenuConfig.mock.calls.length).toBe(0);
-
-      expect(Application.wrapMenuConfig.mock.calls.length).toBe(1);
-      expect(Application.wrapMenuConfig.mock.calls[0][0]).toEqual({ routingConfig, navigationItems });
-
-      const wrapMenuConfigMenus = Application.wrapMenuConfig.mock.calls[0][1];
-      expect(Object.keys(wrapMenuConfigMenus).length).toBe(1);
-      expect(wrapMenuConfigMenus['/']).toBeUndefined();
       expect(wrapMenuConfigMenus['/test']).toBeDefined();
     });
   });
