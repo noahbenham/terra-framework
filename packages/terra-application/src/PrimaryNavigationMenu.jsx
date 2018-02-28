@@ -3,16 +3,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, matchPath } from 'react-router-dom';
 import NavigationSideMenu from 'terra-navigation-side-menu';
+import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
+import ApplicationUtils from './ApplicationUtils';
 
 const propTypes = {
-  navigationItems: PropTypes.arrayOf(PropTypes.shape({
-    path: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    hasSubMenu: PropTypes.bool,
-  })),
-  layoutConfig: PropTypes.object,
-  routingStackDelegate: PropTypes.object,
-  location: PropTypes.object,
+  navigationItems: ApplicationUtils.navigationItemsPropType,
+  layoutConfig: ApplicationUtils.layoutConfigPropType,
+  routingStackDelegate: RoutingStackDelegate.propType,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
 };
 
 const navMenuKey = 'navigationMenu';

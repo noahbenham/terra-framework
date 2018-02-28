@@ -199,6 +199,12 @@ const applicationLinksPropType = PropTypes.arrayOf(PropTypes.shape({
   onClick: PropTypes.func,
 }));
 
+const navigationItemsPropType = PropTypes.arrayOf(PropTypes.shape({
+  path: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  hasSubMenu: PropTypes.bool,
+}));
+
 const ApplicationUtils = {
   getDefaultUtilityConfig,
   KEYS,
@@ -207,6 +213,7 @@ const ApplicationUtils = {
   layoutConfigPropType,
   nameConfigPropType,
   applicationLinksPropType,
+  navigationItemsPropType,
 };
 
 export default ApplicationUtils;

@@ -30,10 +30,7 @@ const propTypes = {
    * An array of Objects describing the ApplicationLayout's primary navigation items. These items are rendered as
    * Application Tabs at medium/large/huge breakpoints and as navigation menu items at tiny and small breakpoints.
    */
-  navigationItems: PropTypes.arrayOf(PropTypes.shape({
-    path: PropTypes.string,
-    text: PropTypes.string,
-  })),
+  navigationItems: ApplicationUtils.navigationItemsPropType,
   /**
    * Configuration values for the ApplicationName component.
    */
@@ -123,7 +120,6 @@ class Application extends React.Component {
           overrideComponentClass: configForSize.componentClass,
           nameConfig,
           utilityConfig,
-          key: 'ApplicationLayout_ApplicationMenuWrapper',
         };
         configForSize.props = propsForSize;
         configForSize.componentClass = ApplicationMenuWrapper;
@@ -178,7 +174,7 @@ class Application extends React.Component {
         config={applicationRoutingConfig}
         header={(
           <ApplicationHeaderWrapper
-            primaryRoutes={navigationItems}
+            navigationItems={navigationItems}
             nameConfig={nameConfig}
             utilityConfig={utilityConfig}
           />

@@ -1,22 +1,45 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
+import AppDelegate from 'terra-app-delegate';
 import ApplicationHeader from './header/_ApplicationHeader';
+import ApplicationUtils from './ApplicationUtils';
 
-const ApplicationHeaderWrapper = ({ nameConfig, utilityConfig, primaryRoutes, layoutConfig, navigationLayoutRoutes, navigationLayoutSize }) => (
+const propTypes = {
+  /**
+   * The AppDelegate instance to provide to the ApplicationHeader.
+   */
+  app: AppDelegate.propType,
+  /**
+   * The configuration for ApplicationName component.
+   */
+  nameConfig: ApplicationUtils.nameConfigPropType,
+  /**
+   * The configuration for ApplicationUtility component.
+   */
+  utilityConfig: ApplicationUtils.utilityConfigPropType,
+  /**
+   * The array of navigation Objects to be rendered as tabs within the Application Header.
+   */
+  navigationItems: ApplicationUtils.navigationItemsPropType,
+  /**
+   * The Object of layout-related APIs provided to the components of the Layout.
+   */
+  layoutConfig: ApplicationUtils.layoutConfigPropType.isRequired,
+};
+
+const ApplicationHeaderWrapper = ({ app, nameConfig, utilityConfig, layoutConfig, navigationItems }) => (
   <ApplicationHeader
-    layoutConfig={layoutConfig}
-    applicationLinks={primaryRoutes ? primaryRoutes.map((route) => {
-      const routeData = {};
-      routeData.id = route.path;
-      routeData.path = route.path;
-      routeData.text = route.text;
-
-      return routeData;
-    }) : undefined}
+    app={app}
     nameConfig={nameConfig}
     utilityConfig={utilityConfig}
+    layoutConfig={layoutConfig}
+    applicationLinks={navigationItems ? navigationItems.map(route => ({
+      id: route.path,
+      path: route.path,
+      text: route.text,
+    })) : undefined}
   />
 );
+
+ApplicationHeaderWrapper.propTypes = propTypes;
 
 export default ApplicationHeaderWrapper;
