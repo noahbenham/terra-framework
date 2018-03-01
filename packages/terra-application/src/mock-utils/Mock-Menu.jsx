@@ -14,7 +14,7 @@ const propTypes = {
   userPhoto: PropTypes.element,
 };
 
-const MockHeader = ({
+const MockMenu = ({
   app,
   menuItems,
   onChange,
@@ -26,6 +26,6 @@ const MockHeader = ({
   <div {...customProps} onClick={() => { onRequestDisclose(<MockContent />); }} style={{ height: '50px', width: '100%', backgroundColor: 'red' }} />
 );
 
-MockHeader.propTypes = propTypes;
+MockMenu.propTypes = propTypes;
 
-export default MockHeader;
+export default MockMenu;
