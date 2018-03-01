@@ -6,6 +6,7 @@ import ApplicationMenuLayout from 'terra-application-menu-layout';
 // import { ApplicationMenuUtility } from 'terra-application-utility';
 import { ApplicationMenuName } from 'terra-application-name';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
+import { processedRoutesPropType } from 'terra-navigation-layout';
 
 import 'terra-base/lib/baseStyles';
 import ApplicationUtils from '../ApplicationUtils';
@@ -41,6 +42,14 @@ const propTypes = {
    * Delegate prop that is provided by the NavigationLayout.
    */
   routingStackDelegate: RoutingStackDelegate.propType.isRequired,
+  /**
+   * The set of routes currently identified by the NavigationLayout. This prop is provided by the NavigationLayout.
+   */
+  navigationLayoutRoutes: PropTypes.arrayOf(processedRoutesPropType),
+  /**
+   * The window size currently identified by the NavigationLayout. This prop is provided by the NavigationLayout.
+   */
+  navigationLayoutSize: PropTypes.string,
   /**
    * Configuration to be provided to the ApplicationUtility component.
    */
@@ -79,6 +88,8 @@ class ApplicationMenu extends React.Component {
       layoutConfig,
       nameConfig,
       routingStackDelegate,
+      navigationLayoutRoutes,
+      navigationLayoutSize,
       utilityConfig,
       ...customProps
     } = this.props;
@@ -107,7 +118,7 @@ class ApplicationMenu extends React.Component {
 
     let clonedContent;
     if (content) {
-      clonedContent = React.cloneElement(content, { layoutConfig });
+      clonedContent = React.cloneElement(content, { app, layoutConfig, routingStackDelegate, navigationLayoutRoutes, navigationLayoutSize });
     }
 
     return (

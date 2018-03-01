@@ -33,9 +33,9 @@ const propTypes = {
    */
   routingStackDelegate: RoutingStackDelegate.propType,
   /**
-   * The Object containing props necessary for ApplicationMenuWrapper creation.
+   * The Object containing props from the configuration necessary for ApplicationMenu creation.
    */
-  applicationMenuWrapperProps: PropTypes.shape({
+  applicationMenuConfigAdapterProps: PropTypes.shape({
     /**
      * The Component class that will be rendered as content within the ApplicationMenu.
      */
@@ -51,35 +51,26 @@ const propTypes = {
   }).isRequired,
 };
 
-const ApplicationMenuWrapper = ({ app, layoutConfig, navigationLayoutRoutes, navigationLayoutSize, routingStackDelegate, applicationMenuWrapperProps, ...customProps }) => {
-  const Content = applicationMenuWrapperProps.overrideComponentClass;
-
-  /**
-   * The props provided by the Layout/NavigationLayout/RoutingStack are forwarded to the interior Content component,
-   * along with any other custom props defined in the routing configuration.
-   */
-  const contentProps = {
-    app,
-    layoutConfig,
-    routingStackDelegate,
-    navigationLayoutRoutes,
-    navigationLayoutSize,
-    ...customProps,
-  };
+const ApplicationMenuConfigAdapter = ({ app, layoutConfig, navigationLayoutRoutes, navigationLayoutSize, routingStackDelegate, applicationMenuConfigAdapterProps, ...contentProps }) => {
+  const Content = applicationMenuConfigAdapterProps.overrideComponentClass;
 
   return (
     <ApplicationMenu
+      key={applicationMenuConfigAdapterProps.key}
       app={app}
-      key={applicationMenuWrapperProps.key}
       layoutConfig={layoutConfig}
       routingStackDelegate={routingStackDelegate}
-      nameConfig={applicationMenuWrapperProps.nameConfig}
-      utilityConfig={applicationMenuWrapperProps.utilityConfig}
-      content={<Content {...contentProps} />}
+      navigationLayoutRoutes={navigationLayoutRoutes}
+      navigationLayoutSize={navigationLayoutSize}
+      nameConfig={applicationMenuConfigAdapterProps.nameConfig}
+      utilityConfig={applicationMenuConfigAdapterProps.utilityConfig}
+      content={
+        <Content {...contentProps} />
+      }
     />
   );
 };
 
-ApplicationMenuWrapper.propTypes = propTypes;
+ApplicationMenuConfigAdapter.propTypes = propTypes;
 
-export default ApplicationMenuWrapper;
+export default ApplicationMenuConfigAdapter;

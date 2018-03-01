@@ -8,8 +8,8 @@ import { matchPath } from 'react-router-dom';
 import { withModalManager } from 'terra-modal-manager';
 
 import PrimaryNavigationMenu from './PrimaryNavigationMenu';
-import ApplicationMenuWrapper from './ApplicationMenuWrapper';
-import ApplicationHeaderWrapper from './ApplicationHeaderWrapper';
+import ApplicationMenuConfigAdapter from './ApplicationMenuConfigAdapter';
+import ApplicationHeader from './header/_ApplicationHeader';
 import ApplicationUtils from './ApplicationUtils';
 
 const navigationLayoutSizes = ['default', 'tiny', 'small', 'medium', 'large', 'huge'];
@@ -116,13 +116,13 @@ class Application extends React.Component {
 
         const propsForSize = Object.assign({}, configForSize.props);
 
-        propsForSize.applicationMenuWrapperProps = {
+        propsForSize.applicationMenuConfigAdapterProps = {
           overrideComponentClass: configForSize.componentClass,
           nameConfig,
           utilityConfig,
         };
         configForSize.props = propsForSize;
-        configForSize.componentClass = ApplicationMenuWrapper;
+        configForSize.componentClass = ApplicationMenuConfigAdapter;
 
         newMenuComponent[size] = configForSize;
       });
@@ -173,10 +173,14 @@ class Application extends React.Component {
         app={app}
         config={applicationRoutingConfig}
         header={(
-          <ApplicationHeaderWrapper
-            navigationItems={navigationItems}
+          <ApplicationHeader
             nameConfig={nameConfig}
             utilityConfig={utilityConfig}
+            applicationLinks={navigationItems ? navigationItems.map(route => ({
+              id: route.path,
+              path: route.path,
+              text: route.text,
+            })) : undefined}
           />
         )}
         indexPath={indexPath}
