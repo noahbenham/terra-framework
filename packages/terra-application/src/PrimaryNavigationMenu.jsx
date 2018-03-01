@@ -1,17 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies, import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames/bind';
 import { withRouter, matchPath } from 'react-router-dom';
 import NavigationSideMenu from 'terra-navigation-side-menu';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 import ApplicationUtils from './ApplicationUtils';
-
-import 'terra-base/lib/baseStyles';
-
-import styles from './PrimaryNavigationMenu.scss';
-
-const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
@@ -96,12 +89,6 @@ class PrimaryNavigationMenu extends React.Component {
 
   render() {
     const { routingStackDelegate, navigationItems } = this.props;
-
-    if (!navigationItems.length) {
-      return (
-        <div className={cx('placeholder')} />
-      );
-    }
 
     const childItems = PrimaryNavigationMenu.buildChildSideNavItems(navigationItems);
 
