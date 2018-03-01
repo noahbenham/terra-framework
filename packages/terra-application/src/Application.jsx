@@ -8,7 +8,7 @@ import { matchPath } from 'react-router-dom';
 import { withModalManager } from 'terra-modal-manager';
 
 import PrimaryNavigationMenu from './PrimaryNavigationMenu';
-import ApplicationMenuConfigAdapter from './ApplicationMenuConfigAdapter';
+import ApplicationMenuConfigAdapter from './menu/_ApplicationMenuConfigAdapter';
 import ApplicationHeader from './header/_ApplicationHeader';
 import ApplicationUtils from './ApplicationUtils';
 
