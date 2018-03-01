@@ -17,19 +17,19 @@ const propTypes = {
    */
   navigationItems: ApplicationUtils.navigationItemsPropType,
   /**
-   * The Object of layout-related APIs provided to the components of the Layout.
+   * The Object of layout-related APIs provided to the components of the Layout. This prop is provided by the Layout.
    */
   layoutConfig: ApplicationUtils.layoutConfigPropType.isRequired,
   /**
-   * The set of routes currently identified by the NavigationLayout. This prop is provided automatically by the NavigationLayout.
+   * The set of routes currently identified by the NavigationLayout. This prop is provided by the NavigationLayout.
    */
   navigationLayoutRoutes: PropTypes.arrayOf(processedRoutesPropType),
   /**
-   * The window size currently identified by the NavigationLayout. This prop is automatically by the NavigationLayout.
+   * The window size currently identified by the NavigationLayout. This prop is provided by the NavigationLayout.
    */
   navigationLayoutSize: PropTypes.string,
   /**
-   * The Object containing RoutingStack APIs provided to children of the RoutingStack. This prop is automatically provided by the RoutingStack.
+   * The Object containing RoutingStack APIs provided to children of the RoutingStack. This prop is provided by the RoutingStack.
    */
   routingStackDelegate: RoutingStackDelegate.propType,
   /**

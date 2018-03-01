@@ -25,14 +25,14 @@ class Page1ItemsMenu extends React.Component {
   }
 
   handleMenuChange(event, data) {
-    if (data.metaData && data.metaData.url) {
-      this.props.history.push(data.metaData.url);
-    }
+    const { routingStackDelegate, layoutConfig } = this.props;
 
-    if (data.metaData && !data.metaData.hasSubMenu && this.props.layoutConfig.toggleMenu) {
-      requestAnimationFrame(() => {
-        this.props.layoutConfig.toggleMenu();
+    if (!data.metaData.hasSubMenu && layoutConfig.toggleMenu) {
+      layoutConfig.toggleMenu().then(() => {
+        routingStackDelegate.show({ path: data.metaData.url });
       });
+    } else {
+      routingStackDelegate.show({ path: data.metaData.url });
     }
 
     this.setState({ selectedMenuKey: data.selectedMenuKey, selectedChildKey: data.selectedChildKey });

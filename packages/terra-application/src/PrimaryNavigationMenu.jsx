@@ -7,9 +7,21 @@ import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelega
 import ApplicationUtils from './ApplicationUtils';
 
 const propTypes = {
+  /**
+   * The array of navigation Objects to be rendered as items within the navigation menu.
+   */
   navigationItems: ApplicationUtils.navigationItemsPropType,
+  /**
+   * The Object of layout-related APIs provided to the components of the Layout.
+   */
   layoutConfig: ApplicationUtils.layoutConfigPropType,
+  /**
+   * The Object containing RoutingStack APIs provided to children of the RoutingStack.
+   */
   routingStackDelegate: RoutingStackDelegate.propType,
+  /**
+   * The location from the router context. This prop is provided by the `withRouter` HOC-generator.
+   */
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
@@ -24,6 +36,7 @@ class PrimaryNavigationMenu extends React.Component {
       text: item.text,
       hasSubMenu: item.hasSubMenu,
       metaData: {
+        // metaData is added to the item to make the change handler's life easier.
         url: item.path,
         hasSubMenu: item.hasSubMenu,
       },
@@ -36,6 +49,8 @@ class PrimaryNavigationMenu extends React.Component {
     this.handleMenuChange = this.handleMenuChange.bind(this);
 
     let selectedChildKey;
+
+    // If the provided location matches one of the navigation items, that item is marked as selected.
     props.navigationItems.forEach((route) => {
       if (matchPath(props.location.pathname, { path: route.path })) {
         selectedChildKey = route.path;
@@ -49,17 +64,27 @@ class PrimaryNavigationMenu extends React.Component {
   }
 
   handleMenuChange(event, data) {
-    if (data.metaData && data.metaData.url) {
-      this.props.routingStackDelegate.show({ path: data.metaData.url });
+    if (!data.metaData) {
+      return;
     }
 
-    if (data.metaData && !data.metaData.hasSubMenu && this.props.layoutConfig.toggleMenu) {
-      requestAnimationFrame(() => {
-        this.props.layoutConfig.toggleMenu();
+    const { routingStackDelegate, layoutConfig } = this.props;
+
+    /**
+     * The menu will be toggled closed if no submenus exist for the selected item.
+     */
+    if (!data.metaData.hasSubMenu && layoutConfig.toggleMenu) {
+      layoutConfig.toggleMenu().then(() => {
+        routingStackDelegate.show({ path: data.metaData.url });
       });
+    } else {
+      routingStackDelegate.show({ path: data.metaData.url });
     }
 
-    this.setState({ selectedMenuKey: data.selectedMenuKey, selectedChildKey: data.selectedChildKey });
+    this.setState({
+      selectedMenuKey: data.selectedMenuKey,
+      selectedChildKey: data.selectedChildKey,
+    });
   }
 
   render() {
@@ -67,7 +92,7 @@ class PrimaryNavigationMenu extends React.Component {
 
     if (!navigationItems.length) {
       return (
-        <div style={{ height: '100%', background: 'lightgrey', 'box-shadow': 'inset 0 7px 9px -7px rgba(0,0,0,0.4), inset 0 -7px 9px -7px rgba(0,0,0,0.4)' }} />
+        <div style={{ height: '100%', background: 'lightgrey', boxShadow: 'inset 0 7px 9px -7px rgba(0,0,0,0.4), inset 0 -7px 9px -7px rgba(0,0,0,0.4)' }} />
       );
     }
 
