@@ -108,7 +108,7 @@
     &[aria-current='true'] {
       background-color: var(--terra-application-tabs-hover-background-color, rgba(0, 0, 0, 0.15));
       background-image: var(--terra-application-tabs-selected-background-image, linear-gradient(to bottom, #5cc2f9, #5cc2f9));
-      background-size: var(--terra-application-tabs-active-background-size, 100% 5px);
+      background-size: var(--terra-application-tabs-active-background-size, 13rem 5px);
       font-weight: 600;
     }
 
