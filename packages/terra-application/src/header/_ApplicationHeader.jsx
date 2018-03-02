@@ -89,7 +89,6 @@ class ApplicationHeader extends React.Component {
   }
 
   handleOnChange(event, key) {
-    this.handleRequestClose();
     this.props.utilityConfig.onChange(event, key, this.props.app);
   }
 

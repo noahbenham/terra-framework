@@ -7,12 +7,12 @@ import ApplicationMenuLayout from 'terra-application-menu-layout';
 import { ApplicationMenuName } from 'terra-application-name';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
-import Popup from 'terra-popup';
 
 import 'terra-base/lib/baseStyles';
 import ApplicationUtils from '../ApplicationUtils';
 
 import styles from './ApplicationMenu.scss';
+import UtilityMenuWrapper from './_UtilityMenuWrapper';
 import ApplicationMenuUtility from '../mock-utils/Mock-Menu';
 
 const cx = classNames.bind(styles);
@@ -60,38 +60,23 @@ class ApplicationMenu extends React.Component {
   constructor(props) {
     super(props);
     this.handleOnRequestDisclose = this.handleOnRequestDisclose.bind(this);
-    this.handleOnRequestClose = this.handleOnRequestClose.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
-    this.getTargetRef = this.getTargetRef.bind(this);
-    this.setContentNode = this.setContentNode.bind(this);
-    this.state = { utilityComponent: null };
-  }
-
-  setContentNode(node) {
-    this.contentNode = node;
-  }
-
-  getTargetRef() {
-    if (this.contentNode) {
-      return this.contentNode.querySelector('[data-application-menu-utility]');
-    }
-    return undefined;
   }
 
   handleOnRequestDisclose(utility) {
-    if (utility) {
-      this.setState({ utilityComponent: React.cloneElement(utility, { onRequestClose: this.handleOnRequestClose }) });
-    }
-  }
-
-  handleOnRequestClose() {
-    if (this.state.utilityComponent) {
-      this.setState({ utilityComponent: null });
+    if (this.props.app && utility) {
+      this.props.app.disclose({
+        preferredType: 'modal',
+        size: 'fullscreen',
+        content: {
+          component: <UtilityMenuWrapper>{utility}</UtilityMenuWrapper>,
+          key: 'application-utility-menu',
+        },
+      });
     }
   }
 
   handleOnChange(event, key) {
-    this.handleRequestClose();
     this.props.utilityConfig.onChange(event, key, this.props.app);
   }
 
@@ -143,34 +128,14 @@ class ApplicationMenu extends React.Component {
       clonedContent = React.cloneElement(content, { app, layoutConfig, routingStackDelegate, navigationLayoutRoutes, navigationLayoutSize });
     }
 
-    let popup;
-    if (this.state.utilityComponent) {
-      popup = (
-        <Popup
-          attachmentBehavior="none"
-          contentAttachment="bottom left"
-          contentHeight="auto"
-          contentWidth="240"
-          isArrowDisplayed
-          isHeaderDisabled
-          isOpen
-          onRequestClose={this.handleOnRequestClose}
-          targetRef={this.getTargetRef}
-        >
-          {this.state.utilityComponent}
-        </Popup>
-      );
-    }
-
     return (
-      <div {...customProps} className={menuClassNames} ref={this.setContentNode}>
+      <div {...customProps} className={menuClassNames}>
         <ApplicationMenuLayout
           header={header}
           extensions={extensionsElement}
           content={clonedContent}
           footer={footer}
         />
-        {popup}
       </div>
     );
   }
