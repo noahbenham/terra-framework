@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import 'terra-base/lib/baseStyles';
-import IconChevronRight from 'terra-icon/lib/icon/IconChevronRight';
 
 import styles from './UserData.scss';
 
@@ -30,22 +29,19 @@ const UserData = ({
   userPhoto,
   ...customProps
 }) => {
-  const containerClassNames = cx(['container', customProps.className]);
+  const userClassNames = cx(['user-data', customProps.className]);
   let photoAttrs;
   if (userPhoto) {
     photoAttrs = React.cloneElement(userPhoto, { className: cx('photo') });
   }
 
   return (
-    <div {...customProps} className={containerClassNames} >
-      <div className={cx('user-data')} >
-        {userPhoto && photoAttrs}
-        <div className={cx('user-info')}>
-          {userName && <div className={cx('name')}>{userName}</div>}
-          {userDetail && <div className={cx('detail')}>{userDetail}</div>}
-        </div>
+    <div {...customProps} className={userClassNames}>
+      {photoAttrs}
+      <div className={cx('user-info')}>
+        {!!userName && <div className={cx('name')}>{userName}</div>}
+        {!!userDetail && <div className={cx('detail')}>{userDetail}</div>}
       </div>
-      {<IconChevronRight className={cx('chevron')} />}
     </div>
   );
 };
