@@ -34,11 +34,11 @@ class PrimaryNavigationMenu extends React.Component {
     return items.map(item => ({
       key: item.path,
       text: item.text,
-      hasSubMenu: item.hasSubMenu,
+      hasSubMenu: !!item.hasSubMenu,
       metaData: {
         // metaData is added to the item to make the change handler's life easier.
         url: item.path,
-        hasSubMenu: item.hasSubMenu,
+        hasSubMenu: !!item.hasSubMenu,
       },
     }));
   }
@@ -65,26 +65,26 @@ class PrimaryNavigationMenu extends React.Component {
 
   handleMenuChange(event, data) {
     if (!data.metaData) {
-      return;
+      return Promise.reject();
     }
 
     const { routingStackDelegate, layoutConfig } = this.props;
-
-    /**
-     * The menu will be toggled closed if no submenus exist for the selected item.
-     */
-    if (!data.metaData.hasSubMenu && layoutConfig.toggleMenu) {
-      layoutConfig.toggleMenu().then(() => {
-        routingStackDelegate.show({ path: data.metaData.url });
-      });
-    } else {
-      routingStackDelegate.show({ path: data.metaData.url });
-    }
 
     this.setState({
       selectedMenuKey: data.selectedMenuKey,
       selectedChildKey: data.selectedChildKey,
     });
+
+    /**
+     * The menu will be toggled closed if no submenus exist for the selected item.
+     */
+    if (!data.metaData.hasSubMenu && layoutConfig.toggleMenu) {
+      return layoutConfig.toggleMenu().then(() => {
+        routingStackDelegate.show({ path: data.metaData.url });
+      });
+    }
+
+    return Promise.resolve().then(() => routingStackDelegate.show({ path: data.metaData.url }));
   }
 
   render() {
