@@ -2,7 +2,7 @@ import React from 'react';
 
 import WrappedApplication from '../../src/Application';
 import PrimaryNavigationMenu from '../../src/PrimaryNavigationMenu';
-import ApplicationMenuWrapper from '../../src/ApplicationMenuWrapper';
+import ApplicationMenuConfigAdapter from '../../src/menu/_ApplicationMenuConfigAdapter';
 
 const Application = WrappedApplication.WrappedComponent;
 
@@ -173,7 +173,7 @@ describe('Application', () => {
   });
 
   describe('wrapMenuConfig', () => {
-    it('should update the configuration object for menu routes with components wrapped by the ApplicationMenuWrapper', () => {
+    it('should update the configuration object for menu routes with components wrapped by the ApplicationMenuConfigAdapter', () => {
       const nameConfig = {
         name: 'config',
       };
@@ -234,23 +234,21 @@ describe('Application', () => {
       const result = Application.wrapMenuConfig({ nameConfig, utilityConfig }, menuConfig);
 
       expect(Object.keys(result).length).toBe(2);
-      expect(result['/test_1'].component.default.componentClass).toBe(ApplicationMenuWrapper);
+      expect(result['/test_1'].component.default.componentClass).toBe(ApplicationMenuConfigAdapter);
       expect(result['/test_1'].component.default.props.test).toBe('1');
-      expect(result['/test_1'].component.default.props.applicationMenuWrapperProps).toEqual({
+      expect(result['/test_1'].component.default.props.applicationMenuConfigAdapterProps).toEqual({
         overrideComponentClass: TestComponent,
         nameConfig,
         utilityConfig,
-        key: 'MenuWrapper',
       });
 
       ['tiny', 'small', 'medium', 'large', 'huge'].forEach((size) => {
-        expect(result['/test_2'].component[size].componentClass).toBe(ApplicationMenuWrapper);
+        expect(result['/test_2'].component[size].componentClass).toBe(ApplicationMenuConfigAdapter);
         expect(result['/test_2'].component[size].props.test).toBe('2');
-        expect(result['/test_2'].component[size].props.applicationMenuWrapperProps).toEqual({
+        expect(result['/test_2'].component[size].props.applicationMenuConfigAdapterProps).toEqual({
           overrideComponentClass: TestComponent,
           nameConfig,
           utilityConfig,
-          key: 'MenuWrapper',
         });
       });
     });

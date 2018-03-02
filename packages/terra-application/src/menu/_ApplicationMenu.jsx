@@ -6,7 +6,7 @@ import ApplicationMenuLayout from 'terra-application-menu-layout';
 // import { ApplicationMenuUtility } from 'terra-application-utility';
 import { ApplicationMenuName } from 'terra-application-name';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
-import { processedRoutesPropType } from 'terra-navigation-layout';
+import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
 import Popup from 'terra-popup';
 
 import 'terra-base/lib/baseStyles';
@@ -31,7 +31,7 @@ const propTypes = {
    */
   extensions: PropTypes.element,
   /**
-   * Layout config provided from the Layout component.
+   * The Object of layout-related APIs provided to the components of the Layout.
    */
   layoutConfig: ApplicationUtils.layoutConfigPropType.isRequired,
   /**

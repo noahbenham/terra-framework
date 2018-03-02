@@ -9,6 +9,7 @@ import { ApplicationTabs } from 'terra-application-links';
 import IconMenu from 'terra-icon/lib/icon/IconMenu';
 import Button from 'terra-button';
 import Popup from 'terra-popup';
+import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
 
 import 'terra-base/lib/baseStyles';
 import ApplicationUtils from '../ApplicationUtils';
@@ -31,9 +32,17 @@ const propTypes = {
    */
   extensions: PropTypes.element,
   /**
-   * Layout config provided from the Layout component.
+   * The Object of layout-related APIs provided to the components of the Layout.
    */
   layoutConfig: ApplicationUtils.layoutConfigPropType,
+  /**
+   * The set of routes currently identified by the NavigationLayout. This prop is provided by the NavigationLayout.
+   */
+  navigationLayoutRoutes: PropTypes.arrayOf(processedRoutesPropType),
+  /**
+   * The window size currently identified by the NavigationLayout. This prop is provided by the NavigationLayout.
+   */
+  navigationLayoutSize: PropTypes.string,
   /**
    * Configuration values for the ApplicationName component.
    */
@@ -92,6 +101,8 @@ class ApplicationHeader extends React.Component {
       layoutConfig,
       nameConfig,
       utilityConfig,
+      navigationLayoutRoutes,
+      navigationLayoutSize,
       ...customProps
     } = this.props;
 
