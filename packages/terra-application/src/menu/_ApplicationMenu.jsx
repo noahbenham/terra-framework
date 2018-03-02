@@ -167,11 +167,7 @@ class ApplicationMenu extends React.Component {
         <ApplicationMenuLayout
           header={header}
           extensions={extensionsElement}
-          content={(
-            <div className={cx('content-background')}>
-              {clonedContent}
-            </div>
-          )}
+          content={clonedContent}
           footer={footer}
         />
         {popup}

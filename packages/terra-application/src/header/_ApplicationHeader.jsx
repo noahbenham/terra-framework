@@ -33,7 +33,7 @@ const propTypes = {
   /**
    * Layout config provided from the Layout component.
    */
-  layoutConfig: ApplicationUtils.layoutConfigPropType.isRequired,
+  layoutConfig: ApplicationUtils.layoutConfigPropType,
   /**
    * Configuration values for the ApplicationName component.
    */
@@ -47,6 +47,7 @@ const propTypes = {
 class ApplicationHeader extends React.Component {
   constructor(props) {
     super(props);
+
     this.handleOnRequestDisclose = this.handleOnRequestDisclose.bind(this);
     this.handleOnRequestClose = this.handleOnRequestClose.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
