@@ -18,33 +18,32 @@ import TerraSlidePanelManagerIndex from './packages/terra-slide-panel-manager/ex
 import TerraThemeProviderIndex from './packages/terra-theme-provider/examples/Index.site-page';
 
 // Component Test Examples
-import AggregatorStandalone from './packages/terra-aggregator/examples/test-examples/AggregatorStandalone';
-import AggregatorWithDisclosure from './packages/terra-aggregator/examples/test-examples/AggregatorWithDisclosure';
-import ApplicationHeaderDefault from './packages/terra-application-header-layout/examples/test-examples/ApplicationHeaderDefault';
-import ApplicationTabsDefault from './packages/terra-application-links/examples/test-examples/ApplicationTabsDefault';
-import ApplicationMenuDefault from './packages/terra-application-menu-layout/examples/test-examples/ApplicationMenuDefault';
-import ApplicationHeaderNameDefault from './packages/terra-application-name/examples/test-examples/ApplicationHeaderNameDefault';
-import ApplicationHeaderNameTruncated from './packages/terra-application-name/examples/test-examples/ApplicationHeaderNameTruncated';
-import ApplicationMenuNameDefault from './packages/terra-application-name/examples/test-examples/ApplicationMenuNameDefault';
-import ApplicationMenuNameTruncated from './packages/terra-application-name/examples/test-examples/ApplicationMenuNameTruncated';
-import DefaultApplicationHeaderUtility from './packages/terra-application-utility/examples/test-examples/DefaultApplicationHeaderUtility';
-import DefaultUserData from './packages/terra-application-utility/examples/test-examples/DefaultUserData';
-import ApplicationTest from './packages/terra-application/examples/test-examples/ApplicationTest';
-import LayoutDefault from './packages/terra-layout/examples/test-examples/LayoutDefault';
-import LayoutNoHeader from './packages/terra-layout/examples/test-examples/LayoutNoHeader';
-import LayoutNoMenu from './packages/terra-layout/examples/test-examples/LayoutNoMenu';
-import LayoutSlidePanelExample from './packages/terra-layout/examples/test-examples/LayoutSlidePanelExample';
-import ModalManagerDefault from './packages/terra-modal-manager/examples/test-examples/ModalManagerDefault';
-import NavigationLayoutBasic from './packages/terra-navigation-layout/examples/test-examples/NavigationLayoutBasic';
-import NavigationLayoutComplex from './packages/terra-navigation-layout/examples/test-examples/NavigationLayoutComplex';
-import NavigationSideMenuDefault from './packages/terra-navigation-side-menu/examples/test-examples/NavigationSideMenuDefault';
-import NavigationSideMenuRoot from './packages/terra-navigation-side-menu/examples/test-examples/NavigationSideMenuRoot';
-import SlidePanelManagerDefault from './packages/terra-slide-panel-manager/examples/test-examples/SlidePanelManagerDefault';
-import DefaultThemeProvider from './packages/terra-theme-provider/examples/test-examples/DefaultThemeProvider';
-import GlobalSwitchThemes from './packages/terra-theme-provider/examples/test-examples/GlobalSwitchThemes';
-import GlobalThemeProvider from './packages/terra-theme-provider/examples/test-examples/GlobalThemeProvider';
-import SwitchThemes from './packages/terra-theme-provider/examples/test-examples/SwitchThemes';
-import ThemeProviderNoTheme from './packages/terra-theme-provider/examples/test-examples/ThemeProviderNoTheme';
+import AggregatorStandalone from './packages/terra-aggregator/examples/test-examples/AggregatorStandalone.example';
+import AggregatorWithDisclosure from './packages/terra-aggregator/examples/test-examples/AggregatorWithDisclosure.example';
+import ApplicationHeaderDefault from './packages/terra-application-header-layout/examples/test-examples/ApplicationHeaderDefault.example';
+import ApplicationTabsDefault from './packages/terra-application-links/examples/test-examples/ApplicationTabsDefault.example';
+import ApplicationMenuDefault from './packages/terra-application-menu-layout/examples/test-examples/ApplicationMenuDefault.example';
+import ApplicationHeaderNameDefault from './packages/terra-application-name/examples/test-examples/ApplicationHeaderNameDefault.example';
+import ApplicationHeaderNameTruncated from './packages/terra-application-name/examples/test-examples/ApplicationHeaderNameTruncated.example';
+import ApplicationMenuNameDefault from './packages/terra-application-name/examples/test-examples/ApplicationMenuNameDefault.example';
+import ApplicationMenuNameTruncated from './packages/terra-application-name/examples/test-examples/ApplicationMenuNameTruncated.example';
+import DefaultApplicationUtility from './packages/terra-application-utility/examples/test-examples/DefaultApplicationUtility.example';
+import ApplicationTest from './packages/terra-application/examples/test-examples/ApplicationTest.example';
+import LayoutDefault from './packages/terra-layout/examples/test-examples/LayoutDefault.example';
+import LayoutNoHeader from './packages/terra-layout/examples/test-examples/LayoutNoHeader.example';
+import LayoutNoMenu from './packages/terra-layout/examples/test-examples/LayoutNoMenu.example';
+import LayoutSlidePanelExample from './packages/terra-layout/examples/test-examples/LayoutSlidePanelExample.example';
+import ModalManagerDefault from './packages/terra-modal-manager/examples/test-examples/ModalManagerDefault.example';
+import NavigationLayoutBasic from './packages/terra-navigation-layout/examples/test-examples/NavigationLayoutBasic.example';
+import NavigationLayoutComplex from './packages/terra-navigation-layout/examples/test-examples/NavigationLayoutComplex.example';
+import NavigationSideMenuDefault from './packages/terra-navigation-side-menu/examples/test-examples/NavigationSideMenuDefault.example';
+import NavigationSideMenuRoot from './packages/terra-navigation-side-menu/examples/test-examples/NavigationSideMenuRoot.example';
+import SlidePanelManagerDefault from './packages/terra-slide-panel-manager/examples/test-examples/SlidePanelManagerDefault.example';
+import DefaultThemeProvider from './packages/terra-theme-provider/examples/test-examples/DefaultThemeProvider.example';
+import GlobalSwitchThemes from './packages/terra-theme-provider/examples/test-examples/GlobalSwitchThemes.example';
+import GlobalThemeProvider from './packages/terra-theme-provider/examples/test-examples/GlobalThemeProvider.example';
+import SwitchThemes from './packages/terra-theme-provider/examples/test-examples/SwitchThemes.example';
+import ThemeProviderNoTheme from './packages/terra-theme-provider/examples/test-examples/ThemeProviderNoTheme.example';
 
 const componentConfig = {
   'terra-aggregator': {
@@ -180,14 +179,9 @@ const componentConfig = {
     ],
     tests: [
       {
-        name: 'Default Application Header Utility',
-        path: '/default-application-header-utility',
-        component: DefaultApplicationHeaderUtility,
-      },
-      {
-        name: 'Default User Data',
-        path: '/default-user-data',
-        component: DefaultUserData,
+        name: 'Default Application Utility',
+        path: '/default-application-utility',
+        component: DefaultApplicationUtility,
       },
     ],
   },
