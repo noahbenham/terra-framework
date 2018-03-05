@@ -10,7 +10,6 @@ import TerraApplicationNameIndex from './packages/terra-application-name/example
 import TerraApplicationUtilityIndex from './packages/terra-application-utility/examples/Index.site-page';
 import TerraApplicationIndex from './packages/terra-application/examples/Index.site-page';
 import TerraDisclosureManagerIndex from './packages/terra-disclosure-manager/examples/Index.site-page';
-import TerraEmbeddedComponentIndex from './packages/terra-embedded-component/examples/Index.site-page';
 import TerraLayoutIndex from './packages/terra-layout/examples/Index.site-page';
 import TerraModalManagerIndex from './packages/terra-modal-manager/examples/Index.site-page';
 import TerraNavigationLayoutIndex from './packages/terra-navigation-layout/examples/Index.site-page';
@@ -31,7 +30,6 @@ import ApplicationMenuNameTruncated from './packages/terra-application-name/exam
 import DefaultApplicationHeaderUtility from './packages/terra-application-utility/examples/test-examples/DefaultApplicationHeaderUtility';
 import DefaultUserData from './packages/terra-application-utility/examples/test-examples/DefaultUserData';
 import ApplicationTest from './packages/terra-application/examples/test-examples/ApplicationTest';
-import DefaultEmbeddedComponent from './packages/terra-embedded-component/examples/test-examples/DefaultEmbeddedComponent';
 import LayoutDefault from './packages/terra-layout/examples/test-examples/LayoutDefault';
 import LayoutNoHeader from './packages/terra-layout/examples/test-examples/LayoutNoHeader';
 import LayoutNoMenu from './packages/terra-layout/examples/test-examples/LayoutNoMenu';
@@ -219,24 +217,6 @@ const componentConfig = {
         name: 'Index',
         path: '/index',
         component: TerraDisclosureManagerIndex,
-      },
-    ],
-  },
-  'terra-embedded-component': {
-    name: 'Embedded Component',
-    path: '/embedded-component',
-    pages: [
-      {
-        name: 'Index',
-        path: '/index',
-        component: TerraEmbeddedComponentIndex,
-      },
-    ],
-    tests: [
-      {
-        name: 'Default Embedded Component',
-        path: '/default-embedded-component',
-        component: DefaultEmbeddedComponent,
       },
     ],
   },
