@@ -113,7 +113,8 @@ describe('PrimaryNavigationMenu', () => {
       };
 
       const mockLayoutConfig = {
-        // No toggleMenu implementation included here.
+        // No toggleMenu implementation included here, as would occur
+        // at larger sizes.
       };
 
       const primaryNavigationMenu = (

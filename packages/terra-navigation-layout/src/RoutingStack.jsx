@@ -78,7 +78,7 @@ class RoutingStack extends React.Component {
 
     return routes.map((routeData) => {
       const delegateData = {
-        location,
+        location: this.state.stackLocation || this.props.location,
       };
 
       delegateData.show = ({ path }) => {

@@ -62,6 +62,7 @@ class ApplicationHeader extends React.Component {
     this.handleOnChange = this.handleOnChange.bind(this);
     this.getTargetRef = this.getTargetRef.bind(this);
     this.setContentNode = this.setContentNode.bind(this);
+
     this.state = { utilityComponent: null };
   }
 
