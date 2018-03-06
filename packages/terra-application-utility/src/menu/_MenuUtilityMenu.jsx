@@ -3,167 +3,174 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import 'terra-base/lib/baseStyles';
 import AppDelegate from 'terra-app-delegate';
-import Button from 'terra-button';
+import ContentContainer from 'terra-content-container';
 import IconClose from 'terra-icon/lib/icon/IconClose';
 import IconLeft from 'terra-icon/lib/icon/IconLeft';
 import MenuDivider from '../_UtilityMenuDivider';
 import Utils from '../_Utils';
-import MenuPage from './_MenuUtilityMenuPage';
+import MenuItem from './_MenuUtilityMenuItem';
 import styles from './_MenuUtilityMenu.scss';
 
 const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
-   * The AppDelegate instance that will be propagated to the components presented within the NavigationLayout.
+   * The AppDelegate instance propogated to each child.
    */
   app: AppDelegate.propType,
-  /**
-   * The array specifying additional menu items
-   */
-  additionalItemsConfig: PropTypes.array,
   /**
    * Indicates if the height is bound to a value.
    */
   isHeightBounded: PropTypes.bool,
   /**
-   * The data object used to generate menu pages
+   * Key of the top level menu.
    */
-  menuConfig: PropTypes.object.isRequired,
+  initialSelectedKey: PropTypes.string.isRequired,
   /**
-   * Callback function indicating a close condition was met, should be combined with isOpen for state management.
+   * The config file containing the menu items to be rendered.
+   */
+  menuItems: PropTypes.arrayOf((Utils.itemShape)).isRequired,
+  /**
+   * The function to trigger when a menu item is selected.
    */
   onChange: PropTypes.func.isRequired,
   /**
-   * The object containing information of the user.
+   * The function that closes the menu.
    */
-  userData: PropTypes.element,
+  onRequestClose: PropTypes.func,
 };
 
 const defaultProps = {
-  additionalItemsConfig: [],
   isHeightBounded: undefined,
-  userData: null,
 };
 
-class HeaderUtilityMenu extends React.Component {
-  /**
-   * Recursively add each additional item to the map.
-   * @param {*} additionalItemsConfig
-   * @param {*} map
-   */
-  static addAdditionalItems(additionalItemsConfig, map) {
-    additionalItemsConfig.forEach((item) => {
-      if (item.parent) {
-        const parent = map.get(item.parent);
-        parent.children.push(item);
-      }
-      HeaderUtilityMenu.insertIntoMap(item, map);
-      if (item.children) {
-        this.addAdditionalItems(item.children, map);
-      }
-    });
-  }
-
-  /**
-   * Insert the specified item into the map.
-   * @param {*} item
-   * @param {*} map
-   */
-  static insertIntoMap(item, map) {
+const processMenuItems = (items) => {
+  const map = new Map();
+  items.forEach((item) => {
     map.set(
       item.key,
-      { title: item.title,
+      { id: item.id,
+        title: item.title,
         content: item.content,
+        contentLocation: item.contentLocation,
         isSelected: item.isSelected,
-        children: item.children,
+        isSelectable: item.isSelectable,
+        childKeys: item.childKeys,
       },
     );
-  }
+  });
+  return map;
+};
 
+const hasChevron = (item) => {
+  if (item.childKeys && item.childKeys.length > 0) {
+    return true;
+  }
+  return false;
+};
+
+class MenuUtilityMenu extends React.Component {
   constructor(props) {
     super(props);
-    const map = new Map();
-    this.createMap = this.createMap.bind(this);
-    this.getChildren = this.getChildren.bind(this);
-    this.getTitle = this.getTitle.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleLogOut = this.handleLogOut.bind(this);
+    this.getItem = this.getItem.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleRequestBack = this.handleRequestBack.bind(this);
     this.pop = this.pop.bind(this);
     this.push = this.push.bind(this);
-    this.createMap(this.props.menuConfig, map);
-    HeaderUtilityMenu.addAdditionalItems(this.props.additionalItemsConfig, map);
+    this.toggleIsSelected = this.toggleIsSelected.bind(this);
     this.state = {
-      currentKey: Utils.KEYS.MENU,
+      map: processMenuItems(props.menuItems),
+      currentKey: props.initialSelectedKey,
       previousKeyStack: [],
-      map,
     };
   }
 
-  /**
-   * Return children of the specified object
-   * @param {*} key
-   */
-  getChildren(key) {
-    return this.state.map.get(key).children;
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      map: processMenuItems(nextProps.menuItems),
+    });
   }
 
-  /**
-   * Return the title of the specified object
-   * @param {*} key
-   */
-  getTitle(key) {
-    return this.state.map.get(key).title;
+  getItem(key) {
+    return this.state.map.get(key);
   }
 
-  /**
-   * Recursively create a map from the menu config with entries for each key.
-   * A key's value is an object containing the title, content, isSelected, and children.
-   * Example: {"key" => {title: "Page Title", isSelected: false, children: [{key: "child-one", title: "First Item", isSelected: false}, {key: "child-two", title: "Second Item" isSelected: false}]}
-   */
-  createMap(config, map) {
-    if (config.key === Utils.KEYS.USER_INFORMATION) {
-      // eslint-disable-next-line no-param-reassign
-      config.content = this.props.userData;
+  buildItem(key) {
+    const item = this.getItem(key);
+    const chevron = hasChevron(item);
+    return (
+      <MenuItem
+        key={key}
+        itemKey={key}
+        id={item.id}
+        title={item.title}
+        content={item.content}
+        contentLocation={item.contentLocation}
+        isSelected={item.isSelected}
+        isSelectable={item.isSelectable}
+        hasChevron={chevron}
+        onChange={this.handleOnChange}
+      />
+    );
+  }
+
+  buildListContent(currentItem) {
+    if (currentItem && currentItem.childKeys && currentItem.childKeys.length) {
+      return (
+        <ul className={cx('body')}>
+          {currentItem.childKeys.map((key) => {
+            let item = null;
+            if (this.getItem(key).contentLocation === Utils.LOCATIONS.BODY) {
+              item = this.buildItem(key);
+            }
+            return item;
+          })}
+        </ul>
+      );
     }
-    HeaderUtilityMenu.insertIntoMap(config, map);
+    return null;
+  }
 
-    if ('children' in config) {
-      config.children.forEach((object) => {
-        this.createMap(object, map);
+  buildFooterContent(currentItem) {
+    if (currentItem && currentItem.childKeys && currentItem.childKeys.length) {
+      return currentItem.childKeys.map((key) => {
+        let item = null;
+        if (this.getItem(key).contentLocation === Utils.LOCATIONS.FOOTER) {
+          item = this.buildItem(key);
+        }
+        return item;
       });
     }
+    return null;
   }
 
-  handleClose() {
-    this.props.app.closeDisclosure();
-  }
-
-  handleLogOut() {
-    this.props.onChange(event, Utils.KEYS.LOG_OUT);
-  }
-
-  handleOnChange(key) {
-    // this.state.map.set(key).isSelected = true;
-    if (!this.getChildren(key)) {
-      // debugger;
-      const value = this.state.map.get(key);
-      value.isSelected = !value.isSelected;
-      this.state.map.set(key, value);
-      this.props.onChange(event, key);
-    } else {
+  /**
+   * Function to trigger when an item is selected.
+   * 1. Has children: navigate to the next page
+   * 2. Toggles: trigger onChange without closing the menu.
+   * 3. Endpoint: close menu and trigger onChange.
+   * @param {*} event
+   * @param {*} key
+   */
+  handleOnChange(event, key) {
+    const childKeys = this.getItem(key).childKeys;
+    const item = this.getItem(key);
+    if (typeof childKeys !== 'undefined' && childKeys.length > 0) {
+      this.toggleIsSelected(key);
       this.setState({
         previousKey: this.push(this.state.currentKey),
         currentKey: key,
       });
+    } else {
+      this.toggleIsSelected(key);
+      if (item.isSelectable !== true) {
+        this.props.onRequestClose();
+      }
+      this.props.onChange(event, key);
     }
   }
 
   handleRequestBack() {
-    // this.state.map.set(key).isSelected = false;
-    // this.props.app.closeDisclosure();
     this.setState({ currentKey: this.pop() });
   }
 
@@ -180,63 +187,91 @@ class HeaderUtilityMenu extends React.Component {
     this.setState({ previousKeyStack: newStack });
   }
 
+  toggleIsSelected(key) {
+    const item = this.getItem(key);
+    item.isSelected = !item.isSelected;
+    this.state.map.set(key, item);
+  }
+
   render() {
     const {
-      additionalItemsConfig,
-      menuConfig,
+      app,
+      initialSelectedKey,
+      menuItems,
       isHeightBounded,
       onChange,
-      userData,
+      onRequestClose,
       ...customProps
     } = this.props;
 
-    const MenuClassNames = cx([
-      'utility-menu',
-      { 'is-height-bounded': isHeightBounded },
-      customProps.classNames,
-    ]);
-    const HeaderClassNames = cx('header');
-    const ClosebuttonClassNames = cx('close-button');
-    const BackButtonClassNames = cx('back-button');
-    const IconLeftClassNames = cx('icon-left');
-    const LogOutButtonClassNames = cx('log-out-button');
-    const IconCloseClassNames = cx('icon-close');
-    const HeaderTextClassNames = cx('header-text');
-    const FooterClassNames = cx('footer');
+    const MenuClassNames = cx(['utility-menu', customProps.classNames]);
+    const headerClassNames = cx('header');
+    const headerLeftContainer = cx('left-container');
+    const headerRightContainer = cx('right-container');
+    const headerInnerContainer = cx('inner-container');
+    const closebuttonClassNames = cx('close-button');
+    const backButtonClassNames = cx('back-button');
+    const iconLeftClassNames = cx('icon-left');
+    const iconCloseClassNames = cx('icon-close');
+    const headerTextClassNames = cx('header-text');
+    const footerClassNames = cx('footer');
+    const footerDividerClassNames = cx('footer-divider');
 
     const currentKey = this.state.currentKey;
-    const backButton = <Button className={BackButtonClassNames} onClick={this.handleRequestBack}><IconLeft className={IconLeftClassNames} /></Button>;
-    const closeButton = <Button onClick={this.handleClose} className={ClosebuttonClassNames}><IconClose className={IconCloseClassNames} /></Button>;
+    const currentItem = this.getItem(currentKey);
+    const backButton = (
+      <button className={backButtonClassNames} onClick={this.handleRequestBack} aria-label={'Back Button'}>
+        <IconLeft className={iconLeftClassNames} />
+      </button>
+    );
+    const closeButton = (
+      <button onClick={onRequestClose} className={closebuttonClassNames} aria-label={'Close Button'}>
+        <IconClose className={iconCloseClassNames} />
+      </button>
+    );
+
     const header = (
-      <div className={HeaderClassNames}>
-        {currentKey !== Utils.KEYS.MENU && backButton}
-        <span className={HeaderTextClassNames}>{this.getTitle(currentKey)}</span>
-        {closeButton}
+      <div className={headerClassNames}>
+        <span className={headerLeftContainer}>
+          <span className={headerInnerContainer}>
+            {currentKey !== Utils.KEYS.MENU && backButton}
+            <span className={headerTextClassNames}>{currentItem.title}</span>
+          </span>
+          <span className={headerRightContainer} >
+            {closeButton}
+          </span>
+        </span>
+        <MenuDivider />
       </div>
       );
-    const footer = (
-      <div className={FooterClassNames}>
-        <Button className={LogOutButtonClassNames} onClick={this.handleLogOut}>
-          {Utils.TITLES.LOG_OUT}
-        </Button>
-      </div>);
+
+    let footer = null;
+    if (currentKey === Utils.KEYS.MENU) {
+      footer = (
+        <div className={footerClassNames}>
+          <MenuDivider className={footerDividerClassNames} />
+          {this.buildFooterContent(currentItem)}
+        </div>
+      );
+    }
 
     return (
-      <div {...customProps} className={MenuClassNames} >
-        {header}
-        <MenuDivider />
-        <MenuPage
-          pageData={this.state.map.get(currentKey)}
-          onChange={this.handleOnChange}
-        />
-        <MenuDivider />
-        {currentKey === Utils.KEYS.MENU && footer }
-      </div>
+      <ContentContainer
+        {...customProps}
+        header={header}
+        footer={footer}
+        fill={isHeightBounded}
+        className={MenuClassNames}
+        role={'navigation'}
+        aria-label={'Utility menu'}
+      >
+        {this.buildListContent(currentItem)}
+      </ContentContainer>
     );
   }
 }
 
-HeaderUtilityMenu.propTypes = propTypes;
-HeaderUtilityMenu.defaultProps = defaultProps;
+MenuUtilityMenu.propTypes = propTypes;
+MenuUtilityMenu.defaultProps = defaultProps;
 
-export default HeaderUtilityMenu;
+export default MenuUtilityMenu;

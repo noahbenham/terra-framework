@@ -8,8 +8,8 @@ import LogoExample from 'terra-application-header-layout/examples/index-examples
 import NavigationExample from 'terra-application-header-layout/examples/index-examples/NavigationExample';
 import ToggleExample from 'terra-application-header-layout/examples/index-examples/ToggleExample';
 import Avatar from './FallBackAvatar.svg';
-import { ApplicationHeaderUtility } from '../../src/ApplicationUtility';
-import AdditionalItemsConfig from './AdditionalItemsConfig';
+import { ApplicationHeaderUtility, UserData } from '../../src/ApplicationUtility';
+import MockConfig from './MockConfig';
 
 class MockApplicationHeader extends React.Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class MockApplicationHeader extends React.Component {
 
   onDiscloseUtility(utility) {
     if (utility) {
-      this.setState({ utilityComponent: utility });
+      this.setState({ utilityComponent: React.cloneElement(utility, { onRequestClose: this.handleRequestClose }) });
     }
   }
 
@@ -56,7 +56,7 @@ class MockApplicationHeader extends React.Component {
     if (this.state.utilityComponent) {
       popup = (
         <Popup
-          contentHeight="320"
+          contentHeight="auto"
           contentWidth="240"
           isArrowDisplayed
           isOpen
@@ -69,13 +69,16 @@ class MockApplicationHeader extends React.Component {
     }
 
     const image = <Image src={Avatar} />;
+    const userDetail = 'User Detail';
+    const userName = 'User Name';
+    const userData = <UserData userDetail={userDetail} userName={userName} userPhoto={image} />;
     const utilities = (
       <ApplicationHeaderUtility
-        additionalItemsConfig={AdditionalItemsConfig}
+        style={{ backgroundColor: '#2481ca' }}
+        menuItems={MockConfig(userData)}
         onChange={this.handleOnChange}
         onDisclose={this.onDiscloseUtility}
-        userDetail={'User Detail'}
-        userName={"User's Name"}
+        userName={userName}
         userPhoto={image}
         data-application-header-utility
       />

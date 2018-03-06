@@ -2,25 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import 'terra-base/lib/baseStyles';
-
 import AppDelegate from 'terra-app-delegate';
-import Button from 'terra-button';
 import IconChevronRight from 'terra-icon/lib/icon/IconChevronRight';
 import UtilityMenu from './_MenuUtilityMenu';
-import UserData from '../UserData';
 import Utils from '../_Utils';
-
 import styles from './ApplicationMenuUtility.scss';
 
 const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
-   * The config file containing additional items to be rendered within the menu.
+   * The config file containing the menu items to be rendered within the menu.
    */
-  additionalItemsConfig: PropTypes.array,
+  menuItems: PropTypes.arrayOf((Utils.itemShape)).isRequired,
   /**
-   * The AppDelegate instance that will be propagated to the components presented within the NavigationLayout.
+   * The AppDelegate instance propogated to each child.
    */
   app: AppDelegate.propType,
   /**
@@ -32,20 +28,22 @@ const propTypes = {
    */
   onDisclose: PropTypes.func.isRequired,
   /**
-   * More information about the user.
-   */
-  userDetail: PropTypes.string,
-  /**
    * The name to be displayed next to the user photo.
    */
-  userName: PropTypes.string.isRequired,
+  userName: PropTypes.string,
   /**
    * The image associated with the user.
    */
   userPhoto: PropTypes.element,
 };
 
-class ApplicationHeaderUtility extends React.Component {
+const defaultProps = {
+  menuItems: [],
+  userName: '',
+  userPhoto: undefined,
+};
+
+class ApplicationMenuUtility extends React.Component {
   constructor(props) {
     super(props);
     this.handleOnClick = this.handleOnClick.bind(this);
@@ -60,17 +58,23 @@ class ApplicationHeaderUtility extends React.Component {
   }
 
   createContent() {
-    const userData = (<UserData userDetail={this.props.userDetail} userName={this.props.userName} userPhoto={this.props.userPhoto} />);
-    return <UtilityMenu app={this.props.app} additionalItemsConfig={this.props.additionalItemsConfig} menuConfig={Utils.generateMenuConfig(UserData)} onChange={this.props.onChange} userData={userData} />;
+    return (
+      <UtilityMenu
+        app={this.props.app}
+        initialSelectedKey={Utils.KEYS.MENU}
+        menuItems={this.props.menuItems}
+        onChange={this.props.onChange}
+        data-application-menu-utility-menu
+      />
+    );
   }
 
   render() {
     const {
-      additionalItemsConfig,
       app,
+      menuItems,
       onChange,
       onDisclose,
-      userDetail,
       userName,
       userPhoto,
       ...customProps
@@ -80,23 +84,24 @@ class ApplicationHeaderUtility extends React.Component {
     const userContainerClassNames = cx('user-container');
     const userPhotoClassNames = cx('user-photo');
     const userNameClassNames = cx('user-name');
-    // const iconContainerClassNames = cx('icon-container');
     const iconClassNames = cx('icon');
-
+    let photo = null;
+    if (userPhoto) {
+      photo = React.cloneElement(userPhoto, { className: userPhotoClassNames });
+    }
     return (
-      <Button {...customProps} className={utilityClassNames} onClick={this.handleOnClick} variant="link">
+      <button {...customProps} className={utilityClassNames} onClick={this.handleOnClick} role={'main'} aria-label={'Utility button'}>
         <span className={userContainerClassNames}>
-          <span className={userPhotoClassNames}>{userPhoto} </span>
+          {photo}
           <span className={userNameClassNames}>{userName} </span>
         </span>
         {<IconChevronRight className={iconClassNames} />}
-      </Button>
+      </button>
     );
   }
 }
 
-ApplicationHeaderUtility.propTypes = propTypes;
-ApplicationHeaderUtility.keys = Utils.KEYS;
-ApplicationHeaderUtility.titles = Utils.titles;
+ApplicationMenuUtility.propTypes = propTypes;
+ApplicationMenuUtility.defaultProps = defaultProps;
 
-export default ApplicationHeaderUtility;
+export default ApplicationMenuUtility;
