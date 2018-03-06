@@ -79,7 +79,7 @@ const primaryRoutes = [{
   text: 'Page 3',
 }];
 
-const ExampleApplication = withRouter(({ app, location, nameConfig, utilityConfig, navigationItems, routingConfig, indexPath }) => (
+const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, navigationItems, routingConfig, indexPath }) => (
   <div>
     <h3>UserData</h3>
     <div style={{ width: '240px', overflow: 'hidden' }}>
@@ -87,12 +87,11 @@ const ExampleApplication = withRouter(({ app, location, nameConfig, utilityConfi
         userPhoto={<Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" />}
         userDetail="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim. "
         userName="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim. "
-        />
+      />
     </div>
     <h3>{`Browser Location: ${location.pathname}`}</h3>
     <div style={{ height: '600px', width: '100%' }}>
       <Application
-        app={app}
         nameConfig={nameConfig}
         utilityConfig={utilityConfig}
         routingConfig={routingConfig}
