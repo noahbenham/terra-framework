@@ -3,9 +3,9 @@
 The Terra Application Layout is a responsive, themeable layout for building applications.
 
 The Terra Application Layout provides:
-- A themeable application header, with APIs for rendering application-specific branding, tabular navigation, and a user-centric utility menu.
+- A themeable, responsive application header, with APIs for rendering application-specific branding, tabular navigation, and user-centric utility controls.
 - Responsive menu and content areas, as provided by `terra-layout`.
-- `react-router`-based navigation, as provided by `terra-navigation-layout`.
+- `react-router`-based navigation and configuration, as provided by `terra-navigation-layout`.
 
 ## Getting Started
 
@@ -13,9 +13,48 @@ The Terra Application Layout provides:
   - `npm install terra-application-layout`
   - `yarn add terra-application-layout`
 
+## Prerequisites
+
+- Like all Terra components, the ApplicationLayout requires the presence of a `Base` component (provided by `terra-base`) in its parent hierarchy.
+- Additionally, the ApplicationLayout requires the presence of any `Router` component (provided by `react-router-dom`) in its parent hierarchy.
+
+## Design Considerations
+
+### Responsive Design
+
+The ApplicationLayout has two rendering modes: `standard` and `compact`.
+  - The `standard` rendering occurs at `medium`, `large`, and `huge` breakpoints.
+  - The `compact` rendering occurs at `tiny` and `small` breakpoints.
+
+Various parts of the ApplicationLayout change depending on the rendering mode. See the below sections for more information.
+
+### Header
+
+Customization of the ApplicationLayout's header content is only available through the `nameConfig`, `utilityConfig`, and `navigationItems` props.
+
+- `nameConfig`
+  - In both rendering modes, the header will display the application name and logo.
+- `utilityConfig`
+  - When `standard`, the header will display the user information as provided by the `utilityConfig`. When the user information is selected in the header, a popup will be presented containing the utility menu.
+  - When `compact`, the header will not display utility information. It will instead be presented by the Compact Menu Wrapper (see below).
+- `navigationItems`
+  - When `standard`, the header will display the navigation items as a set of responsive tabs (provided by `terra-application-links`). When a tab is selected, the ApplicationLayout will route to the path associated to that tab, and the tab will appear selected.
+  - When `compact`, the header will not display any navigation item information. It will instead by presented by the Primary Navigation Menu (see below).
+
+Additionally, when `compact`, the ApplicationLayout will display a button that will present the layout's menu.
+
+### Menu
+
+### Application Menu Wrapper
+
+When the ApplicationLayout is `compact`, the ApplicationLayout will wrap each `menu` component defined in the `routingConfig` with an ApplicationMenu component. This wrapper has regions defined for the presentation of `nameConfig` and `utilityConfig` information. This is done to maintain the availability of this information when horizontal space in the header is restricted.
+
+This process is automatic; no consumer input is needed. The wrapped component will continue to receive the expected props detailed in the Menu section above.
+
 ## Example
 
 ```jsx
+import Base from 'terra-base';
 import ApplicationLayout from 'terra-application-layout';
 import { HashRouter as Router } from 'react-router-dom';
 import { Page1Content, Page1Menu, Page2Content } from './my-app-pages';
@@ -34,7 +73,7 @@ const nameConfig = {
  * default utility items.
  */
 const utilityConfig = {
-
+  // TODO
 };
 
 /**
@@ -94,18 +133,17 @@ const navigationItems = [{
 const indexPath = '/page_1';
 
 const MyApplication = () => (
-  /**
-   * Like the NavigationLayout, the ApplicationLayout requires a Router (any type) in its parent hierarchy.
-   */
-  <HashRouter>
-    <ApplicationLayout
-      nameConfig={nameConfig}
-      utilityConfig={utilityConfig}
-      routingConfig={routingConfig}
-      navigationItems={navigationItems}
-      indexPath={indexPath}
-    />
-  </HashRouter>
+  <Base>
+    <Router>
+      <ApplicationLayout
+        nameConfig={nameConfig}
+        utilityConfig={utilityConfig}
+        routingConfig={routingConfig}
+        navigationItems={navigationItems}
+        indexPath={indexPath}
+      />
+    </Router>
+  </Base>
 );
 ```
 
