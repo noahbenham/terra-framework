@@ -4,9 +4,11 @@
 import TerraAggregatorIndex from './packages/terra-aggregator/examples/Index.site-page';
 import TerraAppDelegateIndex from './packages/terra-app-delegate/examples/Index.site-page';
 import TerraApplicationHeaderLayoutIndex from './packages/terra-application-header-layout/examples/Index.site-page';
+import TerraApplicationLayoutIndex from './packages/terra-application-layout/examples/Index.site-page';
 import TerraApplicationLinksIndex from './packages/terra-application-links/examples/Index.site-page';
 import TerraApplicationMenuLayoutIndex from './packages/terra-application-menu-layout/examples/Index.site-page';
 import TerraApplicationNameIndex from './packages/terra-application-name/examples/Index.site-page';
+import TerraApplicationUtilityIndex from './packages/terra-application-utility/examples/Index.site-page';
 import TerraDisclosureManagerIndex from './packages/terra-disclosure-manager/examples/Index.site-page';
 import TerraLayoutIndex from './packages/terra-layout/examples/Index.site-page';
 import TerraModalManagerIndex from './packages/terra-modal-manager/examples/Index.site-page';
@@ -19,6 +21,7 @@ import TerraThemeProviderIndex from './packages/terra-theme-provider/examples/In
 import AggregatorStandalone from './packages/terra-aggregator/examples/test-examples/AggregatorStandalone.example';
 import AggregatorWithDisclosure from './packages/terra-aggregator/examples/test-examples/AggregatorWithDisclosure.example';
 import ApplicationHeaderDefault from './packages/terra-application-header-layout/examples/test-examples/ApplicationHeaderDefault.example';
+import ApplicationTest from './packages/terra-application-layout/examples/test-examples/ApplicationTest.example';
 import ApplicationTabsDefault from './packages/terra-application-links/examples/test-examples/ApplicationTabsDefault.example';
 import ApplicationMenuDefault from './packages/terra-application-menu-layout/examples/test-examples/ApplicationMenuDefault.example';
 import ApplicationHeaderNameDefault from './packages/terra-application-name/examples/test-examples/ApplicationHeaderNameDefault.example';
@@ -95,6 +98,24 @@ const componentConfig = {
       },
     ],
   },
+  'terra-application-layout': {
+    name: 'Application Layout',
+    path: '/application-layout',
+    pages: [
+      {
+        name: 'Index',
+        path: '/index',
+        component: TerraApplicationLayoutIndex,
+      },
+    ],
+    tests: [
+      {
+        name: 'Application Test',
+        path: '/application-test',
+        component: ApplicationTest,
+      },
+    ],
+  },
   'terra-application-links': {
     name: 'Application Links',
     path: '/application-links',
@@ -167,6 +188,13 @@ const componentConfig = {
   'terra-application-utility': {
     name: 'Application Utility',
     path: '/application-utility',
+    pages: [
+      {
+        name: 'Index',
+        path: '/index',
+        component: TerraApplicationUtilityIndex,
+      },
+    ],
     tests: [
       {
         name: 'Default Application Utility',

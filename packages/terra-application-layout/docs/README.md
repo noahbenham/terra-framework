@@ -1,0 +1,163 @@
+# Terra Application Layout
+
+The Terra Application Layout is a responsive, themeable layout for building applications.
+
+The Terra Application Layout provides:
+- A themeable, responsive application header, with APIs for rendering application-specific branding, tabular navigation, and user-centric utility controls.
+- Responsive menu and content areas, as provided by `terra-layout`.
+- `react-router`-based navigation and configuration, as provided by `terra-navigation-layout`.
+
+## Getting Started
+
+- Install with [npmjs](https://www.npmjs.com):
+  - `npm install terra-application-layout`
+  - `yarn add terra-application-layout`
+
+## Prerequisites
+
+- Like all Terra components, the ApplicationLayout requires the presence of a `Base` component (provided by `terra-base`) in its parent hierarchy.
+- Additionally, the ApplicationLayout requires the presence of any `Router` component (provided by `react-router-dom`) in its parent hierarchy.
+
+## Design Considerations
+
+### Responsive Design
+
+The ApplicationLayout has two rendering modes: `standard` and `compact`.
+  - The `standard` rendering occurs at `medium`, `large`, and `huge` breakpoints.
+  - The `compact` rendering occurs at `tiny` and `small` breakpoints.
+
+Various parts of the ApplicationLayout change depending on the rendering mode. See the below sections for more information.
+
+### Header
+
+Customization of the ApplicationLayout's header is possible through the `nameConfig`, `utilityConfig`, and `navigationItems` props.
+
+- `nameConfig`
+  - In both rendering modes, the header will display the application name and logo.
+- `utilityConfig`
+  - When `standard`, the header will display the user information as provided by the `utilityConfig`. When the user information is clicked, a popup will be presented containing the utility menu.
+  - When `compact`, the header will not display utility information. It will instead be presented by the Compact Menu Wrapper (see below).
+- `navigationItems`
+  - When `standard`, the header will display the navigation items as a set of responsive tabs (provided by `terra-application-links`). When a tab is selected, the ApplicationLayout will route to the path associated to that tab, and the tab will appear selected.
+  - When `compact`, the header will not display any navigation item information. It will instead by presented by the Default Navigation Menu (see below).
+
+Additionally, when `compact`, the ApplicationLayout will display a menu toggle button that will present the layout's menu when pressed.
+
+### Menu / Content
+
+The `routingConfig` prop specifies which components will be rendered in the ApplicationLayout's `content` and `menu` regions. The ApplicationLayout will provide the following props to those components:
+
+* `layoutConfig` - Object containing Layout management APIs. See Layout for more information.
+* `routingStackDelegate` - Object containing NavigationLayout/RoutingStack management APIs. Additional APIs are available to components inside the `menu` region. See NavigationLayout documentation for more information.
+* `app` - An AppDelegate instance. The ApplicationLayout includes a ModalManager by default, so the `app` given to the menu and content components will support modal disclosures.
+
+### Application Menu Wrapper
+
+When the ApplicationLayout is `compact`, the ApplicationLayout will wrap each `menu` component defined in the `routingConfig` with an ApplicationMenu component. This wrapper has regions defined for the presentation of `nameConfig` and `utilityConfig` information. This is done to maintain the availability of this information when horizontal space in the header is restricted.
+
+This process is automatic; no consumer input is needed. The wrapped component will continue to receive the expected props detailed in the Menu / Content section above.
+
+### Default Navigation Menu
+
+When `compact`, the ApplicationLayout will generate a menu that renders the `navigationItems` in list form. This menu is injected into the `routingConfig` for the `'/'` path, meaning that it will preceed any other defined routes. Other menu components are able to navigate to the default navigation manu by calling their `routingStackDelegate`'s `showParent` function.
+
+## Example
+
+```jsx
+import Base from 'terra-base';
+import ApplicationLayout from 'terra-application-layout';
+import { HashRouter as Router } from 'react-router-dom';
+import { Page1Content, Page1Menu, Page2Content } from './my-app-pages';
+
+/**
+ * The data provided for nameConfig will be visible in the ApplicationLayout's header, as well
+ * as in any menus at the tiny and small breakpoints.
+ */
+const nameConfig = {
+  accessory: <MyApplicationLogo />,
+  title: 'MyApplication',
+};
+
+/**
+ * The data provided for utilityConfig will be integrated with the ApplicationLayout's set of
+ * default utility items.
+ */
+const utilityConfig = {
+  // TODO
+};
+
+/**
+ * The routingConfig matches that of the NavigationLayout. Routing specifications for the
+ * menu and content regions are supported; the header region is not configurable.
+ */
+const routingConfig = {
+  content: {
+    'Page 1' : {
+      path: '/page_1',
+      component: {
+        default: {
+          componentClass: Page1Content,
+        },
+      },
+    },
+    'Page 2' : {
+      path: '/page_2',
+      component: {
+        default: {
+          componentClass: Page2Content,
+        },
+      },
+    },
+  },
+  menu: {
+    'Page 1' : {
+      path: '/page_1',
+      component: {
+        default: {
+          componentClass: Page1Menu,
+        },
+      },
+    },
+  },
+};
+
+/**
+ * The navigationItems will be used to present the ApplicationLayout's navigation controls. The paths provided here must be present in
+ * the routingConfig. If no navigation controls are desired, these items can be omitted.
+ *
+ * At medium, large, and huge breakpoints, the items will be presented as tabs within the ApplicationLayout's header.
+ * At tiny and small breakpoints, the items will be presented within the layout's menu region within a ApplicationLayout-managed menu.
+ */
+const navigationItems = [{
+  path: '/page_1',
+  text: 'Page 1',
+}, {
+  path: '/page_2',
+  text: 'Page 2',
+}];
+
+/**
+ * The indexPath will be given to the NavigationLayout to set up the appropriate redirects. If users attempt to navigate to a path unsupported
+ * by the routingConfig, they will be redirected to this route. This path should therefore be present in the routingConfig.
+ */
+const indexPath = '/page_1';
+
+const MyApplication = () => (
+  <Base>
+    <Router>
+      <ApplicationLayout
+        nameConfig={nameConfig}
+        utilityConfig={utilityConfig}
+        routingConfig={routingConfig}
+        navigationItems={navigationItems}
+        indexPath={indexPath}
+      />
+    </Router>
+  </Base>
+);
+```
+
+## Component Features
+* [Cross-Browser Support](https://github.com/cerner/terra-core/wiki/Component-Features#cross-browser-support)
+* [Responsive Support](https://github.com/cerner/terra-core/wiki/Component-Features#responsive-support)
+* [Mobile Support](https://github.com/cerner/terra-core/wiki/Component-Features#mobile-support)
