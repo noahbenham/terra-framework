@@ -28,7 +28,10 @@ import ApplicationHeaderNameDefault from './packages/terra-application-name/exam
 import ApplicationHeaderNameTruncated from './packages/terra-application-name/examples/test-examples/ApplicationHeaderNameTruncated.example';
 import ApplicationMenuNameDefault from './packages/terra-application-name/examples/test-examples/ApplicationMenuNameDefault.example';
 import ApplicationMenuNameTruncated from './packages/terra-application-name/examples/test-examples/ApplicationMenuNameTruncated.example';
-import DefaultApplicationUtility from './packages/terra-application-utility/examples/test-examples/DefaultApplicationUtility.example';
+import DefaultApplicationHeaderUtility from './packages/terra-application-utility/examples/test-examples/DefaultApplicationHeaderUtility.example';
+import DefaultApplicationMenuUtility from './packages/terra-application-utility/examples/test-examples/DefaultApplicationMenuUtility.example';
+import DefaultHeaderUtilityMenu from './packages/terra-application-utility/examples/test-examples/DefaultHeaderUtilityMenu.example';
+import DefaultMenuUtilityMenu from './packages/terra-application-utility/examples/test-examples/DefaultMenuUtilityMenu.example';
 import LayoutDefault from './packages/terra-layout/examples/test-examples/LayoutDefault.example';
 import LayoutNoHeader from './packages/terra-layout/examples/test-examples/LayoutNoHeader.example';
 import LayoutNoMenu from './packages/terra-layout/examples/test-examples/LayoutNoMenu.example';
@@ -197,9 +200,24 @@ const componentConfig = {
     ],
     tests: [
       {
-        name: 'Default Application Utility',
-        path: '/default-application-utility',
-        component: DefaultApplicationUtility,
+        name: 'Default Application Header Utility',
+        path: '/default-application-header-utility',
+        component: DefaultApplicationHeaderUtility,
+      },
+      {
+        name: 'Default Application Menu Utility',
+        path: '/default-application-menu-utility',
+        component: DefaultApplicationMenuUtility,
+      },
+      {
+        name: 'Default Header Utility Menu',
+        path: '/default-header-utility-menu',
+        component: DefaultHeaderUtilityMenu,
+      },
+      {
+        name: 'Default Menu Utility Menu',
+        path: '/default-menu-utility-menu',
+        component: DefaultMenuUtilityMenu,
       },
     ],
   },

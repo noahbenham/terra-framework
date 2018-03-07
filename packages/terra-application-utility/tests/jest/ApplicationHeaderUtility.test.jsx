@@ -6,8 +6,9 @@ describe('ApplicationHeaderUtility', () => {
   const mockOnChange = jest.fn();
   const mockOnDisclose = jest.fn();
   const mockOnRequestClose = jest.fn();
-  const image = <Image />;
-  const name = 'name';
+  const selectedKey = 'menu';
+  const accessory = <Image />;
+  const title = 'name';
 
   it('should render with default props', () => {
     const wrapper = shallow(
@@ -16,32 +17,35 @@ describe('ApplicationHeaderUtility', () => {
         onChange={mockOnChange}
         onDisclose={mockOnDisclose}
         onRequestClose={mockOnRequestClose}
+        selectedKey={selectedKey}
       />,
     );
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render with a username', () => {
+  it('should render with a title', () => {
     const wrapper = shallow(
       <ApplicationHeaderUtility
         menuItems={[]}
         onChange={mockOnChange}
         onDisclose={mockOnDisclose}
         onRequestClose={mockOnRequestClose}
-        userName={name}
+        selectedKey={selectedKey}
+        title={title}
       />,
     );
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render with a user photo', () => {
+  it('should render with an accessory', () => {
     const wrapper = shallow(
       <ApplicationHeaderUtility
         menuItems={[]}
         onChange={mockOnChange}
         onDisclose={mockOnDisclose}
         onRequestClose={mockOnRequestClose}
-        userPhoto={image}
+        selectedKey={selectedKey}
+        accessory={accessory}
       />,
     );
     expect(wrapper).toMatchSnapshot();
@@ -54,6 +58,7 @@ describe('ApplicationHeaderUtility', () => {
         onChange={mockOnChange}
         onDisclose={mockOnDisclose}
         onRequestClose={mockOnRequestClose}
+        selectedKey={selectedKey}
       />,
     );
     expect(wrapper).toMatchSnapshot();
@@ -66,6 +71,7 @@ describe('ApplicationHeaderUtility', () => {
         onChange={mockOnChange}
         onDisclose={mockOnDisclose}
         onRequestClose={mockOnRequestClose}
+        selectedKey={selectedKey}
         id="test"
       />,
     );
