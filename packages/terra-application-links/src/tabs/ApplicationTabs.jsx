@@ -5,7 +5,6 @@ import ResizeObserver from 'resize-observer-polyfill';
 import { withRouter } from 'react-router-dom';
 import 'terra-base/lib/baseStyles';
 import Tab from './_Tab';
-import CollapsedTab from './_CollapsedTab';
 import TabMenu from './_TabMenu';
 import TabUtils from './_TabUtils';
 import styles from './ApplicationTabs.scss';
@@ -151,11 +150,11 @@ class ApplicationTabs extends React.Component {
       };
       if (this.hiddenStartIndex < 0) {
         visibleChildren.push(<Tab {...tabProps} />);
-        hiddenChildren.push(<CollapsedTab {...tabProps} />);
+        hiddenChildren.push(<Tab {...tabProps} isCollapsed />);
       } else if (index < this.hiddenStartIndex) {
         visibleChildren.push(<Tab {...tabProps} />);
       } else {
-        hiddenChildren.push(<CollapsedTab {...tabProps} />);
+        hiddenChildren.push(<Tab {...tabProps} isCollapsed />);
       }
     });
 
