@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import IconCaretDown from 'terra-icon/lib/icon/IconCaretDown';
-import TabUtils from './_TabUtils';
 import styles from './ApplicationTabs.scss';
 
 const cx = classNames.bind(styles);
@@ -16,10 +15,6 @@ const propTypes = {
    * Whether or not the menu display should be animated with selection.
    */
   isSelected: PropTypes.bool,
-  /**
-   * Callback func for onKeyDown.
-   */
-  onKeyDown: PropTypes.func,
   /**
    * The terra-popup to attach to the menu display.
    */
@@ -43,45 +38,19 @@ class TabMenuDisplay extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleKeyUp = this.handleKeyUp.bind(this);
-    this.handleOnBlur = this.handleOnBlur.bind(this);
+    this.update = this.update.bind(this);
 
-    this.state = { focused: false };
+    this.hasAnimated = false;
   }
 
-  handleOnBlur() {
-    if (!this.props.popup) {
-      this.setState({ focused: false });
-    }
+  componentDidMount() {
+    window.requestAnimationFrame(this.update);
   }
 
-  handleKeyDown(event) {
-    // Add active state to FF browsers
-    if (event.nativeEvent.keyCode === TabUtils.KEYCODES.SPACE) {
-      this.setState({ active: true });
-    }
-
-    // Add focus styles for keyboard navigation
-    if (event.nativeEvent.keyCode === TabUtils.KEYCODES.SPACE || event.nativeEvent.keyCode === TabUtils.KEYCODES.ENTER) {
-      this.setState({ focused: true });
-
-      event.preventDefault();
-      if (this.props.onKeyDown) {
-        this.props.onKeyDown(event);
-      }
-    }
-  }
-
-  handleKeyUp(event) {
-    // Remove active state from FF broswers
-    if (event.nativeEvent.keyCode === TabUtils.KEYCODES.SPACE) {
-      this.setState({ active: false });
-    }
-
-    // Apply focus styles for keyboard navigation
-    if (event.nativeEvent.keyCode === TabUtils.KEYCODES.TAB) {
-      this.setState({ focused: true });
+  update() {
+    if (this.props.isSelected && this.contentNode && !this.hasAnimated) {
+      this.contentNode.setAttribute('aria-current', 'true');
+      this.hasAnimated = true;
     }
   }
 
@@ -89,34 +58,23 @@ class TabMenuDisplay extends React.Component {
     const {
       isHidden,
       isSelected,
-      onKeyDown,
       popup,
       refCallback,
       text,
       ...customProps
     } = this.props;
 
-    const displayClassNames = cx([
-      'tab-menu-display',
-      { 'is-hidden': isHidden },
-      { 'is-active': this.state.active },
-      { 'is-focused': this.state.focused },
-      customProps.className,
-    ]);
-    const attributes = { 'aria-current': isSelected };
+    const attributes = {};
+    if (isSelected && this.hasAnimated) {
+      attributes['aria-current'] = true;
+    }
 
     return (
-      /* eslint-disable jsx-a11y/no-static-element-interactions */
       <div
         {...customProps}
         {...attributes}
-        role="tab"
-        tabIndex="0"
-        className={displayClassNames}
+        className={cx(['tab-menu-display', { 'is-hidden': isHidden }])}
         ref={(node) => { this.contentNode = node; this.props.refCallback(node); }}
-        onKeyDown={this.handleKeyDown}
-        onKeyUp={this.handleKeyUp}
-        onBlur={this.handleOnBlur}
       >
         <div className={cx(['inner'])}>
           <span>{text}</span>
@@ -124,7 +82,6 @@ class TabMenuDisplay extends React.Component {
         </div>
         {popup}
       </div>
-      /* eslint-enable jsx-ally/no-static-element-interactions */
     );
   }
 }
