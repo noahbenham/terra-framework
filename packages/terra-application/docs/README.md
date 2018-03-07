@@ -30,26 +30,35 @@ Various parts of the ApplicationLayout change depending on the rendering mode. S
 
 ### Header
 
-Customization of the ApplicationLayout's header content is only available through the `nameConfig`, `utilityConfig`, and `navigationItems` props.
+Customization of the ApplicationLayout's header is possible through the `nameConfig`, `utilityConfig`, and `navigationItems` props.
 
 - `nameConfig`
   - In both rendering modes, the header will display the application name and logo.
 - `utilityConfig`
-  - When `standard`, the header will display the user information as provided by the `utilityConfig`. When the user information is selected in the header, a popup will be presented containing the utility menu.
+  - When `standard`, the header will display the user information as provided by the `utilityConfig`. When the user information is clicked, a popup will be presented containing the utility menu.
   - When `compact`, the header will not display utility information. It will instead be presented by the Compact Menu Wrapper (see below).
 - `navigationItems`
   - When `standard`, the header will display the navigation items as a set of responsive tabs (provided by `terra-application-links`). When a tab is selected, the ApplicationLayout will route to the path associated to that tab, and the tab will appear selected.
-  - When `compact`, the header will not display any navigation item information. It will instead by presented by the Primary Navigation Menu (see below).
+  - When `compact`, the header will not display any navigation item information. It will instead by presented by the Default Navigation Menu (see below).
 
-Additionally, when `compact`, the ApplicationLayout will display a button that will present the layout's menu.
+Additionally, when `compact`, the ApplicationLayout will display a menu toggle button that will present the layout's menu when pressed.
 
-### Menu
+### Menu / Content
+
+The `routingConfig` prop specifies which components will be rendered in the ApplicationLayout's `content` and `menu` regions. The ApplicationLayout will provide the following props to those components:
+
+* `layoutConfig` - Object containing Layout management APIs. See Layout for more information.
+* `routingStackDelegate` - Object containing NavigationLayout/RoutingStack management APIs. Additional APIs are available to components inside the `menu` region. See NavigationLayout documentation for more information.
 
 ### Application Menu Wrapper
 
 When the ApplicationLayout is `compact`, the ApplicationLayout will wrap each `menu` component defined in the `routingConfig` with an ApplicationMenu component. This wrapper has regions defined for the presentation of `nameConfig` and `utilityConfig` information. This is done to maintain the availability of this information when horizontal space in the header is restricted.
 
-This process is automatic; no consumer input is needed. The wrapped component will continue to receive the expected props detailed in the Menu section above.
+This process is automatic; no consumer input is needed. The wrapped component will continue to receive the expected props detailed in the Menu / Content section above.
+
+### Default Navigation Menu
+
+When `compact`, the ApplicationLayout will generate a menu that renders the `navigationItems` in list form. This menu is injected into the `routingConfig` for the `'/'` path, meaning that it will preceed any other defined routes. Other menu components are able to navigate to the default navigation manu by calling their `routingStackDelegate`'s `showParent` function.
 
 ## Example
 
