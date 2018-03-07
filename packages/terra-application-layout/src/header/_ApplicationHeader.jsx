@@ -12,7 +12,7 @@ import Popup from 'terra-popup';
 import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
 
 import 'terra-base/lib/baseStyles';
-import ApplicationUtils from '../ApplicationUtils';
+import ApplicationLayoutUtils from '../ApplicationLayoutUtils';
 import ApplicationHeaderUtility from '../mock-utils/Mock-Header';
 import styles from './ApplicationHeader.scss';
 
@@ -26,7 +26,7 @@ const propTypes = {
   /**
    * Navigational links that will generate list items that will update the path. These paths are matched with react-router to selection.
 +  */
-  applicationLinks: ApplicationUtils.applicationLinksPropType,
+  applicationLinks: ApplicationLayoutUtils.applicationLinksPropType,
   /**
    * The element to be placed within the fit start area for extensions within the layout.
    */
@@ -34,7 +34,7 @@ const propTypes = {
   /**
    * The Object of layout-related APIs provided to the components of the Layout.
    */
-  layoutConfig: ApplicationUtils.layoutConfigPropType,
+  layoutConfig: ApplicationLayoutUtils.layoutConfigPropType,
   /**
    * The set of routes currently identified by the NavigationLayout. This prop is provided by the NavigationLayout.
    */
@@ -46,11 +46,11 @@ const propTypes = {
   /**
    * Configuration values for the ApplicationName component.
    */
-  nameConfig: ApplicationUtils.nameConfigPropType,
+  nameConfig: ApplicationLayoutUtils.nameConfigPropType,
   /**
    * Configuration to be provided to the ApplicationUtility component.
    */
-  utilityConfig: ApplicationUtils.utilityConfigPropType,
+  utilityConfig: ApplicationLayoutUtils.utilityConfigPropType,
 };
 
 class ApplicationHeader extends React.Component {

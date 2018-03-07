@@ -205,7 +205,7 @@ const navigationItemsPropType = PropTypes.arrayOf(PropTypes.shape({
   hasSubMenu: PropTypes.bool,
 }));
 
-const ApplicationUtils = {
+const ApplicationLayoutUtils = {
   getDefaultUtilityConfig,
   KEYS,
   TITLES,
@@ -216,4 +216,4 @@ const ApplicationUtils = {
   navigationItemsPropType,
 };
 
-export default ApplicationUtils;
+export default ApplicationLayoutUtils;

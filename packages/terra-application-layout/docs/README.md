@@ -49,6 +49,7 @@ The `routingConfig` prop specifies which components will be rendered in the Appl
 
 * `layoutConfig` - Object containing Layout management APIs. See Layout for more information.
 * `routingStackDelegate` - Object containing NavigationLayout/RoutingStack management APIs. Additional APIs are available to components inside the `menu` region. See NavigationLayout documentation for more information.
+* `app` - An AppDelegate instance. The ApplicationLayout includes a ModalManager by default, so the `app` given to the menu and content components will support modal disclosures.
 
 ### Application Menu Wrapper
 

@@ -7,7 +7,7 @@ import { version } from '../package.json';
 
 // Component Source
 /* eslint-disable import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions */
-import ApplicationSrc from '!raw-loader!../src/Application.jsx';
+import ApplicationLayoutSrc from '!raw-loader!../src/ApplicationLayout.jsx';
 /* eslint-enable import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions */
 
 // Example Files
@@ -20,7 +20,7 @@ const ApplicationExamples = () => (
     <Markdown id="readme" src={ReadMe} />
     <h2>Examples</h2>
     <ExampleApplication />
-    <PropsTable id="props-header" src={ApplicationSrc} componentName="Application" />
+    <PropsTable id="props-header" src={ApplicationLayoutSrc} componentName="Application" />
   </div>
 );
 

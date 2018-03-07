@@ -4,11 +4,11 @@
 import TerraAggregatorIndex from './packages/terra-aggregator/examples/Index.site-page';
 import TerraAppDelegateIndex from './packages/terra-app-delegate/examples/Index.site-page';
 import TerraApplicationHeaderLayoutIndex from './packages/terra-application-header-layout/examples/Index.site-page';
+import TerraApplicationLayoutIndex from './packages/terra-application-layout/examples/Index.site-page';
 import TerraApplicationLinksIndex from './packages/terra-application-links/examples/Index.site-page';
 import TerraApplicationMenuLayoutIndex from './packages/terra-application-menu-layout/examples/Index.site-page';
 import TerraApplicationNameIndex from './packages/terra-application-name/examples/Index.site-page';
 import TerraApplicationUtilityIndex from './packages/terra-application-utility/examples/Index.site-page';
-import TerraApplicationIndex from './packages/terra-application/examples/Index.site-page';
 import TerraDisclosureManagerIndex from './packages/terra-disclosure-manager/examples/Index.site-page';
 import TerraLayoutIndex from './packages/terra-layout/examples/Index.site-page';
 import TerraModalManagerIndex from './packages/terra-modal-manager/examples/Index.site-page';
@@ -21,6 +21,7 @@ import TerraThemeProviderIndex from './packages/terra-theme-provider/examples/In
 import AggregatorStandalone from './packages/terra-aggregator/examples/test-examples/AggregatorStandalone.example';
 import AggregatorWithDisclosure from './packages/terra-aggregator/examples/test-examples/AggregatorWithDisclosure.example';
 import ApplicationHeaderDefault from './packages/terra-application-header-layout/examples/test-examples/ApplicationHeaderDefault.example';
+import ApplicationTest from './packages/terra-application-layout/examples/test-examples/ApplicationTest.example';
 import ApplicationTabsDefault from './packages/terra-application-links/examples/test-examples/ApplicationTabsDefault.example';
 import ApplicationMenuDefault from './packages/terra-application-menu-layout/examples/test-examples/ApplicationMenuDefault.example';
 import ApplicationHeaderNameDefault from './packages/terra-application-name/examples/test-examples/ApplicationHeaderNameDefault.example';
@@ -28,7 +29,6 @@ import ApplicationHeaderNameTruncated from './packages/terra-application-name/ex
 import ApplicationMenuNameDefault from './packages/terra-application-name/examples/test-examples/ApplicationMenuNameDefault.example';
 import ApplicationMenuNameTruncated from './packages/terra-application-name/examples/test-examples/ApplicationMenuNameTruncated.example';
 import DefaultApplicationUtility from './packages/terra-application-utility/examples/test-examples/DefaultApplicationUtility.example';
-import ApplicationTest from './packages/terra-application/examples/test-examples/ApplicationTest.example';
 import LayoutDefault from './packages/terra-layout/examples/test-examples/LayoutDefault.example';
 import LayoutNoHeader from './packages/terra-layout/examples/test-examples/LayoutNoHeader.example';
 import LayoutNoMenu from './packages/terra-layout/examples/test-examples/LayoutNoMenu.example';
@@ -95,6 +95,24 @@ const componentConfig = {
         name: 'Application Header Default',
         path: '/application-header-default',
         component: ApplicationHeaderDefault,
+      },
+    ],
+  },
+  'terra-application-layout': {
+    name: 'Application Layout',
+    path: '/application-layout',
+    pages: [
+      {
+        name: 'Index',
+        path: '/index',
+        component: TerraApplicationLayoutIndex,
+      },
+    ],
+    tests: [
+      {
+        name: 'Application Test',
+        path: '/application-test',
+        component: ApplicationTest,
       },
     ],
   },
@@ -182,24 +200,6 @@ const componentConfig = {
         name: 'Default Application Utility',
         path: '/default-application-utility',
         component: DefaultApplicationUtility,
-      },
-    ],
-  },
-  'terra-application': {
-    name: 'Application',
-    path: '/application',
-    pages: [
-      {
-        name: 'Index',
-        path: '/index',
-        component: TerraApplicationIndex,
-      },
-    ],
-    tests: [
-      {
-        name: 'Application Test',
-        path: '/application-test',
-        component: ApplicationTest,
       },
     ],
   },

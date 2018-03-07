@@ -9,7 +9,7 @@ import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelega
 import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
 
 import 'terra-base/lib/baseStyles';
-import ApplicationUtils from '../ApplicationUtils';
+import ApplicationLayoutUtils from '../ApplicationLayoutUtils';
 
 import styles from './ApplicationMenu.scss';
 import UtilityMenuWrapper from './_UtilityMenuWrapper';
@@ -33,11 +33,11 @@ const propTypes = {
   /**
    * The Object of layout-related APIs provided to the components of the Layout.
    */
-  layoutConfig: ApplicationUtils.layoutConfigPropType.isRequired,
+  layoutConfig: ApplicationLayoutUtils.layoutConfigPropType.isRequired,
   /**
    * Configuration values for the ApplicationName component.
    */
-  nameConfig: ApplicationUtils.nameConfigPropType,
+  nameConfig: ApplicationLayoutUtils.nameConfigPropType,
   /**
    * Delegate prop that is provided by the NavigationLayout.
    */
@@ -53,7 +53,7 @@ const propTypes = {
   /**
    * Configuration to be provided to the ApplicationUtility component.
    */
-  utilityConfig: ApplicationUtils.utilityConfigPropType,
+  utilityConfig: ApplicationLayoutUtils.utilityConfigPropType,
 };
 
 class ApplicationMenu extends React.Component {

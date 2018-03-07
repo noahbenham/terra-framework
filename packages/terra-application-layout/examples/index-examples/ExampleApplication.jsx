@@ -3,7 +3,7 @@ import React from 'react';
 import { MemoryRouter, withRouter } from 'react-router-dom';
 import Image from 'terra-image';
 
-import Application from '../../src/Application';
+import ApplicationLayout from '../../src/ApplicationLayout';
 import UserData from '../../src/user/UserData';
 
 import Page1Content from './Page1Content';
@@ -91,7 +91,7 @@ const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, na
     </div>
     <h3>{`Browser Location: ${location.pathname}`}</h3>
     <div style={{ height: '600px', width: '100%' }}>
-      <Application
+      <ApplicationLayout
         nameConfig={nameConfig}
         utilityConfig={utilityConfig}
         routingConfig={routingConfig}
