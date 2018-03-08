@@ -81,6 +81,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
         KEYS.USER_INFORMATION,
         KEYS.SETTINGS,
         KEYS.HELP,
+        KEYS.LOG_OUT,
       ],
     },
     {
