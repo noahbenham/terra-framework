@@ -24,7 +24,7 @@ describe('MenuUtilityMenu', () => {
       '--terra-application-utility-menu-divider-after-margin-top': '10px',
       '--terra-application-menu-utility-menu-chevron-height': '2rem',
       '--terra-application-menu-utility-menu-chevron-width': '2rem',
-      '-terra-application-menu-utility-menu-body-item-background-color': 'pink',
+      '--terra-application-menu-utility-menu-body-item-background-color': 'pink',
       '--terra-application-menu-utility-menu-body-item-font-color': 'pink',
       '--terra-application-menu-utility-menu-body-item-font-size': '2rem',
       '--terra-application-menu-utility-menu-body-item-margin-bottom': '1rem',
@@ -37,9 +37,6 @@ describe('MenuUtilityMenu', () => {
       '--terra-application-menu-utility-menu-body-item-checkmark-margin-left': '1rem',
       '--terra-application-menu-utility-menu-body-item-checkmark-margin-right': '1rem',
       '--terra-application-menu-utility-menu-body-item-chevron-margin-right': '1rem',
-      '--terra-application-menu-utility-menu-body-item-content-height': '1rem',
-      '--terra-application-menu-utility-menu-body-item-content-padding-left': '1rem',
-      '--terra-application-menu-utility-menu-body-item-content-width': '1rem',
       '--terra-application-menu-utility-menu-body-item-checkmark-width': '1rem',
       '--terra-application-menu-utility-menu-body-item-chevron-width': '1rem',
       '--terra-application-menu-utility-menu-footer-item-background-color': 'blue',
@@ -55,13 +52,13 @@ describe('MenuUtilityMenu', () => {
 
   describe('Hover: menu utility menu', () => {
     beforeEach(() => {
-      browser.waitForVisible('#test-item-7');
-      browser.moveToObject('#test-item-7');
+      browser.waitForVisible('#test-item-2');
+      browser.moveToObject('#test-item-2');
     });
 
-    Terra.should.matchScreenshot({ selector: '#test-item-7' });
-    Terra.should.beAccessible({ context: '#test-item-7' });
-    Terra.should.themeEachCustomProperty('#test-item-7', {
+    Terra.should.matchScreenshot({ selector: '#default' });
+    Terra.should.beAccessible({ context: '#default' });
+    Terra.should.themeEachCustomProperty('#default', {
       '--terra-application-menu-utility-menu-body-item-hover-background-color': 'blue',
     });
   });
@@ -69,12 +66,13 @@ describe('MenuUtilityMenu', () => {
   describe('Focus: menu utility menu', () => {
     beforeEach(() => {
       browser.keys('Tab');
+      browser.keys('Tab');
     });
 
     Terra.should.matchScreenshot({ selector: '#default' });
     Terra.should.beAccessible({ context: '#default' });
     Terra.should.themeEachCustomProperty('#default', {
-      '--terra-application-header-utility-menu-body-item-focus-box-shadow': '0 0 3px 3px rgba(50, 50, 233, 0.5), 0 0 4px 4px rgba(50, 50, 233, 0.35)',
+      '--terra-application-menu-utility-menu-body-item-focus-box-shadow': '0 0 3px 3px rgba(50, 50, 233, 0.5), 0 0 4px 4px rgba(50, 50, 233, 0.35)',
     });
   });
 });

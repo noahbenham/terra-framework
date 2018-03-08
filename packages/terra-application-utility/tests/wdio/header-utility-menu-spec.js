@@ -32,9 +32,6 @@ describe('HeaderUtilityMenu', () => {
       '--terra-application-header-utility-menu-body-item-checkmark-width': '1rem',
       '--terra-application-header-utility-menu-body-item-chevron-margin-right': '1rem',
       '--terra-application-header-utility-menu-body-item-chevron-width': '1rem',
-      '--terra-application-header-utility-menu-body-item-content-height': '3rem',
-      '--terra-application-header-utility-menu-body-item-content-padding-left': '3rem',
-      '--terra-application-header-utility-menu-body-item-content-width': '3rem',
       '--terra-application-header-utility-menu-footer-item-background-color': 'blue',
       '--terra-application-header-utility-menu-footer-item-border-radius': '1rem',
       '--terra-application-header-utility-menu-footer-item-font-color': 'pink',
@@ -48,19 +45,20 @@ describe('HeaderUtilityMenu', () => {
 
   describe('Hover: header utility menu', () => {
     beforeEach(() => {
-      browser.waitForVisible('#test-item-7');
-      browser.moveToObject('#test-item-7');
+      browser.waitForVisible('#test-item-2');
+      browser.moveToObject('#test-item-2');
     });
 
-    Terra.should.matchScreenshot({ selector: '#test-item-7' });
-    Terra.should.beAccessible({ context: '#test-item-7' });
-    Terra.should.themeEachCustomProperty('#test-item-7', {
+    Terra.should.matchScreenshot({ selector: '#default' });
+    Terra.should.beAccessible({ context: '#default' });
+    Terra.should.themeEachCustomProperty('#default', {
       '--terra-application-header-utility-menu-body-item-hover-background-color': 'blue',
     });
   });
 
   describe('Focus: header utility menu', () => {
     beforeEach(() => {
+      browser.keys('Tab');
       browser.keys('Tab');
     });
 
