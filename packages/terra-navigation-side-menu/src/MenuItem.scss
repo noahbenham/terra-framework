@@ -20,16 +20,9 @@
     width: 100%;
     z-index: 0;
 
-    &:hover::before,
-    &.is-hovered::before {
+    &:hover,
+    &.is-hovered {
       background-color: var(--terra-navigation-side-menu-item-hover-background-color, #f5fafe);
-      content: '';
-      height: 100%;
-      left: 0;
-      position: absolute;
-      top: 0;
-      width: 100%;
-      z-index: -1;
     }
 
     &.is-selected {

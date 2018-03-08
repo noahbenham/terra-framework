@@ -156,16 +156,9 @@
     word-wrap: break-word;
     z-index: 0;
 
-    &:hover::before,
-    &.is-hovered::before {
+    &:hover,
+    &.is-hovered {
       background-color: var(--terra-application-tabs-collapsed-hover-background-color, #f5fafe);
-      content: '';
-      height: 100%;
-      left: 0;
-      position: absolute;
-      top: 0;
-      width: 100%;
-      z-index: -1;
     }
 
     &[aria-current='true'] {
