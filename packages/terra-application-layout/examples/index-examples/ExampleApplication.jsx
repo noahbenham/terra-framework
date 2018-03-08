@@ -84,18 +84,13 @@ const primaryRoutes = [{
 }];
 
 const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, navigationItems, routingConfig, indexPath }) => (
-  <div>
-    <h3>{`Browser Location: ${location.pathname}`}</h3>
-    <div style={{ height: '600px', width: '100%' }}>
-      <ApplicationLayout
-        nameConfig={nameConfig}
-        utilityConfig={utilityConfig}
-        routingConfig={routingConfig}
-        navigationItems={navigationItems}
-        indexPath={indexPath}
-      />
-    </div>
-  </div>
+  <ApplicationLayout
+    nameConfig={nameConfig}
+    utilityConfig={utilityConfig}
+    routingConfig={routingConfig}
+    navigationItems={navigationItems}
+    indexPath={indexPath}
+  />
 ));
 
 const userAvatar = (
@@ -129,19 +124,19 @@ const UtilityOptionComponent = ({ name, app }) => (
   >
     <div>Content for utility key: {name}</div>
   </ContentContainer>
-
 );
 
-const nameConfig = Object.freeze({ title: 'Example Application', accessory: <Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" /> });
+const applicationNameConfig = Object.freeze({ title: 'Example Application', accessory: <Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" /> });
+
 const utilityConfig = Object.freeze({
   userName: 'Dave, Dave',
   userPhoto: userAvatar,
   menuItems: ApplicationLayoutUtils.getDefaultUtilityConfig(userData),
   startingMenu: ApplicationLayoutUtils.KEYS.MENU,
-  onChange: (event, itemKey, app) => {
-    app.disclose({
+  onChange: (event, itemKey, disclose) => {
+    disclose({
       preferredType: 'modal',
-      size: 'medium',
+      size: 'small',
       content: {
         key: itemKey,
         component: <UtilityOptionComponent name={itemKey} />,
@@ -154,32 +149,10 @@ const AppRouter = () => (
   <div style={{ height: '100vh', overflow: 'auto' }}>
     <MemoryRouter>
       <ExampleApplication
-        nameConfig={nameConfig}
+        nameConfig={applicationNameConfig}
         utilityConfig={utilityConfig}
         navigationItems={primaryRoutes}
         routingConfig={config}
-        indexPath="/page1"
-      />
-    </MemoryRouter>
-    <br />
-    <MemoryRouter>
-      <ExampleApplication
-        nameConfig={nameConfig}
-        utilityConfig={utilityConfig}
-        routingConfig={config}
-        indexPath="/page3"
-      />
-    </MemoryRouter>
-    <br />
-    <MemoryRouter>
-      <ExampleApplication
-        nameConfig={nameConfig}
-        utilityConfig={utilityConfig}
-        routingConfig={config}
-        navigationItems={[{
-          path: '/page1',
-          text: 'Page 1',
-        }]}
         indexPath="/page1"
       />
     </MemoryRouter>
