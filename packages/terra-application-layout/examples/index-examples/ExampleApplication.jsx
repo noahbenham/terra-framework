@@ -11,6 +11,7 @@ import UserData from '../../src/user/UserData';
 import ApplicationLayoutUtils from '../../src/ApplicationLayoutUtils';
 
 import Page1Content from './Page1Content';
+import ApplicationContent from './application-components/ApplicationContent';
 import Page2Content from './Page2Content';
 import Page3Content from './Page3Content';
 import Page1Menu from './Page1Menu';
@@ -49,7 +50,10 @@ const config = {
       path: '/page1',
       component: {
         default: {
-          componentClass: Page1Content,
+          componentClass: ApplicationContent,
+          props: {
+            contentName: 'Page 1',
+          },
         },
       },
     },
@@ -57,7 +61,10 @@ const config = {
       path: '/page2',
       component: {
         default: {
-          componentClass: Page2Content,
+          componentClass: ApplicationContent,
+          props: {
+            contentName: 'Page 2',
+          },
         },
       },
     },
@@ -65,7 +72,10 @@ const config = {
       path: '/page3',
       component: {
         default: {
-          componentClass: Page3Content,
+          componentClass: ApplicationContent,
+          props: {
+            contentName: 'Page 3',
+          },
         },
       },
     },
@@ -84,13 +94,18 @@ const primaryRoutes = [{
 }];
 
 const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, navigationItems, routingConfig, indexPath }) => (
-  <ApplicationLayout
-    nameConfig={nameConfig}
-    utilityConfig={utilityConfig}
-    routingConfig={routingConfig}
-    navigationItems={navigationItems}
-    indexPath={indexPath}
-  />
+  <div>
+    <h3>{`Router Location: ${location.pathname}`}</h3>
+    <div style={{ height: '600px', width: '100%' }}>
+      <ApplicationLayout
+        nameConfig={nameConfig}
+        utilityConfig={utilityConfig}
+        routingConfig={routingConfig}
+        navigationItems={navigationItems}
+        indexPath={indexPath}
+      />
+    </div>
+  </div>
 ));
 
 const userAvatar = (
