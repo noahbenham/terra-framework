@@ -73,7 +73,7 @@ class ApplicationTabs extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.location !== newProps.location) {
+    if (this.props.links.length !== newProps.links.length) {
       this.resetCalculations();
     }
   }
