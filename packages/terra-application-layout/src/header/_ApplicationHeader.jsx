@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import AppDelegate from 'terra-app-delegate';
 import ApplicationHeaderLayout from 'terra-application-header-layout';
-// import { ApplicationHeaderUtility } from 'terra-application-utility';
+import { ApplicationHeaderUtility } from 'terra-application-utility';
 import { ApplicationHeaderName } from 'terra-application-name';
 import { ApplicationTabs } from 'terra-application-links';
 import IconMenu from 'terra-icon/lib/icon/IconMenu';
@@ -12,8 +12,9 @@ import Popup from 'terra-popup';
 import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
 
 import 'terra-base/lib/baseStyles';
+
 import ApplicationLayoutUtils from '../ApplicationLayoutUtils';
-import ApplicationHeaderUtility from '../mock-utils/Mock-Header';
+
 import styles from './ApplicationHeader.scss';
 
 const cx = classNames.bind(styles);
@@ -147,9 +148,12 @@ class ApplicationHeader extends React.Component {
       if (utilityConfig) {
         utilities = (
           <ApplicationHeaderUtility
-            {...utilityConfig}
             onChange={this.handleOnChange}
-            onRequestDisclose={this.handleOnRequestDisclose}
+            onDisclose={this.handleOnRequestDisclose}
+            title={utilityConfig.userName}
+            accessory={utilityConfig.userPhoto}
+            menuItems={utilityConfig.menuItems}
+            selectedKey={utilityConfig.startingMenu}
             data-application-header-utility
           />
         );

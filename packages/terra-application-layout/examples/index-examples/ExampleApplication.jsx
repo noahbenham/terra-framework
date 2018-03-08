@@ -2,9 +2,13 @@
 import React from 'react';
 import { MemoryRouter, withRouter } from 'react-router-dom';
 import Image from 'terra-image';
+import Avatar from 'terra-avatar';
+import ContentContainer from 'terra-content-container';
+import ActionHeader from 'terra-clinical-action-header';
 
 import ApplicationLayout from '../../src/ApplicationLayout';
 import UserData from '../../src/user/UserData';
+import ApplicationLayoutUtils from '../../src/ApplicationLayoutUtils';
 
 import Page1Content from './Page1Content';
 import Page2Content from './Page2Content';
@@ -81,14 +85,6 @@ const primaryRoutes = [{
 
 const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, navigationItems, routingConfig, indexPath }) => (
   <div>
-    <h3>UserData</h3>
-    <div style={{ width: '240px', overflow: 'hidden' }}>
-      <UserData
-        userPhoto={<Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" />}
-        userDetail="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim. "
-        userName="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim. "
-      />
-    </div>
     <h3>{`Browser Location: ${location.pathname}`}</h3>
     <div style={{ height: '600px', width: '100%' }}>
       <ApplicationLayout
@@ -102,8 +98,57 @@ const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, na
   </div>
 ));
 
+const userAvatar = (
+  <Avatar
+    variant="user"
+    alt="Dave, Dave"
+    ariaLabel="Dave, Dave"
+  />
+);
+
+const userData = (
+  <UserData
+    userName="Dave, Dave"
+    userDetail="Smart Guy"
+    userPhoto={userAvatar}
+  />
+);
+
+const UtilityOptionComponent = ({ name, app }) => (
+  <ContentContainer
+    fill
+    header={(
+      <ActionHeader
+        title={name.charAt(0).toUpperCase() + name.slice(1)}
+        onClose={app.closeDisclosure}
+        onBack={app.goBack}
+        onMaximize={app.maximize}
+        onMinimize={app.minimize}
+      />
+  )}
+  >
+    <div>Content for utility key: {name}</div>
+  </ContentContainer>
+
+);
+
 const nameConfig = Object.freeze({ title: 'Example Application', accessory: <Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" /> });
-const utilityConfig = Object.freeze({ userName: 'John Rambo', onChange: () => {} });
+const utilityConfig = Object.freeze({
+  userName: 'Dave, Dave',
+  userPhoto: userAvatar,
+  menuItems: ApplicationLayoutUtils.getDefaultUtilityConfig(userData),
+  startingMenu: ApplicationLayoutUtils.KEYS.MENU,
+  onChange: (event, itemKey, app) => {
+    app.disclose({
+      preferredType: 'modal',
+      size: 'medium',
+      content: {
+        key: itemKey,
+        component: <UtilityOptionComponent name={itemKey} />,
+      },
+    });
+  },
+});
 
 const AppRouter = () => (
   <div style={{ height: '100vh', overflow: 'auto' }}>

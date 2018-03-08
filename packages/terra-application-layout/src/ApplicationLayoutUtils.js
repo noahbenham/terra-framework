@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { UtilityUtils } from 'terra-application-utility';
 
 const KEYS = {
   MENU: 'menu',
@@ -29,6 +30,10 @@ const TITLES = {
 };
 
 const reconcileChildren = (config, additionalConfig) => {
+  if (!additionalConfig) {
+    return config;
+  }
+
   additionalConfig.forEach((item) => {
     if (item.parentKey) {
       const parent = config[item.parentKey];
@@ -50,11 +55,11 @@ const reconcileChildren = (config, additionalConfig) => {
  *  [
  *    {
  *      key: 'additional-1',
+ *      contentLocation: UtilityUtils.LOCATIONS.BODY,
  *      title: 'Addtional Title 1',
  *      isSelectable: false,
  *      isSelected: false,
  *      content: <Component />
- *      contentLocation: 'body',
  *      childKeys: [
  *        'additional-sub-1',
  *        'additional-sub-2',
@@ -68,6 +73,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
   const defaultConfig = [
     {
       key: KEYS.MENU,
+      contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: TITLES.MENU,
       isSelectable: false,
       isSelected: false,
@@ -79,6 +85,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     },
     {
       key: KEYS.USER_INFORMATION,
+      contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: TITLES.USER_INFORMATION,
       content: userData,
       isSelectable: false,
@@ -89,6 +96,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     },
     {
       key: KEYS.SETTINGS,
+      contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: TITLES.SETTINGS,
       isSelectable: false,
       isSelected: false,
@@ -99,14 +107,15 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     },
     {
       key: KEYS.LOG_OUT,
+      contentLocation: UtilityUtils.LOCATIONS.FOOTER,
       title: TITLES.LOG_OUT,
       isSelectable: false,
       isSelected: false,
-      contentLocation: 'footer',
       childKeys: [],
     },
     {
       key: KEYS.HELP,
+      contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: TITLES.HELP,
       isSelectable: false,
       isSelected: false,
@@ -118,6 +127,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     },
     {
       key: KEYS.CHANGE_PHOTO,
+      contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: TITLES.SETTINGS,
       isSelectable: false,
       isSelected: false,
@@ -125,6 +135,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     },
     {
       key: KEYS.APPEARANCE,
+      contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: TITLES.APPEARANCE,
       isSelectable: false,
       isSelected: false,
@@ -132,6 +143,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     },
     {
       key: KEYS.SECURITY,
+      contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: TITLES.SECURITY,
       isSelectable: false,
       isSelected: false,
@@ -139,6 +151,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     },
     {
       key: KEYS.GETTING_STARTED,
+      contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: TITLES.GETTING_STARTED,
       isSelectable: false,
       isSelected: false,
@@ -146,6 +159,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     },
     {
       key: KEYS.ABOUT,
+      contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: TITLES.ABOUT,
       isSelectable: false,
       isSelected: false,
@@ -153,6 +167,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     },
     {
       key: KEYS.TERMS_OF_USE,
+      contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: TITLES.TERMS_OF_USE,
       isSelectable: false,
       isSelected: false,
@@ -167,7 +182,7 @@ const utilityConfigPropType = PropTypes.shape({
   userName: PropTypes.string.isRequired,
   userPhoto: PropTypes.element,
   onChange: PropTypes.func.isRequired,
-  menuItems: PropTypes.shape({
+  menuItems: PropTypes.arrayOf(PropTypes.shape({
     content: PropTypes.element,
     contentLocation: PropTypes.string,
     key: PropTypes.string,
@@ -175,7 +190,7 @@ const utilityConfigPropType = PropTypes.shape({
     isSelectable: PropTypes.bool,
     isSelected: PropTypes.bool,
     childKeys: PropTypes.array,
-  }),
+  })),
 });
 
 const layoutConfigPropType = PropTypes.shape({

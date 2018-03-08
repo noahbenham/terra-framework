@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import AppDelegate from 'terra-app-delegate';
 import ApplicationMenuLayout from 'terra-application-menu-layout';
-// import { ApplicationMenuUtility } from 'terra-application-utility';
 import { ApplicationMenuName } from 'terra-application-name';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
+import { ApplicationMenuUtility } from 'terra-application-utility';
 
 import 'terra-base/lib/baseStyles';
 import ApplicationLayoutUtils from '../ApplicationLayoutUtils';
+import UtilityMenuWrapper from './_UtilityMenuWrapper';
 
 import styles from './ApplicationMenu.scss';
-import UtilityMenuWrapper from './_UtilityMenuWrapper';
-import ApplicationMenuUtility from '../mock-utils/Mock-Menu';
 
 const cx = classNames.bind(styles);
 
@@ -67,7 +66,7 @@ class ApplicationMenu extends React.Component {
     if (this.props.app && utility) {
       this.props.app.disclose({
         preferredType: 'modal',
-        size: 'fullscreen',
+        size: 'small',
         content: {
           component: <UtilityMenuWrapper>{utility}</UtilityMenuWrapper>,
           key: 'application-utility-menu',
@@ -114,9 +113,12 @@ class ApplicationMenu extends React.Component {
       if (utilityConfig) {
         footer = (
           <ApplicationMenuUtility
-            {...utilityConfig}
             onChange={this.handleOnChange}
-            onRequestDisclose={this.handleOnRequestDisclose}
+            onDisclose={this.handleOnRequestDisclose}
+            title={utilityConfig.userName}
+            accessory={utilityConfig.userPhoto}
+            menuItems={utilityConfig.menuItems}
+            selectedKey={utilityConfig.startingMenu}
             data-application-menu-utility
           />
         );
