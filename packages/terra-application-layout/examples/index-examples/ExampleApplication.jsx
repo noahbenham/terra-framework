@@ -10,13 +10,8 @@ import ApplicationLayout from '../../src/ApplicationLayout';
 import UserData from '../../src/user/UserData';
 import ApplicationLayoutUtils from '../../src/ApplicationLayoutUtils';
 
-import Page1Content from './Page1Content';
 import ApplicationContent from './application-components/ApplicationContent';
-import Page2Content from './Page2Content';
-import Page3Content from './Page3Content';
-import Page1Menu from './Page1Menu';
-import Page1ItemsMenu from './Page1ItemsMenu';
-import Page2Menu from './Page2Menu';
+import ApplicationMenu from './application-components/ApplicationMenu';
 
 const config = {
   menu: {
@@ -24,23 +19,60 @@ const config = {
       path: '/page1',
       component: {
         default: {
-          componentClass: Page1Menu,
+          componentClass: ApplicationMenu,
+          props: {
+            baseUrl: '/page1',
+            menuName: 'Page 1 Menu',
+            includeNestedMenu: true,
+          },
         },
       },
     },
-    '/page1/items': {
-      path: '/page1/items',
+    '/page1/nested': {
+      path: '/page1/nested',
       component: {
         default: {
-          componentClass: Page1ItemsMenu,
+          componentClass: ApplicationMenu,
+          props: {
+            baseUrl: '/page1/nested',
+            menuName: 'Nested Menu',
+          },
         },
       },
     },
-    '/page2': {
-      path: '/page2',
+    '/page3': {
+      path: '/page3',
       component: {
         default: {
-          componentClass: Page2Menu,
+          componentClass: ApplicationMenu,
+          props: {
+            baseUrl: '/page3',
+            menuName: 'Page 3 Menu',
+          },
+        },
+      },
+    },
+    '/page4': {
+      path: '/page4',
+      component: {
+        default: {
+          componentClass: ApplicationMenu,
+          props: {
+            baseUrl: '/page4',
+            menuName: 'Page 4 Menu',
+          },
+        },
+      },
+    },
+    '/page5': {
+      path: '/page5',
+      component: {
+        default: {
+          componentClass: ApplicationMenu,
+          props: {
+            baseUrl: '/page5',
+            menuName: 'Page 5 Menu',
+          },
         },
       },
     },
@@ -52,6 +84,7 @@ const config = {
         default: {
           componentClass: ApplicationContent,
           props: {
+            basePath: '/page1',
             contentName: 'Page 1',
           },
         },
@@ -63,7 +96,9 @@ const config = {
         default: {
           componentClass: ApplicationContent,
           props: {
+            basePath: '/page2',
             contentName: 'Page 2',
+            noMenu: true,
           },
         },
       },
@@ -74,11 +109,37 @@ const config = {
         default: {
           componentClass: ApplicationContent,
           props: {
+            basePath: '/page3',
             contentName: 'Page 3',
           },
         },
       },
     },
+    '/page4': {
+      path: '/page4',
+      component: {
+        default: {
+          componentClass: ApplicationContent,
+          props: {
+            basePath: '/page4',
+            contentName: 'Page 4',
+          },
+        },
+      },
+    },
+    '/page5': {
+      path: '/page5',
+      component: {
+        default: {
+          componentClass: ApplicationContent,
+          props: {
+            basePath: '/page5',
+            contentName: 'Page 5',
+          },
+        },
+      },
+    },
+
   },
 };
 
@@ -87,10 +148,16 @@ const primaryRoutes = [{
   text: 'Page 1',
 }, {
   path: '/page2',
-  text: 'Page 2',
+  text: 'Page 2 (No Menu)',
 }, {
   path: '/page3',
   text: 'Page 3',
+}, {
+  path: '/page4',
+  text: 'Page 4',
+}, {
+  path: '/page5',
+  text: 'Page 5',
 }];
 
 const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, navigationItems, routingConfig, indexPath }) => (
@@ -111,15 +178,15 @@ const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, na
 const userAvatar = (
   <Avatar
     variant="user"
-    alt="Dave, Dave"
-    ariaLabel="Dave, Dave"
+    alt="Burton, Jack"
+    ariaLabel="Burton, Jack"
   />
 );
 
 const userData = (
   <UserData
-    userName="Dave, Dave"
-    userDetail="Smart Guy"
+    userName="Burton, Jack"
+    userDetail="Everybody relax, I'm here."
     userPhoto={userAvatar}
   />
 );
@@ -144,7 +211,7 @@ const UtilityOptionComponent = ({ name, app }) => (
 const applicationNameConfig = Object.freeze({ title: 'Example Application', accessory: <Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" /> });
 
 const utilityConfig = Object.freeze({
-  userName: 'Dave, Dave',
+  userName: 'Burton, Jack',
   userPhoto: userAvatar,
   menuItems: ApplicationLayoutUtils.getDefaultUtilityConfig(userData),
   startingMenu: ApplicationLayoutUtils.KEYS.MENU,
