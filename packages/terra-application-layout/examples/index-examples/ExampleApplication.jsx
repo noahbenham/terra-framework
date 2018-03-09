@@ -4,7 +4,6 @@ import { MemoryRouter, withRouter } from 'react-router-dom';
 import Image from 'terra-image';
 import Avatar from 'terra-avatar';
 import ContentContainer from 'terra-content-container';
-import ActionHeader from 'terra-clinical-action-header';
 
 import ApplicationLayout from '../../src/ApplicationLayout';
 import UserData from '../../src/user/UserData';
@@ -12,29 +11,34 @@ import ApplicationLayoutUtils from '../../src/ApplicationLayoutUtils';
 
 import ApplicationContent from './application-components/ApplicationContent';
 import ApplicationMenu from './application-components/ApplicationMenu';
+import UtilityOption from './application-components/UtilityOption';
+import ProfilePicture from './henry.jpg';
 
-const config = {
+/**
+ * The routingConfig API matches that of the NavigationLayout.
+ */
+const routingConfig = {
   menu: {
-    '/page1': {
-      path: '/page1',
+    '/page_1': {
+      path: '/page_1',
       component: {
         default: {
           componentClass: ApplicationMenu,
           props: {
-            baseUrl: '/page1',
+            baseUrl: '/page_1',
             menuName: 'Page 1 Menu',
             includeNestedMenu: true,
           },
         },
       },
     },
-    '/page1/nested': {
-      path: '/page1/nested',
+    '/page_1/nested': {
+      path: '/page_1/nested',
       component: {
         default: {
           componentClass: ApplicationMenu,
           props: {
-            baseUrl: '/page1/nested',
+            baseUrl: '/page_1/nested',
             menuName: 'Nested Menu',
           },
         },
@@ -42,90 +46,90 @@ const config = {
     },
   },
   content: {
-    '/page1': {
-      path: '/page1',
+    '/page_1': {
+      path: '/page_1',
       component: {
         default: {
           componentClass: ApplicationContent,
           props: {
-            basePath: '/page1',
+            basePath: '/page_1',
             contentName: 'Page 1',
           },
         },
       },
     },
-    '/page2': {
-      path: '/page2',
+    '/page_2': {
+      path: '/page_2',
       component: {
         default: {
           componentClass: ApplicationContent,
           props: {
-            basePath: '/page2',
+            basePath: '/page_2',
             contentName: 'Page 2',
             noMenu: true,
           },
         },
       },
     },
-    '/page3': {
-      path: '/page3',
+    '/page_3': {
+      path: '/page_3',
       component: {
         default: {
           componentClass: ApplicationContent,
           props: {
-            basePath: '/page3',
+            basePath: '/page_3',
             contentName: 'Page 3',
             showDummyContent: true,
           },
         },
       },
     },
-    '/page4': {
-      path: '/page4',
+    '/page_4': {
+      path: '/page_4',
       component: {
         default: {
           componentClass: ApplicationContent,
           props: {
-            basePath: '/page4',
+            basePath: '/page_4',
             contentName: 'Page 4',
             showDummyContent: true,
           },
         },
       },
     },
-    '/page5': {
-      path: '/page5',
+    '/page_5': {
+      path: '/page_5',
       component: {
         default: {
           componentClass: ApplicationContent,
           props: {
-            basePath: '/page5',
+            basePath: '/page_5',
             contentName: 'Page 5',
             showDummyContent: true,
           },
         },
       },
     },
-    '/page6': {
-      path: '/page6',
+    '/page_6': {
+      path: '/page_6',
       component: {
         default: {
           componentClass: ApplicationContent,
           props: {
-            basePath: '/page6',
+            basePath: '/page_6',
             contentName: 'Page 6',
             showDummyContent: true,
           },
         },
       },
     },
-    '/page7': {
-      path: '/page7',
+    '/page_7': {
+      path: '/page_7',
       component: {
         default: {
           componentClass: ApplicationContent,
           props: {
-            basePath: '/page7',
+            basePath: '/page_7',
             contentName: 'Page 7',
             showDummyContent: true,
           },
@@ -135,81 +139,54 @@ const config = {
   },
 };
 
-const primaryRoutes = [{
-  path: '/page1',
+const navigationItems = [{
+  path: '/page_1',
   text: 'Page 1',
 }, {
-  path: '/page2',
+  path: '/page_2',
   text: 'Page 2',
 }, {
-  path: '/page3',
+  path: '/page_3',
   text: 'Page 3',
 }, {
-  path: '/page4',
+  path: '/page_4',
   text: 'Page 4',
 }, {
-  path: '/page5',
+  path: '/page_5',
   text: 'Page 5',
 }, {
-  path: '/page6',
+  path: '/page_6',
   text: 'Page 6',
 }, {
-  path: '/page7',
+  path: '/page_7',
   text: 'Page 7',
 }];
 
-const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, navigationItems, routingConfig, indexPath }) => (
-  <div>
-    <h3>{`Router Location: ${location.pathname}`}</h3>
-    <div style={{ height: '600px', width: '100%' }}>
-      <ApplicationLayout
-        nameConfig={nameConfig}
-        utilityConfig={utilityConfig}
-        routingConfig={routingConfig}
-        navigationItems={navigationItems}
-        indexPath={indexPath}
-      />
-    </div>
-  </div>
-));
-
 const userAvatar = (
   <Avatar
+    image={ProfilePicture}
     variant="user"
-    alt="Burton, Jack"
-    ariaLabel="Burton, Jack"
+    alt="Swanson, Henry"
+    ariaLabel="Swanson, Henry"
+    key="user_avatar"
   />
 );
 
 const userData = (
   <UserData
-    userName="Burton, Jack"
-    userDetail="Everybody relax, I'm here."
+    userName="Swanson, Henry"
+    userDetail="Henry Swanson's my name, and excitement's my game."
     userPhoto={userAvatar}
   />
 );
 
-const UtilityOptionComponent = ({ name, app }) => (
-  <ContentContainer
-    fill
-    header={(
-      <ActionHeader
-        title={name.charAt(0).toUpperCase() + name.slice(1)}
-        onClose={app.closeDisclosure}
-        onBack={app.goBack}
-        onMaximize={app.maximize}
-        onMinimize={app.minimize}
-      />
-  )}
-  >
-    <div style={{ padding: '1rem' }}>Content for utility key: {name}</div>
-  </ContentContainer>
-);
-
-const applicationNameConfig = Object.freeze({ title: 'Example Application', accessory: <Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" /> });
+const nameConfig = Object.freeze({
+  title: 'Example Application',
+  accessory: <Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" />,
+});
 
 const utilityConfig = Object.freeze({
-  userName: 'Burton, Jack',
+  userName: 'Swanson, Henry',
   userPhoto: userAvatar,
   menuItems: ApplicationLayoutUtils.getDefaultUtilityConfig(userData),
   startingMenu: ApplicationLayoutUtils.KEYS.MENU,
@@ -219,22 +196,31 @@ const utilityConfig = Object.freeze({
       size: 'small',
       content: {
         key: itemKey,
-        component: <UtilityOptionComponent name={itemKey} />,
+        component: <UtilityOption name={itemKey} />,
       },
     });
   },
 });
 
+const ExampleApplication = withRouter(({ location }) => (
+  <ContentContainer
+    fill
+    header={<h3>{`Router Location: ${location.pathname}`}</h3>}
+  >
+    <ApplicationLayout
+      nameConfig={nameConfig}
+      utilityConfig={utilityConfig}
+      routingConfig={routingConfig}
+      navigationItems={navigationItems}
+      indexPath="/page_1"
+    />
+  </ContentContainer>
+));
+
 const AppRouter = () => (
-  <div>
+  <div style={{ height: '100%' }}>
     <MemoryRouter>
-      <ExampleApplication
-        nameConfig={applicationNameConfig}
-        utilityConfig={utilityConfig}
-        navigationItems={primaryRoutes}
-        routingConfig={config}
-        indexPath="/page1"
-      />
+      <ExampleApplication />
     </MemoryRouter>
   </div>
 );

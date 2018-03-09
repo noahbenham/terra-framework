@@ -19,7 +19,9 @@ const ApplicationExamples = () => (
     <div id="version">Version: {version}</div>
     <Markdown id="readme" src={ReadMe} />
     <h2>Examples</h2>
-    <ExampleApplication />
+    <div style={{ height: '700px' }}>
+      <ExampleApplication />
+    </div>
     <br />
     <br />
     <PropsTable id="props-header" src={ApplicationLayoutSrc} componentName="ApplicationLayout" />

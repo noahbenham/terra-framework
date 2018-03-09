@@ -140,6 +140,10 @@ ApplicationContent.propTypes = {
     toggleMenu: PropTypes.func,
   }),
   app: AppDelegate.propType,
+  basePath: PropTypes.string,
+  contentName: PropTypes.string,
+  noMenu: PropTypes.bool,
+  showDummyContent: PropTypes.bool,
 };
 
 export default ApplicationContent;

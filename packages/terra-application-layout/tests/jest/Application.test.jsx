@@ -1,16 +1,16 @@
 import React from 'react';
 
-import WrappedApplication from '../../src/Application';
+import WrappedApplication from '../../src/ApplicationLayout';
 import PrimaryNavigationMenu from '../../src/PrimaryNavigationMenu';
 import ApplicationMenuConfigAdapter from '../../src/menu/_ApplicationMenuConfigAdapter';
 
-const Application = WrappedApplication.WrappedComponent;
+const ApplicationLayout = WrappedApplication.WrappedComponent;
 
 const TestComponent = () => (
   <div className="test">Test</div>
 );
 
-describe('Application', () => {
+describe('ApplicationLayout', () => {
   describe('buildMenuNavigationItems', () => {
     it('should return the given navigation items if no menu routes are present', () => {
       const routingConfig = {
@@ -34,7 +34,7 @@ describe('Application', () => {
         text: '2',
       }];
 
-      const result = Application.buildMenuNavigationItems({ routingConfig, navigationItems });
+      const result = ApplicationLayout.buildMenuNavigationItems({ routingConfig, navigationItems });
 
       expect(result).toEqual(navigationItems);
     });
@@ -90,7 +90,7 @@ describe('Application', () => {
         text: '3',
       }];
 
-      const result = Application.buildMenuNavigationItems({ routingConfig, navigationItems });
+      const result = ApplicationLayout.buildMenuNavigationItems({ routingConfig, navigationItems });
 
       expect(result[0].path).toEqual('/1');
       expect(result[0].text).toEqual('1');
@@ -114,17 +114,17 @@ describe('Application', () => {
         hasSubMenu: true,
       }];
 
-      Application.buildMenuNavigationItems = jest.fn();
-      Application.buildMenuNavigationItems.mockReturnValueOnce(updatedNavigationItems);
+      ApplicationLayout.buildMenuNavigationItems = jest.fn();
+      ApplicationLayout.buildMenuNavigationItems.mockReturnValueOnce(updatedNavigationItems);
 
       const props = {
         test: 'props',
       };
 
-      const result = Application.buildNavigationMenuConfig(props);
+      const result = ApplicationLayout.buildNavigationMenuConfig(props);
 
-      expect(Application.buildMenuNavigationItems.mock.calls.length).toBe(1);
-      expect(Application.buildMenuNavigationItems.mock.calls[0][0]).toBe(props);
+      expect(ApplicationLayout.buildMenuNavigationItems.mock.calls.length).toBe(1);
+      expect(ApplicationLayout.buildMenuNavigationItems.mock.calls[0][0]).toBe(props);
 
       expect(result['/']).toBeDefined();
       expect(Object.keys(result).length).toBe(1);
@@ -144,17 +144,17 @@ describe('Application', () => {
     it('should disable stack navigation in menu when no nav items are provided', () => {
       const updatedNavigationItems = [];
 
-      Application.buildMenuNavigationItems = jest.fn();
-      Application.buildMenuNavigationItems.mockReturnValueOnce(updatedNavigationItems);
+      ApplicationLayout.buildMenuNavigationItems = jest.fn();
+      ApplicationLayout.buildMenuNavigationItems.mockReturnValueOnce(updatedNavigationItems);
 
       const props = {
         test: 'props',
       };
 
-      const result = Application.buildNavigationMenuConfig(props);
+      const result = ApplicationLayout.buildNavigationMenuConfig(props);
 
-      expect(Application.buildMenuNavigationItems.mock.calls.length).toBe(1);
-      expect(Application.buildMenuNavigationItems.mock.calls[0][0]).toBe(props);
+      expect(ApplicationLayout.buildMenuNavigationItems.mock.calls.length).toBe(1);
+      expect(ApplicationLayout.buildMenuNavigationItems.mock.calls[0][0]).toBe(props);
 
       expect(result['/']).toBeDefined();
       expect(Object.keys(result).length).toBe(1);
@@ -231,7 +231,7 @@ describe('Application', () => {
         },
       };
 
-      const result = Application.wrapMenuConfig({ nameConfig, utilityConfig }, menuConfig);
+      const result = ApplicationLayout.wrapMenuConfig({ nameConfig, utilityConfig }, menuConfig);
 
       expect(Object.keys(result).length).toBe(2);
       expect(result['/test_1'].component.default.componentClass).toBe(ApplicationMenuConfigAdapter);
@@ -287,26 +287,26 @@ describe('Application', () => {
         },
       };
 
-      Application.buildNavigationMenuConfig = jest.fn();
-      Application.buildNavigationMenuConfig.mockReturnValueOnce(navMenuConfig);
+      ApplicationLayout.buildNavigationMenuConfig = jest.fn();
+      ApplicationLayout.buildNavigationMenuConfig.mockReturnValueOnce(navMenuConfig);
 
-      Application.wrapMenuConfig = jest.fn();
-      Application.wrapMenuConfig.mockReturnValueOnce({ new: 'menus' });
+      ApplicationLayout.wrapMenuConfig = jest.fn();
+      ApplicationLayout.wrapMenuConfig.mockReturnValueOnce({ new: 'menus' });
 
-      const result = Application.updateRoutingConfig({ routingConfig, navigationItems });
+      const result = ApplicationLayout.updateRoutingConfig({ routingConfig, navigationItems });
 
       expect(result.menu).toEqual({ new: 'menus' });
       expect(result.content).toEqual({
         test: 'contet config',
       });
 
-      expect(Application.buildNavigationMenuConfig.mock.calls.length).toBe(1);
-      expect(Application.buildNavigationMenuConfig.mock.calls[0][0]).toEqual({ routingConfig, navigationItems });
+      expect(ApplicationLayout.buildNavigationMenuConfig.mock.calls.length).toBe(1);
+      expect(ApplicationLayout.buildNavigationMenuConfig.mock.calls[0][0]).toEqual({ routingConfig, navigationItems });
 
-      expect(Application.wrapMenuConfig.mock.calls.length).toBe(1);
-      expect(Application.wrapMenuConfig.mock.calls[0][0]).toEqual({ routingConfig, navigationItems });
+      expect(ApplicationLayout.wrapMenuConfig.mock.calls.length).toBe(1);
+      expect(ApplicationLayout.wrapMenuConfig.mock.calls[0][0]).toEqual({ routingConfig, navigationItems });
 
-      const wrapMenuConfigMenus = Application.wrapMenuConfig.mock.calls[0][1];
+      const wrapMenuConfigMenus = ApplicationLayout.wrapMenuConfig.mock.calls[0][1];
       expect(Object.keys(wrapMenuConfigMenus).length).toBe(2);
       expect(wrapMenuConfigMenus['/']).toBeDefined();
       expect(wrapMenuConfigMenus['/test']).toBeDefined();

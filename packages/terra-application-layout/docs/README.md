@@ -66,6 +66,7 @@ When `compact`, the ApplicationLayout will generate a menu that renders the `nav
 ```jsx
 import Base from 'terra-base';
 import ApplicationLayout from 'terra-application-layout';
+import Avatar from 'terra-avatar';
 import { HashRouter as Router } from 'react-router-dom';
 import { Page1Content, Page1Menu, Page2Content } from './my-app-pages';
 
@@ -79,15 +80,23 @@ const nameConfig = {
 };
 
 /**
- * The data provided for utilityConfig will be integrated with the ApplicationLayout's set of
- * default utility items.
+ * The data provided for utilityConfig will be visible in the ApplicationLayout's header in the
+ * standard rendering mode and within the menus in the compact rendering mode.
  */
 const utilityConfig = {
-  // TODO
+  userName: 'Name, User',
+  userPhoto: <Avatar variant="user" ariaLabel="Name, User Photo" />,
+  menuItems: ApplicationLayoutUtils.getDefaultUtilityConfig(userData),
+  startingMenu: ApplicationLayoutUtils.KEYS.MENU,
+  onChange: (event, itemKey, disclose) => {
+    // This function will be called when items are selected within the utility menu.
+    // The disclose parameter is provided for convenience, but any presentation method
+    // could be used to handle that menu content selection.
+  },
 };
 
 /**
- * The routingConfig matches that of the NavigationLayout. Routing specifications for the
+ * The routingConfig API matches that of the NavigationLayout. Routing specifications for the
  * menu and content regions are supported; the header region is not configurable.
  */
 const routingConfig = {

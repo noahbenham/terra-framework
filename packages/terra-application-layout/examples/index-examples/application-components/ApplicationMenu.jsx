@@ -116,6 +116,13 @@ ApplicationMenu.propTypes = {
     menuIsPinned: PropTypes.bool,
   }),
   routingStackDelegate: RoutingStackDelegate.propType,
+  includeNestedMenu: PropTypes.bool,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  menuName: PropTypes.string,
+  baseUrl: PropTypes.string,
+
 };
 
 export default withRouter(ApplicationMenu);
