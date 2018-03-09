@@ -86,8 +86,7 @@ class ApplicationTab extends React.Component {
   handleOnClick(event) {
     if (!this.isCurrentPath()) {
       this.props.history.push(this.props.path);
-    }
-    if (this.props.onTabClick) {
+    } else if (this.props.onTabClick) {
       this.props.onTabClick(event);
     }
   }
