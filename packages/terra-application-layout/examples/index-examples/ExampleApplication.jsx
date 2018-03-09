@@ -40,42 +40,6 @@ const config = {
         },
       },
     },
-    '/page3': {
-      path: '/page3',
-      component: {
-        default: {
-          componentClass: ApplicationMenu,
-          props: {
-            baseUrl: '/page3',
-            menuName: 'Page 3 Menu',
-          },
-        },
-      },
-    },
-    '/page4': {
-      path: '/page4',
-      component: {
-        default: {
-          componentClass: ApplicationMenu,
-          props: {
-            baseUrl: '/page4',
-            menuName: 'Page 4 Menu',
-          },
-        },
-      },
-    },
-    '/page5': {
-      path: '/page5',
-      component: {
-        default: {
-          componentClass: ApplicationMenu,
-          props: {
-            baseUrl: '/page5',
-            menuName: 'Page 5 Menu',
-          },
-        },
-      },
-    },
   },
   content: {
     '/page1': {
@@ -111,6 +75,7 @@ const config = {
           props: {
             basePath: '/page3',
             contentName: 'Page 3',
+            showDummyContent: true,
           },
         },
       },
@@ -123,6 +88,7 @@ const config = {
           props: {
             basePath: '/page4',
             contentName: 'Page 4',
+            showDummyContent: true,
           },
         },
       },
@@ -135,11 +101,37 @@ const config = {
           props: {
             basePath: '/page5',
             contentName: 'Page 5',
+            showDummyContent: true,
           },
         },
       },
     },
-
+    '/page6': {
+      path: '/page6',
+      component: {
+        default: {
+          componentClass: ApplicationContent,
+          props: {
+            basePath: '/page6',
+            contentName: 'Page 6',
+            showDummyContent: true,
+          },
+        },
+      },
+    },
+    '/page7': {
+      path: '/page7',
+      component: {
+        default: {
+          componentClass: ApplicationContent,
+          props: {
+            basePath: '/page7',
+            contentName: 'Page 7',
+            showDummyContent: true,
+          },
+        },
+      },
+    },
   },
 };
 
@@ -148,7 +140,7 @@ const primaryRoutes = [{
   text: 'Page 1',
 }, {
   path: '/page2',
-  text: 'Page 2 (No Menu)',
+  text: 'Page 2',
 }, {
   path: '/page3',
   text: 'Page 3',
@@ -158,6 +150,12 @@ const primaryRoutes = [{
 }, {
   path: '/page5',
   text: 'Page 5',
+}, {
+  path: '/page6',
+  text: 'Page 6',
+}, {
+  path: '/page7',
+  text: 'Page 7',
 }];
 
 const ExampleApplication = withRouter(({ location, nameConfig, utilityConfig, navigationItems, routingConfig, indexPath }) => (
@@ -204,7 +202,7 @@ const UtilityOptionComponent = ({ name, app }) => (
       />
   )}
   >
-    <div>Content for utility key: {name}</div>
+    <div style={{ padding: '1rem' }}>Content for utility key: {name}</div>
   </ContentContainer>
 );
 
