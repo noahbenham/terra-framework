@@ -20,9 +20,9 @@ const UtilityOption = ({ name, app }) => (
         onMaximize={app.maximize}
         onMinimize={app.minimize}
       />
-  )}
+   )}
   >
-    <div style={{ padding: '1rem' }}>Content for utility key: {name}</div>
+    <div style={{ padding: '10px' }}>Content for utility key: {name}</div>
   </ContentContainer>
 );
 

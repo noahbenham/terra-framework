@@ -77,7 +77,7 @@ class ApplicationMenu extends React.Component {
     return (
       <ContentContainer
         footer={(
-          <div style={{ padding: '1rem', borderTop: '1px solid lightgrey' }}>
+          <div style={{ padding: '10px', borderTop: '1px solid lightgrey' }}>
             <Button
               text="Custom Event 1" isBlock onClick={() => {
                 const evt = document.createEvent('CustomEvent');
@@ -122,7 +122,6 @@ ApplicationMenu.propTypes = {
   }),
   menuName: PropTypes.string,
   baseUrl: PropTypes.string,
-
 };
 
 export default withRouter(ApplicationMenu);

@@ -4,6 +4,7 @@ import { MemoryRouter, withRouter } from 'react-router-dom';
 import Image from 'terra-image';
 import Avatar from 'terra-avatar';
 import ContentContainer from 'terra-content-container';
+import { UtilityUtils } from 'terra-application-utility';
 
 import ApplicationLayout from '../../src/ApplicationLayout';
 import UserData from '../../src/user/UserData';
@@ -185,10 +186,45 @@ const nameConfig = Object.freeze({
   accessory: <Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" />,
 });
 
+const customUtilities = [{
+  key: 'additional-1',
+  contentLocation: UtilityUtils.LOCATIONS.BODY,
+  title: 'Addtional Item 1',
+  isSelectable: false,
+  isSelected: false,
+  childKeys: [
+    'additional-sub-1',
+    'additional-sub-2',
+  ],
+  parentKey: ApplicationLayoutUtils.KEYS.MENU,
+}, {
+  key: 'additional-sub-1',
+  contentLocation: UtilityUtils.LOCATIONS.BODY,
+  title: 'Addtional Item 1 - Sub 1',
+  isSelectable: false,
+  isSelected: false,
+  parentKey: 'additional-1',
+
+}, {
+  key: 'additional-sub-2',
+  contentLocation: UtilityUtils.LOCATIONS.BODY,
+  title: 'Addtional Item 1 - Sub 2',
+  isSelectable: false,
+  isSelected: false,
+  parentKey: 'additional-1',
+}, {
+  key: 'additional-2',
+  contentLocation: UtilityUtils.LOCATIONS.BODY,
+  title: 'Addtional Item 2',
+  isSelectable: false,
+  isSelected: false,
+  parentKey: ApplicationLayoutUtils.KEYS.MENU,
+}];
+
 const utilityConfig = Object.freeze({
   userName: 'Swanson, Henry',
   userPhoto: userAvatar,
-  menuItems: ApplicationLayoutUtils.getDefaultUtilityConfig(userData),
+  menuItems: ApplicationLayoutUtils.getDefaultUtilityConfig(userData, customUtilities),
   startingMenu: ApplicationLayoutUtils.KEYS.MENU,
   onChange: (event, itemKey, disclose) => {
     disclose({

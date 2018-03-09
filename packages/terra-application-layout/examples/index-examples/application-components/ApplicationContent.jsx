@@ -106,7 +106,7 @@ class ApplicationContent extends React.Component {
       <ContentContainer
         fill
       >
-        <div style={{ padding: '1.5rem' }}>
+        <div style={{ padding: '15px' }}>
           <h1>{contentName}</h1>
           {content}
           <h2>Layout Control</h2>

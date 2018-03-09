@@ -36,7 +36,13 @@ const reconcileChildren = (config, additionalConfig) => {
 
   additionalConfig.forEach((item) => {
     if (item.parentKey) {
-      const parent = config[item.parentKey];
+      const matchedParents = config.filter(configItem => configItem.key === item.parentKey);
+      if (!matchedParents.length) {
+        return;
+      }
+
+      const parent = matchedParents[0];
+
       if (!parent.childKeys) {
         parent.childKeys = [item.key];
       } else if (parent.childKeys.indexOf(item.key) < 0) {
