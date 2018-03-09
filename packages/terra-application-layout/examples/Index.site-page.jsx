@@ -20,7 +20,9 @@ const ApplicationExamples = () => (
     <Markdown id="readme" src={ReadMe} />
     <h2>Examples</h2>
     <ExampleApplication />
-    <PropsTable id="props-header" src={ApplicationLayoutSrc} componentName="Application" />
+    <br />
+    <br />
+    <PropsTable id="props-header" src={ApplicationLayoutSrc} componentName="ApplicationLayout" />
   </div>
 );
 

@@ -226,7 +226,7 @@ const utilityConfig = Object.freeze({
 });
 
 const AppRouter = () => (
-  <div style={{ height: '100vh', overflow: 'auto' }}>
+  <div>
     <MemoryRouter>
       <ExampleApplication
         nameConfig={applicationNameConfig}

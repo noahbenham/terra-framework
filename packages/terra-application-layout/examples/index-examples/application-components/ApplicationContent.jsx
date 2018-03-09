@@ -96,7 +96,7 @@ class ApplicationContent extends React.Component {
         )}</p>
           <h2>Menu/Content Communication</h2>
           <hr />
-          <p>In addition, communication can occur through custom events or shared context.</p>
+          <p>Additionally, communication can occur through custom events or shared context.</p>
           <p>Event detected: <b>{this.state.eventState}</b></p>
         </div>
       );
@@ -111,8 +111,8 @@ class ApplicationContent extends React.Component {
           {content}
           <h2>Layout Control</h2>
           <hr />
-          <p>Content and menu components will receive a prop named `layoutConfig` which contains APIs for manipulating the ApplicationLayout's state. When the layout is tiny or small, the layoutConfig will include a function called `toggleMenu` which will present or dismiss the menu.</p>
-          <Button text="Toggle Menu" isDisabled={!layoutConfig.toggleMenu} onClick={() => layoutConfig.toggleMenu()} />
+          <p>Content and menu components will receive a prop named <b>layoutConfig</b> which contains APIs for manipulating the layout state. When the layout is tiny or small, the layoutConfig will include a function called `toggleMenu` which will present or dismiss the menu.</p>
+          <Button text="Toggle Menu" isDisabled={!layoutConfig.toggleMenu} onClick={() => { layoutConfig.toggleMenu(); }} />
           <h2>Progressive Disclosure</h2>
           <hr />
           <p>The ApplicationLayout ensures all content and menu components receive an AppDelegate prop (as <b>app</b>), with ModalManager support included by default. The ApplicationLayout can be wrapped in additional DisclosureManagers to provide additional disclosure capabilities.</p>
