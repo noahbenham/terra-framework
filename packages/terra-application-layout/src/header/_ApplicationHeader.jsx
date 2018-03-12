@@ -118,14 +118,13 @@ class ApplicationHeader extends React.Component {
     if (layoutConfig.toggleMenu) {
       toggle = (
         <div className={cx('toolbar-toggle')}>
-          <Button
+          <button
             className={cx('toggle-button')}
-            variant={Button.Opts.Variants['DE-EMPHASIS']}
-            icon={<IconMenu />}
+            aria-label="Toggle Menu" // Needs translations
             onClick={layoutConfig.toggleMenu}
-            isIconOnly
-            text="Toggle Menu"
-          />
+          >
+            <IconMenu />
+          </button>
         </div>
       );
     }

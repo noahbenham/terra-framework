@@ -14,10 +14,16 @@
     width: var(--terra-application-header-toggle-width, 3.5725rem);
   }
 
-  .toggle-button,
-  .toggle-button:hover {
+  .toggle-button{
+    background-color: var(--terra-application-header-toggle-background-color, transparent);
+    border: none;
     color: var(--terra-application-header-toggle-color, #fff);
+    cursor: pointer;
     height: 100%;
     width: 100%;
+  }
+
+  .toggle-button:hover {
+    background-color: var(--terra-application-header-toggle-hover-background-color, rgba(0, 0, 0, 0.15));
   }
 }
