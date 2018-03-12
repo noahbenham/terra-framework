@@ -7,7 +7,7 @@ import { routeConfigPropType } from 'terra-navigation-layout/lib/configurationPr
 import { matchPath } from 'react-router-dom';
 import { withModalManager } from 'terra-modal-manager';
 
-import PrimaryNavigationMenu from './PrimaryNavigationMenu';
+import PrimaryNavigationSideMenu from './menu/_PrimaryNavigationSideMenu';
 import ApplicationMenuConfigAdapter from './menu/_ApplicationMenuConfigAdapter';
 import ApplicationHeader from './header/_ApplicationHeader';
 import ApplicationLayoutUtils from './ApplicationLayoutUtils';
@@ -80,7 +80,7 @@ class ApplicationLayout extends React.Component {
     const menuNavigationItems = ApplicationLayout.buildMenuNavigationItems(props);
 
     const componentConfig = {
-      componentClass: PrimaryNavigationMenu,
+      componentClass: PrimaryNavigationSideMenu,
       props: {
         navigationItems: menuNavigationItems,
       },

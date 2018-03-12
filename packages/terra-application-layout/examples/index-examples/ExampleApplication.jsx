@@ -7,8 +7,8 @@ import ContentContainer from 'terra-content-container';
 import { UtilityUtils } from 'terra-application-utility';
 
 import ApplicationLayout from '../../src/ApplicationLayout';
-import UserData from '../../src/user/UserData';
 import ApplicationLayoutUtils from '../../src/ApplicationLayoutUtils';
+import UserData from '../../src/user/_UserData';
 
 import ApplicationContent from './application-components/ApplicationContent';
 import ApplicationMenu from './application-components/ApplicationMenu';
@@ -225,7 +225,7 @@ const utilityConfig = Object.freeze({
   title: 'Swanson, Henry',
   accessory: userAvatar,
   menuItems: ApplicationLayoutUtils.getDefaultUtilityConfig(userData, customUtilities),
-  startingMenu: ApplicationLayoutUtils.KEYS.MENU,
+  selectedKey: ApplicationLayoutUtils.KEYS.MENU,
   onChange: (event, itemKey, disclose) => {
     disclose({
       preferredType: 'modal',

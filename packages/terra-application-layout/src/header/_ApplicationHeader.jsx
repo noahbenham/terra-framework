@@ -142,9 +142,11 @@ class ApplicationHeader extends React.Component {
       if (applicationLinks.length) {
         navigation = <ApplicationTabs links={applicationLinks} />;
       }
+
       if (extensions) {
         extensionsElement = React.cloneElement(extensions, { app });
       }
+
       if (utilityConfig) {
         utilities = (
           <ApplicationHeaderUtility
@@ -153,7 +155,7 @@ class ApplicationHeader extends React.Component {
             title={utilityConfig.title}
             accessory={utilityConfig.accessory}
             menuItems={utilityConfig.menuItems}
-            selectedKey={utilityConfig.startingMenu}
+            selectedKey={utilityConfig.selectedKey}
             data-application-header-utility
           />
         );

@@ -1,10 +1,10 @@
 import React from 'react';
 import NavigationSideMenu from 'terra-navigation-side-menu';
-import WrappedPrimaryNavigationMenu from '../../src/PrimaryNavigationMenu';
+import WrappedPrimaryNavigationMenu from '../../src/menu/_PrimaryNavigationSideMenu';
 
-const PrimaryNavigationMenu = WrappedPrimaryNavigationMenu.WrappedComponent;
+const PrimaryNavigationSideMenu = WrappedPrimaryNavigationMenu.WrappedComponent;
 
-describe('PrimaryNavigationMenu', () => {
+describe('PrimaryNavigationSideMenu', () => {
   describe('buildChildSideNavItems', () => {
     it('should return array of objects adhering to the SideNavMenu API', () => {
       const items = [{
@@ -20,7 +20,7 @@ describe('PrimaryNavigationMenu', () => {
         text: '3',
       }];
 
-      const result = PrimaryNavigationMenu.buildChildSideNavItems(items);
+      const result = PrimaryNavigationSideMenu.buildChildSideNavItems(items);
       expect(result).toEqual([{
         key: '/1',
         text: '1',
@@ -74,7 +74,7 @@ describe('PrimaryNavigationMenu', () => {
       };
 
       const primaryNavigationMenu = (
-        <PrimaryNavigationMenu
+        <PrimaryNavigationSideMenu
           location={{ pathname: '/2' }}
           routingStackDelegate={mockRoutingStackDelegate}
           layoutConfig={mockLayoutConfig}
@@ -118,7 +118,7 @@ describe('PrimaryNavigationMenu', () => {
       };
 
       const primaryNavigationMenu = (
-        <PrimaryNavigationMenu
+        <PrimaryNavigationSideMenu
           location={{ pathname: '/1' }}
           routingStackDelegate={mockRoutingStackDelegate}
           layoutConfig={mockLayoutConfig}
@@ -159,7 +159,7 @@ describe('PrimaryNavigationMenu', () => {
       };
 
       const primaryNavigationMenu = (
-        <PrimaryNavigationMenu
+        <PrimaryNavigationSideMenu
           location={{ pathname: '/1' }}
           routingStackDelegate={mockRoutingStackDelegate}
           layoutConfig={mockLayoutConfig}

@@ -13,7 +13,7 @@ const propTypes = {
    * Displayed next to the user photo and below the username.
    */
   userDetail: PropTypes.string,
-    /**
+  /**
    * The name to be displayed next to the user photo.
    */
   userName: PropTypes.string,

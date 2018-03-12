@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withRouter, matchPath } from 'react-router-dom';
 import NavigationSideMenu from 'terra-navigation-side-menu';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
-import ApplicationLayoutUtils from './ApplicationLayoutUtils';
+import ApplicationLayoutUtils from '../ApplicationLayoutUtils';
 
 const propTypes = {
   /**
@@ -29,14 +29,16 @@ const propTypes = {
 
 const navMenuKey = 'navigationMenu';
 
-class PrimaryNavigationMenu extends React.Component {
+class PrimaryNavigationSideMenu extends React.Component {
   static buildChildSideNavItems(items) {
     return items.map(item => ({
       key: item.path,
       text: item.text,
       hasSubMenu: !!item.hasSubMenu,
       metaData: {
-        // metaData is added to the item to make the change handler's life easier.
+        /**
+         * metaData is added to the item to make handleMenuChange's life easier.
+         */
         url: item.path,
         hasSubMenu: !!item.hasSubMenu,
       },
@@ -50,7 +52,9 @@ class PrimaryNavigationMenu extends React.Component {
 
     let selectedChildKey;
 
-    // If the provided location matches one of the navigation items, that item is marked as selected.
+    /**
+     * If the provided location matches one of the navigation items, that item is marked as selected.
+     */
     props.navigationItems.forEach((route) => {
       if (matchPath(props.location.pathname, { path: route.path })) {
         selectedChildKey = route.path;
@@ -90,12 +94,12 @@ class PrimaryNavigationMenu extends React.Component {
   render() {
     const { routingStackDelegate, navigationItems } = this.props;
 
-    const childItems = PrimaryNavigationMenu.buildChildSideNavItems(navigationItems);
+    const childItems = PrimaryNavigationSideMenu.buildChildSideNavItems(navigationItems);
 
     return (
       <NavigationSideMenu
         menuItems={[
-          { key: navMenuKey, text: '', childKeys: childItems.map(item => (item.key)), isRootMenu: true },
+          { key: navMenuKey, text: '', childKeys: childItems.map(item => item.key), isRootMenu: true },
         ].concat(...childItems)}
         onChange={this.handleMenuChange}
         routingStackBack={routingStackDelegate.showParent}
@@ -106,6 +110,6 @@ class PrimaryNavigationMenu extends React.Component {
   }
 }
 
-PrimaryNavigationMenu.propTypes = propTypes;
+PrimaryNavigationSideMenu.propTypes = propTypes;
 
-export default withRouter(PrimaryNavigationMenu);
+export default withRouter(PrimaryNavigationSideMenu);
