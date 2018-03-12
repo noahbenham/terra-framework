@@ -21,6 +21,11 @@
     cursor: pointer;
     height: 100%;
     width: 100%;
+
+    > svg {
+      height: var(--terra-application-header-toggle-icon-height, 1rem);
+      width: var(--terra-application-header-toggle-icon-width, 1rem);
+    }
   }
 
   .toggle-button:hover {
