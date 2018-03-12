@@ -197,7 +197,7 @@ const utilityConfigPropType = PropTypes.shape({
     isSelectable: PropTypes.bool,
     isSelected: PropTypes.bool,
     childKeys: PropTypes.array,
-  })),
+  })).isRequired,
   selectedKey: PropTypes.string.isRequired,
 });
 

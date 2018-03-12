@@ -4,7 +4,11 @@
 import TerraAggregatorIndex from './packages/terra-aggregator/examples/Index.site-page';
 import TerraAppDelegateIndex from './packages/terra-app-delegate/examples/Index.site-page';
 import TerraApplicationHeaderLayoutIndex from './packages/terra-application-header-layout/examples/Index.site-page';
-import TerraApplicationLayoutIndex from './packages/terra-application-layout/examples/Index.site-page';
+import TerraApplicationLayoutAbout from './packages/terra-application-layout/examples/About.site-page';
+import TerraApplicationLayoutExample from './packages/terra-application-layout/examples/Example.site-page';
+import TerraApplicationLayoutImplementationGuide from './packages/terra-application-layout/examples/ImplementationGuide.site-page';
+import TerraApplicationLayoutResponsiveDesign from './packages/terra-application-layout/examples/ResponsiveDesign.site-page';
+import TerraApplicationLayoutUtils from './packages/terra-application-layout/examples/Utils.site-page';
 import TerraApplicationLinksIndex from './packages/terra-application-links/examples/Index.site-page';
 import TerraApplicationMenuLayoutIndex from './packages/terra-application-menu-layout/examples/Index.site-page';
 import TerraApplicationNameIndex from './packages/terra-application-name/examples/Index.site-page';
@@ -106,9 +110,29 @@ const componentConfig = {
     path: '/application-layout',
     pages: [
       {
-        name: 'Index',
-        path: '/index',
-        component: TerraApplicationLayoutIndex,
+        name: 'About',
+        path: '/about',
+        component: TerraApplicationLayoutAbout,
+      },
+      {
+        name: 'Example',
+        path: '/example',
+        component: TerraApplicationLayoutExample,
+      },
+      {
+        name: 'Implementation Guide',
+        path: '/implementation-guide',
+        component: TerraApplicationLayoutImplementationGuide,
+      },
+      {
+        name: 'Responsive Design',
+        path: '/responsive-design',
+        component: TerraApplicationLayoutResponsiveDesign,
+      },
+      {
+        name: 'Utils',
+        path: '/utils',
+        component: TerraApplicationLayoutUtils,
       },
     ],
     tests: [

@@ -112,7 +112,7 @@ class ApplicationHeader extends React.Component {
       customProps.className,
     ]);
 
-    const isSmallFormFactor = ['tiny', 'small'].indexOf(layoutConfig.size) >= 0;
+    const isCompactFormFactor = ['tiny', 'small'].indexOf(layoutConfig.size) >= 0;
 
     let toggle;
     if (layoutConfig.toggleMenu) {
@@ -137,7 +137,7 @@ class ApplicationHeader extends React.Component {
     let navigation;
     let utilities;
     let extensionsElement;
-    if (!isSmallFormFactor) {
+    if (!isCompactFormFactor) {
       if (applicationLinks.length) {
         navigation = <ApplicationTabs links={applicationLinks} />;
       }

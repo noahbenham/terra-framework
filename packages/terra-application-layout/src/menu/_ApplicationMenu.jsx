@@ -7,6 +7,7 @@ import { ApplicationMenuName } from 'terra-application-name';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
 import { ApplicationMenuUtility } from 'terra-application-utility';
+import { disclosureType as modalDisclosureType } from 'terra-modal-manager';
 
 import 'terra-base/lib/baseStyles';
 import ApplicationLayoutUtils from '../ApplicationLayoutUtils';
@@ -62,14 +63,14 @@ class ApplicationMenu extends React.Component {
     this.handleOnChange = this.handleOnChange.bind(this);
   }
 
-  handleOnRequestDisclose(utility) {
-    if (this.props.app && utility) {
+  handleOnRequestDisclose(utilityMenu) {
+    if (this.props.app && utilityMenu) {
       this.props.app.disclose({
-        preferredType: 'modal',
+        preferredType: modalDisclosureType,
         size: 'small',
         content: {
-          component: <UtilityMenuWrapper>{utility}</UtilityMenuWrapper>,
-          key: 'application-utility-menu',
+          component: <UtilityMenuWrapper>{utilityMenu}</UtilityMenuWrapper>,
+          key: 'application-menu-utility-menu',
         },
       });
     }
@@ -98,18 +99,20 @@ class ApplicationMenu extends React.Component {
       customProps.className,
     ]);
 
-    const isSmallFormFactor = ['tiny', 'small'].indexOf(layoutConfig.size) >= 0;
+    const isCompactFormFactor = ['tiny', 'small'].indexOf(layoutConfig.size) >= 0;
 
     let header;
     let footer;
     let extensionsElement;
-    if (isSmallFormFactor) {
+    if (isCompactFormFactor) {
       if (nameConfig.accessory || nameConfig.title) {
         header = <ApplicationMenuName accessory={nameConfig.accessory} title={nameConfig.title} />;
       }
+
       if (extensions) {
         extensionsElement = React.cloneElement(extensions, { app });
       }
+
       if (utilityConfig) {
         footer = (
           <ApplicationMenuUtility
