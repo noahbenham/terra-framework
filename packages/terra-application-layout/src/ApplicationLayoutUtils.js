@@ -186,8 +186,8 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
 };
 
 const utilityConfigPropType = PropTypes.shape({
-  userName: PropTypes.string.isRequired,
-  userPhoto: PropTypes.element,
+  title: PropTypes.string.isRequired,
+  accessory: PropTypes.element,
   onChange: PropTypes.func.isRequired,
   menuItems: PropTypes.arrayOf(PropTypes.shape({
     content: PropTypes.element,
@@ -198,6 +198,7 @@ const utilityConfigPropType = PropTypes.shape({
     isSelected: PropTypes.bool,
     childKeys: PropTypes.array,
   })),
+  selectedKey: PropTypes.string.isRequired,
 });
 
 const layoutConfigPropType = PropTypes.shape({

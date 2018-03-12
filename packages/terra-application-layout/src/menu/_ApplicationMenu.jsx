@@ -115,8 +115,8 @@ class ApplicationMenu extends React.Component {
           <ApplicationMenuUtility
             onChange={this.handleOnChange}
             onDisclose={this.handleOnRequestDisclose}
-            title={utilityConfig.userName}
-            accessory={utilityConfig.userPhoto}
+            title={utilityConfig.title}
+            accessory={utilityConfig.accessory}
             menuItems={utilityConfig.menuItems}
             selectedKey={utilityConfig.startingMenu}
             data-application-menu-utility

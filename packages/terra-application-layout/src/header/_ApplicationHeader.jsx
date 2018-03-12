@@ -150,8 +150,8 @@ class ApplicationHeader extends React.Component {
           <ApplicationHeaderUtility
             onChange={this.handleOnChange}
             onDisclose={this.handleOnRequestDisclose}
-            title={utilityConfig.userName}
-            accessory={utilityConfig.userPhoto}
+            title={utilityConfig.title}
+            accessory={utilityConfig.accessory}
             menuItems={utilityConfig.menuItems}
             selectedKey={utilityConfig.startingMenu}
             data-application-header-utility

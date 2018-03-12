@@ -222,8 +222,8 @@ const customUtilities = [{
 }];
 
 const utilityConfig = Object.freeze({
-  userName: 'Swanson, Henry',
-  userPhoto: userAvatar,
+  title: 'Swanson, Henry',
+  accessory: userAvatar,
   menuItems: ApplicationLayoutUtils.getDefaultUtilityConfig(userData, customUtilities),
   startingMenu: ApplicationLayoutUtils.KEYS.MENU,
   onChange: (event, itemKey, disclose) => {
