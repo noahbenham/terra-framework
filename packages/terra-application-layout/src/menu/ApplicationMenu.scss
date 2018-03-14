@@ -4,4 +4,10 @@
     height: 100%;
     position: relative;
   }
+
+  .menu-header {
+    background-color: var(--terra-application-menu-header-background-color, #1b7fcd);
+    position: relative;
+    width: 100%;
+  }
 }

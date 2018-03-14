@@ -104,7 +104,11 @@ class ApplicationMenu extends React.Component {
     const { isCompact } = this.state;
 
     if (isCompact && (nameConfig.accessory || nameConfig.title)) {
-      return <ApplicationMenuName accessory={nameConfig.accessory} title={nameConfig.title} />;
+      return (
+        <div className={cx(['menu-header'])}>
+          <ApplicationMenuName accessory={nameConfig.accessory} title={nameConfig.title} />
+        </div>
+      );
     }
 
     return null;
