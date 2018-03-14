@@ -172,7 +172,7 @@ describe('ApplicationLayout', () => {
     });
   });
 
-  describe('wrapMenuConfig', () => {
+  describe('buildWrappedMenuConfig', () => {
     it('should update the configuration object for menu routes with components wrapped by the ApplicationMenuConfigAdapter', () => {
       const nameConfig = {
         name: 'config',
@@ -231,7 +231,7 @@ describe('ApplicationLayout', () => {
         },
       };
 
-      const result = ApplicationLayout.wrapMenuConfig({ nameConfig, utilityConfig }, menuConfig);
+      const result = ApplicationLayout.buildWrappedMenuConfig({ nameConfig, utilityConfig }, menuConfig);
 
       expect(Object.keys(result).length).toBe(2);
       expect(result['/test_1'].component.default.componentClass).toBe(ApplicationMenuConfigAdapter);
@@ -254,7 +254,7 @@ describe('ApplicationLayout', () => {
     });
   });
 
-  describe('updateRoutingConfig', () => {
+  describe('buildRoutingConfig', () => {
     it('should return the updated and wrapped configuration', () => {
       const routingConfig = {
         content: {
@@ -290,10 +290,10 @@ describe('ApplicationLayout', () => {
       ApplicationLayout.buildNavigationMenuConfig = jest.fn();
       ApplicationLayout.buildNavigationMenuConfig.mockReturnValueOnce(navMenuConfig);
 
-      ApplicationLayout.wrapMenuConfig = jest.fn();
-      ApplicationLayout.wrapMenuConfig.mockReturnValueOnce({ new: 'menus' });
+      ApplicationLayout.buildWrappedMenuConfig = jest.fn();
+      ApplicationLayout.buildWrappedMenuConfig.mockReturnValueOnce({ new: 'menus' });
 
-      const result = ApplicationLayout.updateRoutingConfig({ routingConfig, navigationItems });
+      const result = ApplicationLayout.buildRoutingConfig({ routingConfig, navigationItems });
 
       expect(result.menu).toEqual({ new: 'menus' });
       expect(result.content).toEqual({
@@ -303,10 +303,10 @@ describe('ApplicationLayout', () => {
       expect(ApplicationLayout.buildNavigationMenuConfig.mock.calls.length).toBe(1);
       expect(ApplicationLayout.buildNavigationMenuConfig.mock.calls[0][0]).toEqual({ routingConfig, navigationItems });
 
-      expect(ApplicationLayout.wrapMenuConfig.mock.calls.length).toBe(1);
-      expect(ApplicationLayout.wrapMenuConfig.mock.calls[0][0]).toEqual({ routingConfig, navigationItems });
+      expect(ApplicationLayout.buildWrappedMenuConfig.mock.calls.length).toBe(1);
+      expect(ApplicationLayout.buildWrappedMenuConfig.mock.calls[0][0]).toEqual({ routingConfig, navigationItems });
 
-      const wrapMenuConfigMenus = ApplicationLayout.wrapMenuConfig.mock.calls[0][1];
+      const wrapMenuConfigMenus = ApplicationLayout.buildWrappedMenuConfig.mock.calls[0][1];
       expect(Object.keys(wrapMenuConfigMenus).length).toBe(2);
       expect(wrapMenuConfigMenus['/']).toBeDefined();
       expect(wrapMenuConfigMenus['/test']).toBeDefined();

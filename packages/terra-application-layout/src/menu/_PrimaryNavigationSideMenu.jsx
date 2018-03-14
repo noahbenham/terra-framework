@@ -71,12 +71,14 @@ class PrimaryNavigationSideMenu extends React.Component {
     this.handleMenuChange = this.handleMenuChange.bind(this);
 
     this.state = {
+      selectedMenuKey: navMenuKey,
       selectedChildKey: PrimaryNavigationSideMenu.getSelectedChildKey(props.location.pathname, props.navigationItems),
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
+      selectedMenuKey: navMenuKey,
       selectedChildKey: PrimaryNavigationSideMenu.getSelectedChildKey(nextProps.location.pathname, nextProps.navigationItems),
     });
   }
@@ -85,6 +87,7 @@ class PrimaryNavigationSideMenu extends React.Component {
     const { routingStackDelegate, layoutConfig } = this.props;
 
     this.setState({
+      selectedMenuKey: data.selectedMenuKey,
       selectedChildKey: data.selectedChildKey,
     });
 
@@ -102,18 +105,22 @@ class PrimaryNavigationSideMenu extends React.Component {
 
   render() {
     const { routingStackDelegate, navigationItems } = this.props;
+    const { selectedMenuKey, selectedChildKey } = this.state;
 
     const childItems = PrimaryNavigationSideMenu.buildChildSideNavItems(navigationItems);
 
     return (
       <NavigationSideMenu
-        menuItems={[
-          { key: navMenuKey, text: '', childKeys: childItems.map(item => item.key), isRootMenu: true },
-        ].concat(...childItems)}
+        menuItems={[{
+          key: navMenuKey,
+          text: '',
+          childKeys: childItems.map(item => item.key),
+          isRootMenu: true,
+        }].concat(...childItems)}
         onChange={this.handleMenuChange}
         routingStackBack={routingStackDelegate.showParent}
-        selectedMenuKey={navMenuKey}
-        selectedChildKey={this.state.selectedChildKey}
+        selectedMenuKey={selectedMenuKey}
+        selectedChildKey={selectedChildKey}
       />
     );
   }
