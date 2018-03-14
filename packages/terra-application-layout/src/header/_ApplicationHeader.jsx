@@ -7,7 +7,6 @@ import { ApplicationHeaderUtility } from 'terra-application-utility';
 import { ApplicationHeaderName } from 'terra-application-name';
 import { ApplicationTabs } from 'terra-application-links';
 import IconMenu from 'terra-icon/lib/icon/IconMenu';
-import Button from 'terra-button';
 import Popup from 'terra-popup';
 import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
 

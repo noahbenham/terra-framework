@@ -228,8 +228,11 @@ const navigationItemsPropType = PropTypes.arrayOf(PropTypes.shape({
   hasSubMenu: PropTypes.bool,
 }));
 
+const isSizeCompact = size => (['tiny', 'small'].indexOf(size) >= 0);
+
 const ApplicationLayoutUtils = {
   getDefaultUtilityConfig,
+  isSizeCompact,
   KEYS,
   TITLES,
   utilityConfigPropType,

@@ -8,6 +8,7 @@ import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelega
 import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
 import { ApplicationMenuUtility } from 'terra-application-utility';
 import { disclosureType as modalDisclosureType } from 'terra-modal-manager';
+import { availableDisclosureSizes } from 'terra-disclosure-manager';
 
 import 'terra-base/lib/baseStyles';
 import ApplicationLayoutUtils from '../ApplicationLayoutUtils';
@@ -59,15 +60,31 @@ const propTypes = {
 class ApplicationMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.handleOnRequestDisclose = this.handleOnRequestDisclose.bind(this);
-    this.handleOnChange = this.handleOnChange.bind(this);
+
+    this.renderHeader = this.renderHeader.bind(this);
+    this.renderExtensions = this.renderExtensions.bind(this);
+    this.renderFooter = this.renderFooter.bind(this);
+    this.handleUtilityDiscloseRequest = this.handleUtilityDiscloseRequest.bind(this);
+    this.handleUtilityOnChange = this.handleUtilityOnChange.bind(this);
+
+    this.state = {
+      isCompact: ApplicationLayoutUtils.isSizeCompact(props.layoutConfig.size),
+    };
   }
 
-  handleOnRequestDisclose(utilityMenu) {
-    if (this.props.app && utilityMenu) {
-      this.props.app.disclose({
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      isCompact: ApplicationLayoutUtils.isSizeCompact(nextProps.layoutConfig.size),
+    });
+  }
+
+  handleUtilityDiscloseRequest(utilityMenu) {
+    const { app } = this.props;
+
+    if (app && utilityMenu) {
+      app.disclose({
         preferredType: modalDisclosureType,
-        size: 'small',
+        size: availableDisclosureSizes.SMALL,
         content: {
           component: <UtilityMenuWrapper>{utilityMenu}</UtilityMenuWrapper>,
           key: 'application-menu-utility-menu',
@@ -76,8 +93,53 @@ class ApplicationMenu extends React.Component {
     }
   }
 
-  handleOnChange(event, key) {
-    this.props.utilityConfig.onChange(event, key, this.props.app && this.props.app.disclose);
+  handleUtilityOnChange(event, key) {
+    const { utilityConfig, app } = this.props;
+
+    utilityConfig.onChange(event, key, app && app.disclose);
+  }
+
+  renderHeader() {
+    const { nameConfig } = this.props;
+    const { isCompact } = this.state;
+
+    if (isCompact && (nameConfig.accessory || nameConfig.title)) {
+      return <ApplicationMenuName accessory={nameConfig.accessory} title={nameConfig.title} />;
+    }
+
+    return null;
+  }
+
+  renderExtensions() {
+    const { app, extensions } = this.props;
+    const { isCompact } = this.state;
+
+    if (isCompact && extensions) {
+      return React.cloneElement(extensions, { app });
+    }
+
+    return null;
+  }
+
+  renderFooter() {
+    const { utilityConfig } = this.props;
+    const { isCompact } = this.state;
+
+    if (isCompact && utilityConfig) {
+      return (
+        <ApplicationMenuUtility
+          onChange={this.handleUtilityOnChange}
+          onDisclose={this.handleUtilityDiscloseRequest}
+          title={utilityConfig.title}
+          accessory={utilityConfig.accessory}
+          menuItems={utilityConfig.menuItems}
+          selectedKey={utilityConfig.selectedKey}
+          data-application-menu-utility
+        />
+      );
+    }
+
+    return null;
   }
 
   render() {
@@ -99,35 +161,6 @@ class ApplicationMenu extends React.Component {
       customProps.className,
     ]);
 
-    const isCompactFormFactor = ['tiny', 'small'].indexOf(layoutConfig.size) >= 0;
-
-    let header;
-    let footer;
-    let extensionsElement;
-    if (isCompactFormFactor) {
-      if (nameConfig.accessory || nameConfig.title) {
-        header = <ApplicationMenuName accessory={nameConfig.accessory} title={nameConfig.title} />;
-      }
-
-      if (extensions) {
-        extensionsElement = React.cloneElement(extensions, { app });
-      }
-
-      if (utilityConfig) {
-        footer = (
-          <ApplicationMenuUtility
-            onChange={this.handleOnChange}
-            onDisclose={this.handleOnRequestDisclose}
-            title={utilityConfig.title}
-            accessory={utilityConfig.accessory}
-            menuItems={utilityConfig.menuItems}
-            selectedKey={utilityConfig.selectedKey}
-            data-application-menu-utility
-          />
-        );
-      }
-    }
-
     let clonedContent;
     if (content) {
       clonedContent = React.cloneElement(content, { app, layoutConfig, routingStackDelegate, navigationLayoutRoutes, navigationLayoutSize });
@@ -136,10 +169,10 @@ class ApplicationMenu extends React.Component {
     return (
       <div {...customProps} className={menuClassNames}>
         <ApplicationMenuLayout
-          header={header}
-          extensions={extensionsElement}
+          header={this.renderHeader()}
+          extensions={this.renderExtensions()}
           content={clonedContent}
-          footer={footer}
+          footer={this.renderFooter()}
         />
       </div>
     );

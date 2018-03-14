@@ -51,7 +51,17 @@ const propTypes = {
   }).isRequired,
 };
 
-const ApplicationMenuConfigAdapter = ({ app, layoutConfig, navigationLayoutRoutes, navigationLayoutSize, routingStackDelegate, applicationMenuConfigAdapterProps, ...contentProps }) => {
+const ApplicationMenuConfigAdapter = (props) => {
+  const {
+    app,
+    layoutConfig,
+    navigationLayoutRoutes,
+    navigationLayoutSize,
+    routingStackDelegate,
+    applicationMenuConfigAdapterProps,
+    ...contentProps
+  } = props;
+
   const Content = applicationMenuConfigAdapterProps.overrideComponentClass;
 
   return (

@@ -27,11 +27,18 @@ const propTypes = {
   }),
 };
 
+/**
+ * This string is used as the root level menu identifier for the PrimaryNavigationSideMenu's side
+ * menu implementation.
+ */
 const navMenuKey = 'navigationMenu';
 
 class PrimaryNavigationSideMenu extends React.Component {
-  static buildChildSideNavItems(items) {
-    return items.map(item => ({
+  /**
+   * Builds and returns the NavigationSideMenu API items from the given navigationItems.
+   */
+  static buildChildSideNavItems(navigationItems) {
+    return navigationItems.map(item => ({
       key: item.path,
       text: item.text,
       hasSubMenu: !!item.hasSubMenu,
@@ -45,37 +52,39 @@ class PrimaryNavigationSideMenu extends React.Component {
     }));
   }
 
+  /**
+   * Finds and returns the first navigationItem path that matches the current location.
+   */
+  static getSelectedChildKey(path, navigationItems) {
+    for (let i = 0, itemCount = navigationItems.length; i < itemCount; i += 1) {
+      const navItemPath = navigationItems[i].path;
+      if (matchPath(path, { path: navItemPath })) {
+        return navItemPath;
+      }
+    }
+    return undefined;
+  }
+
   constructor(props) {
     super(props);
 
     this.handleMenuChange = this.handleMenuChange.bind(this);
 
-    let selectedChildKey;
-
-    /**
-     * If the provided location matches one of the navigation items, that item is marked as selected.
-     */
-    props.navigationItems.forEach((route) => {
-      if (matchPath(props.location.pathname, { path: route.path })) {
-        selectedChildKey = route.path;
-      }
-    });
-
     this.state = {
-      selectedMenuKey: navMenuKey,
-      selectedChildKey,
+      selectedChildKey: PrimaryNavigationSideMenu.getSelectedChildKey(props.location.pathname, props.navigationItems),
     };
   }
 
-  handleMenuChange(event, data) {
-    if (!data.metaData) {
-      return Promise.reject();
-    }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      selectedChildKey: PrimaryNavigationSideMenu.getSelectedChildKey(nextProps.location.pathname, nextProps.navigationItems),
+    });
+  }
 
+  handleMenuChange(event, data) {
     const { routingStackDelegate, layoutConfig } = this.props;
 
     this.setState({
-      selectedMenuKey: data.selectedMenuKey,
       selectedChildKey: data.selectedChildKey,
     });
 
@@ -103,7 +112,7 @@ class PrimaryNavigationSideMenu extends React.Component {
         ].concat(...childItems)}
         onChange={this.handleMenuChange}
         routingStackBack={routingStackDelegate.showParent}
-        selectedMenuKey={this.state.selectedMenuKey}
+        selectedMenuKey={navMenuKey}
         selectedChildKey={this.state.selectedChildKey}
       />
     );
