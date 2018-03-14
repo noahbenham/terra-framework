@@ -30,14 +30,10 @@ const UserData = ({
   ...customProps
 }) => {
   const userClassNames = cx(['user-data', customProps.className]);
-  let photoAttrs;
-  if (userPhoto) {
-    photoAttrs = React.cloneElement(userPhoto, { className: cx('photo') });
-  }
 
   return (
     <div {...customProps} className={userClassNames}>
-      {photoAttrs}
+      {!!userPhoto && React.cloneElement(userPhoto, { className: cx('photo') })}
       <div className={cx('user-info')}>
         {!!userName && <div className={cx('name')}>{userName}</div>}
         {!!userDetail && <div className={cx('detail')}>{userDetail}</div>}

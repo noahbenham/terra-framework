@@ -11,7 +11,9 @@ import { disclosureType as modalDisclosureType } from 'terra-modal-manager';
 import { availableDisclosureSizes } from 'terra-disclosure-manager';
 
 import 'terra-base/lib/baseStyles';
-import ApplicationLayoutUtils from '../ApplicationLayoutUtils';
+import ApplicationLayoutPropTypes from '../utils/propTypes';
+import ApplicationLayoutHelpers from '../utils/applicationLayoutHelpers';
+
 import UtilityMenuWrapper from './_UtilityMenuWrapper';
 
 import styles from './ApplicationMenu.scss';
@@ -34,11 +36,11 @@ const propTypes = {
   /**
    * The Object of layout-related APIs provided to the components of the Layout.
    */
-  layoutConfig: ApplicationLayoutUtils.layoutConfigPropType.isRequired,
+  layoutConfig: ApplicationLayoutPropTypes.layoutConfigPropType.isRequired,
   /**
    * Configuration values for the ApplicationName component.
    */
-  nameConfig: ApplicationLayoutUtils.nameConfigPropType,
+  nameConfig: ApplicationLayoutPropTypes.nameConfigPropType,
   /**
    * Delegate prop that is provided by the NavigationLayout.
    */
@@ -54,7 +56,7 @@ const propTypes = {
   /**
    * Configuration to be provided to the ApplicationUtility component.
    */
-  utilityConfig: ApplicationLayoutUtils.utilityConfigPropType,
+  utilityConfig: ApplicationLayoutPropTypes.utilityConfigPropType,
 };
 
 class ApplicationMenu extends React.Component {
@@ -68,13 +70,13 @@ class ApplicationMenu extends React.Component {
     this.handleUtilityOnChange = this.handleUtilityOnChange.bind(this);
 
     this.state = {
-      isCompact: ApplicationLayoutUtils.isSizeCompact(props.layoutConfig.size),
+      isCompact: ApplicationLayoutHelpers.isSizeCompact(props.layoutConfig.size),
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      isCompact: ApplicationLayoutUtils.isSizeCompact(nextProps.layoutConfig.size),
+      isCompact: ApplicationLayoutHelpers.isSizeCompact(nextProps.layoutConfig.size),
     });
   }
 

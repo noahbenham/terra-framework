@@ -6,9 +6,8 @@ import Avatar from 'terra-avatar';
 import ContentContainer from 'terra-content-container';
 import { UtilityUtils } from 'terra-application-utility';
 
-import ApplicationLayout from '../../src/ApplicationLayout';
+import ApplicationLayout, { Utils } from '../../src/ApplicationLayout';
 import UserData from '../../src/user/_UserData';
-import ApplicationLayoutUtils from '../../src/ApplicationLayoutUtils';
 
 import ApplicationContent from './application-components/ApplicationContent';
 import ApplicationMenu from './application-components/ApplicationMenu';
@@ -196,7 +195,7 @@ const customUtilities = [{
     'additional-sub-1',
     'additional-sub-2',
   ],
-  parentKey: ApplicationLayoutUtils.KEYS.MENU,
+  parentKey: Utils.utilityHelpers.KEYS.MENU,
 }, {
   key: 'additional-sub-1',
   contentLocation: UtilityUtils.LOCATIONS.BODY,
@@ -218,14 +217,14 @@ const customUtilities = [{
   title: 'Addtional Item 2',
   isSelectable: false,
   isSelected: false,
-  parentKey: ApplicationLayoutUtils.KEYS.MENU,
+  parentKey: Utils.utilityHelpers.KEYS.MENU,
 }];
 
 const utilityConfig = Object.freeze({
   title: 'Swanson, Henry',
   accessory: userAvatar,
-  menuItems: ApplicationLayoutUtils.getDefaultUtilityConfig(userData, customUtilities),
-  selectedKey: ApplicationLayoutUtils.KEYS.MENU,
+  menuItems: Utils.utilityHelpers.getDefaultUtilityConfig(userData, customUtilities),
+  selectedKey: Utils.utilityHelpers.KEYS.MENU,
   onChange: (event, itemKey, disclose) => {
     disclose({
       preferredType: 'modal',

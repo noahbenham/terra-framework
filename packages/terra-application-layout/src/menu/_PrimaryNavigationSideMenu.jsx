@@ -4,17 +4,17 @@ import PropTypes from 'prop-types';
 import { withRouter, matchPath } from 'react-router-dom';
 import NavigationSideMenu from 'terra-navigation-side-menu';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
-import ApplicationLayoutUtils from '../ApplicationLayoutUtils';
+import ApplicationLayoutPropTypes from '../utils/propTypes';
 
 const propTypes = {
   /**
    * The array of navigation Objects to be rendered as items within the navigation menu.
    */
-  navigationItems: ApplicationLayoutUtils.navigationItemsPropType,
+  navigationItems: ApplicationLayoutPropTypes.navigationItemsPropType,
   /**
    * The Object of layout-related APIs provided to the components of the Layout.
    */
-  layoutConfig: ApplicationLayoutUtils.layoutConfigPropType,
+  layoutConfig: ApplicationLayoutPropTypes.layoutConfigPropType,
   /**
    * The Object containing RoutingStack APIs provided to children of the RoutingStack.
    */

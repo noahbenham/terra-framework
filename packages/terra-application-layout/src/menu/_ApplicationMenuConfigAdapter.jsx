@@ -5,7 +5,7 @@ import { processedRoutesPropType } from 'terra-navigation-layout';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 
 import ApplicationMenu from './_ApplicationMenu';
-import ApplicationLayoutUtils from '../ApplicationLayoutUtils';
+import ApplicationLayoutPropTypes from '../utils/propTypes';
 
 const propTypes = {
   /**
@@ -15,11 +15,11 @@ const propTypes = {
   /**
    * Array of navigation Objects to be rendered as tabs within the Application Header.
    */
-  navigationItems: ApplicationLayoutUtils.navigationItemsPropType,
+  navigationItems: ApplicationLayoutPropTypes.navigationItemsPropType,
   /**
    * The Object of layout-related APIs provided to the components of the Layout. This prop is provided by the Layout.
    */
-  layoutConfig: ApplicationLayoutUtils.layoutConfigPropType.isRequired,
+  layoutConfig: ApplicationLayoutPropTypes.layoutConfigPropType.isRequired,
   /**
    * The set of routes currently identified by the NavigationLayout. This prop is provided by the NavigationLayout.
    */
@@ -43,11 +43,11 @@ const propTypes = {
     /**
      * Configuration for ApplicationName component.
      */
-    nameConfig: ApplicationLayoutUtils.nameConfigPropType,
+    nameConfig: ApplicationLayoutPropTypes.nameConfigPropType,
     /**
      * Configuration for ApplicationUtility component.
      */
-    utilityConfig: ApplicationLayoutUtils.utilityConfigPropType,
+    utilityConfig: ApplicationLayoutPropTypes.utilityConfigPropType,
   }).isRequired,
 };
 

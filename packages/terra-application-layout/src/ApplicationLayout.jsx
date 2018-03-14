@@ -10,7 +10,9 @@ import { withModalManager } from 'terra-modal-manager';
 import PrimaryNavigationSideMenu from './menu/_PrimaryNavigationSideMenu';
 import ApplicationMenuConfigAdapter from './menu/_ApplicationMenuConfigAdapter';
 import ApplicationHeader from './header/_ApplicationHeader';
-import ApplicationLayoutUtils from './ApplicationLayoutUtils';
+import ApplicationLayoutPropTypes from './utils/propTypes';
+import ApplicationLayoutHelpers from './utils/applicationLayoutHelpers';
+import UtilityHelpers from './utils/utilityHelpers';
 
 const navigationLayoutSizes = ['default', 'tiny', 'small', 'medium', 'large', 'huge'];
 
@@ -30,15 +32,15 @@ const propTypes = {
    * An array of Objects describing the ApplicationLayout's primary navigation items. These items are rendered as
    * Application Tabs at medium/large/huge breakpoints and as navigation menu items at tiny and small breakpoints.
    */
-  navigationItems: ApplicationLayoutUtils.navigationItemsPropType,
+  navigationItems: ApplicationLayoutPropTypes.navigationItemsPropType,
   /**
    * Configuration values for the ApplicationName component.
    */
-  nameConfig: ApplicationLayoutUtils.nameConfigPropType,
+  nameConfig: ApplicationLayoutPropTypes.nameConfigPropType,
   /**
    * Configuration values for the ApplicationUtility component.
    */
-  utilityConfig: ApplicationLayoutUtils.utilityConfigPropType,
+  utilityConfig: ApplicationLayoutPropTypes.utilityConfigPropType,
   /**
    * The routing configuration Object. This is very similar to the routingConfig supported by the NavigationLayout; however,
    * the ApplicationLayout only supports configuration for the `menu` and `content` regions of the layout. The '/' path is also blacklisted
@@ -57,6 +59,9 @@ const defaultProps = {
 };
 
 class ApplicationLayout extends React.Component {
+  /**
+   * Builds and returns the menu items for the PrimaryNavigationSideMenu from the navigationItems.
+   */
   static buildMenuNavigationItems(props) {
     const { navigationItems, routingConfig } = props;
 
@@ -65,17 +70,16 @@ class ApplicationLayout extends React.Component {
     }
 
     const menuPaths = Object.keys(routingConfig.menu).map(key => (routingConfig.menu[key].path));
-    return navigationItems.map((navigationItem) => {
-      const childMenuPaths = menuPaths.filter(configPath => matchPath(navigationItem.path, { path: configPath }));
-
-      return {
-        path: navigationItem.path,
-        text: navigationItem.text,
-        hasSubMenu: childMenuPaths.length > 0,
-      };
-    });
+    return navigationItems.map(navigationItem => ({
+      path: navigationItem.path,
+      text: navigationItem.text,
+      hasSubMenu: menuPaths.filter(configPath => matchPath(navigationItem.path, { path: configPath })).length > 0,
+    }));
   }
 
+  /**
+   * Builds and returns the routing configuration object for the PrimaryNavigationSideMenu.
+   */
   static buildNavigationMenuConfig(props) {
     const menuNavigationItems = ApplicationLayout.buildMenuNavigationItems(props);
 
@@ -98,7 +102,11 @@ class ApplicationLayout extends React.Component {
     };
   }
 
-  static wrapMenuConfig(props, menuConfig) {
+  /**
+   * Builds and returns the routing configuration object for all menus with ApplicationMenuConfigAdapters
+   * wrapped around each component entry.
+   */
+  static buildWrappedMenuConfig(props, menuConfig) {
     const { nameConfig, utilityConfig } = props;
 
     const updatedMenuConfig = {};
@@ -134,11 +142,15 @@ class ApplicationLayout extends React.Component {
     return updatedMenuConfig;
   }
 
-  static updateRoutingConfig(props) {
+  /**
+   * Builds and returns the routing configuration object for the ApplicationLayout by injecting the PrimaryNavigationSideMenu
+   * and ApplicationMenuConfigAdapters as necessary.
+   */
+  static buildRoutingConfig(props) {
     const { routingConfig } = props;
 
     const updatedConfig = Object.assign({}, routingConfig, {
-      menu: ApplicationLayout.wrapMenuConfig(props, Object.assign({}, routingConfig.menu, ApplicationLayout.buildNavigationMenuConfig(props))),
+      menu: ApplicationLayout.buildWrappedMenuConfig(props, Object.assign({}, routingConfig.menu, ApplicationLayout.buildNavigationMenuConfig(props))),
     });
 
     return updatedConfig;
@@ -148,7 +160,7 @@ class ApplicationLayout extends React.Component {
     super(props);
 
     this.state = {
-      applicationRoutingConfig: ApplicationLayout.updateRoutingConfig(this.props),
+      applicationLayoutRoutingConfig: ApplicationLayout.buildRoutingConfig(this.props),
     };
   }
 
@@ -159,19 +171,19 @@ class ApplicationLayout extends React.Component {
         this.props.navigationItems !== nextProps.navigationItems ||
         this.props.indexPath !== nextProps.indexPath) {
       this.setState({
-        applicationRoutingConfig: ApplicationLayout.updateRoutingConfig(nextProps),
+        applicationLayoutRoutingConfig: ApplicationLayout.buildRoutingConfig(nextProps),
       });
     }
   }
 
   render() {
     const { app, nameConfig, utilityConfig, navigationItems, indexPath } = this.props;
-    const { applicationRoutingConfig } = this.state;
+    const { applicationLayoutRoutingConfig } = this.state;
 
     return (
       <NavigationLayout
         app={app}
-        config={applicationRoutingConfig}
+        config={applicationLayoutRoutingConfig}
         header={(
           <ApplicationHeader
             nameConfig={nameConfig}
@@ -193,3 +205,10 @@ ApplicationLayout.propTypes = propTypes;
 ApplicationLayout.defaultProps = defaultProps;
 
 export default withModalManager(ApplicationLayout);
+
+const Utils = {
+  helpers: ApplicationLayoutHelpers,
+  utilityHelpers: UtilityHelpers,
+  propTypes: ApplicationLayoutPropTypes,
+};
+export { Utils };

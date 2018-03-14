@@ -15,6 +15,10 @@ const propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+/**
+ * The UtilityMenuWrapper handles the plumbing between its AppDelegate and the
+ * utility menu dismissal requests.
+ */
 const UtilityMenuWrapper = ({
   app,
   children,
