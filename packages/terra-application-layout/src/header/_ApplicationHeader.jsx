@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import { injectIntl } from 'react-intl';
 import AppDelegate from 'terra-app-delegate';
 import ApplicationHeaderLayout from 'terra-application-header-layout';
 import { ApplicationHeaderUtility } from 'terra-application-utility';
@@ -103,6 +104,7 @@ class ApplicationHeader extends React.Component {
       utilityConfig,
       navigationLayoutRoutes,
       navigationLayoutSize,
+      intl,
       ...customProps
     } = this.props;
 
@@ -119,7 +121,7 @@ class ApplicationHeader extends React.Component {
         <div className={cx('toolbar-toggle')}>
           <button
             className={cx('toggle-button')}
-            aria-label="Toggle Menu" // Needs translations
+            aria-label={intl.formatMessage({ id: 'Terra.applicationLayout.applicationHeader.menuToggleLabel' })}
             onClick={layoutConfig.toggleMenu}
           >
             <IconMenu />
@@ -199,4 +201,4 @@ class ApplicationHeader extends React.Component {
 
 ApplicationHeader.propTypes = propTypes;
 
-export default ApplicationHeader;
+export default injectIntl(ApplicationHeader);

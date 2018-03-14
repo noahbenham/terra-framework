@@ -14,19 +14,17 @@ const KEYS = {
   LOG_OUT: 'log-out',
 };
 
-const TITLES = {
-  MENU: 'Menu',
-  USER_INFORMATION: 'User Information',
-  CHANGE_PHOTO: 'Change Photo',
-  SETTINGS: 'Settings',
-  APPEARANCE: 'Appearance',
-  SECURITY: 'Security',
-  HELP: 'Help',
-  GETTING_STARTED: 'Getting Started',
-  ABOUT: 'About',
-  TERMS_OF_USE: 'Terms of Use',
-  LOG_OUT: 'Log Out',
-};
+const menuTitle = intl => (intl.formatMessage({ id: 'Terra.applicationLayout.utilityDefaults.menu' }));
+const userInformationTitle = intl => (intl.formatMessage({ id: 'Terra.applicationLayout.utilityDefaults.userInformation' }));
+const changePhotoTitle = intl => (intl.formatMessage({ id: 'Terra.applicationLayout.utilityDefaults.changePhoto' }));
+const settingsTitle = intl => (intl.formatMessage({ id: 'Terra.applicationLayout.utilityDefaults.settings' }));
+const appearanceTitle = intl => (intl.formatMessage({ id: 'Terra.applicationLayout.utilityDefaults.appearance' }));
+const securityTitle = intl => (intl.formatMessage({ id: 'Terra.applicationLayout.utilityDefaults.security' }));
+const helpTitle = intl => (intl.formatMessage({ id: 'Terra.applicationLayout.utilityDefaults.help' }));
+const gettingStartedTitle = intl => (intl.formatMessage({ id: 'Terra.applicationLayout.utilityDefaults.gettingStarted' }));
+const aboutTitle = intl => (intl.formatMessage({ id: 'Terra.applicationLayout.utilityDefaults.about' }));
+const termsOfUseTitle = intl => (intl.formatMessage({ id: 'Terra.applicationLayout.utilityDefaults.termsOfUse' }));
+const logOutTitle = intl => (intl.formatMessage({ id: 'Terra.applicationLayout.utilityDefaults.logOut' }));
 
 const reconcileChildren = (config, additionalConfig) => {
   if (!additionalConfig) {
@@ -74,12 +72,12 @@ const reconcileChildren = (config, additionalConfig) => {
  *    ...
  *  ]
  */
-const getDefaultUtilityConfig = (userData, additionalConfig) => {
+const getDefaultUtilityConfig = (intl, userData, additionalConfig) => {
   const defaultConfig = [
     {
       key: KEYS.MENU,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
-      title: TITLES.MENU,
+      title: menuTitle(intl),
       isSelectable: false,
       isSelected: false,
       childKeys: [
@@ -92,7 +90,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.USER_INFORMATION,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
-      title: TITLES.USER_INFORMATION,
+      title: userInformationTitle(intl),
       content: userData,
       isSelectable: false,
       isSelected: false,
@@ -103,7 +101,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.SETTINGS,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
-      title: TITLES.SETTINGS,
+      title: settingsTitle(intl),
       isSelectable: false,
       isSelected: false,
       childKeys: [
@@ -114,7 +112,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.LOG_OUT,
       contentLocation: UtilityUtils.LOCATIONS.FOOTER,
-      title: TITLES.LOG_OUT,
+      title: logOutTitle(intl),
       isSelectable: false,
       isSelected: false,
       childKeys: [],
@@ -122,7 +120,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.HELP,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
-      title: TITLES.HELP,
+      title: helpTitle(intl),
       isSelectable: false,
       isSelected: false,
       childKeys: [
@@ -134,7 +132,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.CHANGE_PHOTO,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
-      title: TITLES.SETTINGS,
+      title: changePhotoTitle(intl),
       isSelectable: false,
       isSelected: false,
       childKeys: [],
@@ -142,7 +140,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.APPEARANCE,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
-      title: TITLES.APPEARANCE,
+      title: appearanceTitle(intl),
       isSelectable: false,
       isSelected: false,
       childKeys: [],
@@ -150,7 +148,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.SECURITY,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
-      title: TITLES.SECURITY,
+      title: securityTitle(intl),
       isSelectable: false,
       isSelected: false,
       childKeys: [],
@@ -158,7 +156,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.GETTING_STARTED,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
-      title: TITLES.GETTING_STARTED,
+      title: gettingStartedTitle(intl),
       isSelectable: false,
       isSelected: false,
       childKeys: [],
@@ -166,7 +164,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.ABOUT,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
-      title: TITLES.ABOUT,
+      title: aboutTitle(intl),
       isSelectable: false,
       isSelected: false,
       childKeys: [],
@@ -174,7 +172,7 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
     {
       key: KEYS.TERMS_OF_USE,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
-      title: TITLES.TERMS_OF_USE,
+      title: termsOfUseTitle(intl),
       isSelectable: false,
       isSelected: false,
       childKeys: [],
@@ -187,5 +185,4 @@ const getDefaultUtilityConfig = (userData, additionalConfig) => {
 export default {
   getDefaultUtilityConfig,
   KEYS,
-  TITLES,
 };

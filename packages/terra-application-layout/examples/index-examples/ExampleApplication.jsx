@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies, import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions  */
 import React from 'react';
 import { MemoryRouter, withRouter } from 'react-router-dom';
+import { injectIntl } from 'react-intl';
 import Image from 'terra-image';
 import Avatar from 'terra-avatar';
 import ContentContainer from 'terra-content-container';
@@ -220,37 +221,39 @@ const customUtilities = [{
   parentKey: Utils.utilityHelpers.KEYS.MENU,
 }];
 
-const utilityConfig = Object.freeze({
-  title: 'Swanson, Henry',
-  accessory: userAvatar,
-  menuItems: Utils.utilityHelpers.getDefaultUtilityConfig(userData, customUtilities),
-  selectedKey: Utils.utilityHelpers.KEYS.MENU,
-  onChange: (event, itemKey, disclose) => {
-    disclose({
-      preferredType: 'modal',
-      size: 'small',
-      content: {
-        key: itemKey,
-        component: <UtilityOption name={itemKey} />,
-      },
-    });
-  },
-});
+const ExampleApplication = withRouter(injectIntl(({ location, intl }) => {
+  const utilityConfig = Object.freeze({
+    title: 'Swanson, Henry',
+    accessory: userAvatar,
+    menuItems: Utils.utilityHelpers.getDefaultUtilityConfig(intl, userData, customUtilities),
+    selectedKey: Utils.utilityHelpers.KEYS.MENU,
+    onChange: (event, itemKey, disclose) => {
+      disclose({
+        preferredType: 'modal',
+        size: 'small',
+        content: {
+          key: itemKey,
+          component: <UtilityOption name={itemKey} />,
+        },
+      });
+    },
+  });
 
-const ExampleApplication = withRouter(({ location }) => (
-  <ContentContainer
-    fill
-    header={<h3>{`Router Location: ${location.pathname}`}</h3>}
-  >
-    <ApplicationLayout
-      nameConfig={nameConfig}
-      utilityConfig={utilityConfig}
-      routingConfig={routingConfig}
-      navigationItems={navigationItems}
-      indexPath="/page_1"
-    />
-  </ContentContainer>
-));
+  return (
+    <ContentContainer
+      fill
+      header={<h3>{`Router Location: ${location.pathname}`}</h3>}
+    >
+      <ApplicationLayout
+        nameConfig={nameConfig}
+        utilityConfig={utilityConfig}
+        routingConfig={routingConfig}
+        navigationItems={navigationItems}
+        indexPath="/page_1"
+      />
+    </ContentContainer>
+  );
+}));
 
 const AppRouter = () => (
   <div style={{ height: '100%' }}>
