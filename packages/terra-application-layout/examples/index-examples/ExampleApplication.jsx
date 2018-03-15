@@ -13,6 +13,7 @@ import UserData from '../../src/user/_UserData';
 import ApplicationContent from './application-components/ApplicationContent';
 import ApplicationMenu from './application-components/ApplicationMenu';
 import UtilityOption from './application-components/UtilityOption';
+import ApplicationExtensions from './application-components/ApplicationExtensions';
 import ProfilePicture from './henry.jpg';
 
 /**
@@ -249,6 +250,7 @@ const ExampleApplication = withRouter(injectIntl(({ location, intl }) => {
         utilityConfig={utilityConfig}
         routingConfig={routingConfig}
         navigationItems={navigationItems}
+        extensions={<ApplicationExtensions />}
         indexPath="/page_1"
       />
     </ContentContainer>
