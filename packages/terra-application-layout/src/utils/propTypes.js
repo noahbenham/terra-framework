@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 const utilityConfigPropType = PropTypes.shape({
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   accessory: PropTypes.element,
   onChange: PropTypes.func.isRequired,
   menuItems: PropTypes.arrayOf(PropTypes.shape({

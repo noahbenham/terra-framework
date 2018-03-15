@@ -48,6 +48,7 @@ const propTypes = {
      * Configuration for ApplicationUtility component.
      */
     utilityConfig: ApplicationLayoutPropTypes.utilityConfigPropType,
+    extensions: PropTypes.node,
   }).isRequired,
 };
 
@@ -74,6 +75,7 @@ const ApplicationMenuConfigAdapter = (props) => {
       navigationLayoutSize={navigationLayoutSize}
       nameConfig={applicationMenuConfigAdapterProps.nameConfig}
       utilityConfig={applicationMenuConfigAdapterProps.utilityConfig}
+      extensions={applicationMenuConfigAdapterProps.extensions}
       content={
         <Content {...contentProps} />
       }

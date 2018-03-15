@@ -51,7 +51,7 @@ const propTypes = {
     menu: routeConfigPropType,
     content: routeConfigPropType,
   }),
-
+  extensions: PropTypes.node,
 };
 
 const defaultProps = {
@@ -107,7 +107,7 @@ class ApplicationLayout extends React.Component {
    * wrapped around each component entry.
    */
   static buildWrappedMenuConfig(props, menuConfig) {
-    const { nameConfig, utilityConfig } = props;
+    const { nameConfig, utilityConfig, extensions } = props;
 
     const updatedMenuConfig = {};
     Object.keys(menuConfig).forEach((menuKey) => {
@@ -128,6 +128,7 @@ class ApplicationLayout extends React.Component {
           overrideComponentClass: configForSize.componentClass,
           nameConfig,
           utilityConfig,
+          extensions,
         };
         configForSize.props = propsForSize;
         configForSize.componentClass = ApplicationMenuConfigAdapter;
@@ -177,7 +178,7 @@ class ApplicationLayout extends React.Component {
   }
 
   render() {
-    const { app, nameConfig, utilityConfig, navigationItems, indexPath } = this.props;
+    const { app, nameConfig, utilityConfig, navigationItems, indexPath, extensions } = this.props;
     const { applicationLayoutRoutingConfig } = this.state;
 
     return (
@@ -188,6 +189,7 @@ class ApplicationLayout extends React.Component {
           <ApplicationHeader
             nameConfig={nameConfig}
             utilityConfig={utilityConfig}
+            extensions={extensions}
             applicationLinks={navigationItems ? navigationItems.map(route => ({
               id: route.path,
               path: route.path,

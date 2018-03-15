@@ -159,10 +159,10 @@ class ApplicationHeader extends React.Component {
   }
 
   renderExtensions(isCompact) {
-    const { app, extensions } = this.props;
+    const { app, layoutConfig, extensions } = this.props;
 
     if (!isCompact && extensions) {
-      return React.cloneElement(extensions, { app });
+      return React.cloneElement(extensions, { app, layoutConfig });
     }
 
     return null;

@@ -44,7 +44,7 @@ The API for the `utilityConfig` matches that of the `ApplicationHeaderUtility` a
 
 |Key Name|Type|Is Required|Description|
 |---|---|---|---|
-|`title`|String|required|A string rendered within the utility menu's presentation target.|
+|`title`|String|optional|A string rendered within the utility menu's presentation target.|
 |`accessory`|Element|optional|A React element rendered next to the title.|
 |`menuItems`|Array|required|An array of objects specifying the utility menu options to present.|
 |`selectedKey`|String|required|The string key of the initial menu item to present.|
