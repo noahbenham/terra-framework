@@ -13,7 +13,7 @@ const utilityConfigPropType = PropTypes.shape({
     isSelected: PropTypes.bool,
     childKeys: PropTypes.array,
   })).isRequired,
-  selectedKey: PropTypes.string.isRequired,
+  initialSelectedKey: PropTypes.string.isRequired,
 });
 
 const layoutConfigPropType = PropTypes.shape({

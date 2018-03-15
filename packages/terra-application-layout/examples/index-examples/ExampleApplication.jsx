@@ -226,7 +226,7 @@ const ExampleApplication = withRouter(injectIntl(({ location, intl }) => {
     title: 'Swanson, Henry',
     accessory: userAvatar,
     menuItems: Utils.utilityHelpers.getDefaultUtilityConfig(intl, userData, customUtilities),
-    selectedKey: Utils.utilityHelpers.KEYS.MENU,
+    initialSelectedKey: Utils.utilityHelpers.KEYS.MENU,
     onChange: (event, itemKey, disclose) => {
       disclose({
         preferredType: 'modal',

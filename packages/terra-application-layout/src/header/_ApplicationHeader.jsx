@@ -179,7 +179,7 @@ class ApplicationHeader extends React.Component {
           title={utilityConfig.title}
           accessory={utilityConfig.accessory}
           menuItems={utilityConfig.menuItems}
-          selectedKey={utilityConfig.selectedKey}
+          initialSelectedKey={utilityConfig.initialSelectedKey}
           data-application-header-utility
         />
       );
