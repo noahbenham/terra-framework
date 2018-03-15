@@ -29,13 +29,13 @@ class ApplicationMenuUtilityExample extends React.Component {
 
     return (
       <div>
-        <div style={{ height: '60px', width: '300px' }}>
+        <div style={{ height: '60px', width: '300px', paddingLeft: '4px' }}>
           <ApplicationMenuUtility
             id="default"
             menuItems={MockConfig(accessory)}
             onChange={this.handleOnChange}
             onDisclose={this.onDiscloseUtility}
-            selectedKey="menu"
+            initialSelectedKey="menu"
             title={title}
             accessory={accessory}
             variant={UtilityUtils.VARIANTS.MENU}

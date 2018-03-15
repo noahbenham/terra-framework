@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import 'terra-base/lib/baseStyles';
-import Utils from './_Utils';
+import Utils from './Utils';
 import UtilityButton from './utility/_UtilityButton';
 
 const propTypes = {
   /**
    * The array containing the menu items to be rendered within the menu.
    */
-  menuItems: PropTypes.arrayOf((Utils.itemShape)).isRequired,
+  menuItems: PropTypes.arrayOf(Utils.itemShape).isRequired,
   /**
    * The function to trigger when a menu item is selected.
    */
@@ -20,7 +20,7 @@ const propTypes = {
   /**
    * The key of the top level menu.
    */
-  selectedKey: PropTypes.string.isRequired,
+  initialSelectedKey: PropTypes.string.isRequired,
   /**
    * The text to be displayed.
    */
@@ -31,15 +31,11 @@ const propTypes = {
   accessory: PropTypes.element,
 };
 
-const defaultProps = {
-  menuItems: [],
-};
-
 const ApplicationHeaderUtility = ({
   menuItems,
   onChange,
   onDisclose,
-  selectedKey,
+  initialSelectedKey,
   title,
   accessory,
   ...customProps
@@ -49,7 +45,7 @@ const ApplicationHeaderUtility = ({
     menuItems={menuItems}
     onChange={onChange}
     onDisclose={onDisclose}
-    selectedKey={selectedKey}
+    initialSelectedKey={initialSelectedKey}
     title={title}
     accessory={accessory}
     variant={Utils.VARIANTS.MENU}
@@ -57,6 +53,5 @@ const ApplicationHeaderUtility = ({
 );
 
 ApplicationHeaderUtility.propTypes = propTypes;
-ApplicationHeaderUtility.defaultProps = defaultProps;
 
 export default ApplicationHeaderUtility;

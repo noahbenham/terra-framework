@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import { injectIntl, intlShape } from 'react-intl';
 import 'terra-base/lib/baseStyles';
 import Button from 'terra-button';
 import ContentContainer from 'terra-content-container';
 import IconClose from 'terra-icon/lib/icon/IconClose';
 import IconLeft from 'terra-icon/lib/icon/IconLeft';
 import MenuDivider from './_UtilityMenuDivider';
-import Utils from '../_Utils';
+import Utils from '../Utils';
 import MenuItem from './_UtilityMenuItem';
 import styles from './_UtilityMenu.scss';
 
@@ -15,11 +16,15 @@ const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
-   * Key of the top level menu.
+   * The initial selected key. Used as the top level menu page.
    */
-  selectedKey: PropTypes.string.isRequired,
+  initialSelectedKey: PropTypes.string.isRequired,
   /**
-   * Indicates if the height is bound to a value.
+   * The intl object to be injected for translations. Provided by the injectIntl function.
+   */
+  intl: intlShape.isRequired,
+  /**
+   * Indicates if the height is bound to it's parent container.
    */
   isHeightBounded: PropTypes.bool,
   /**
@@ -31,13 +36,14 @@ const propTypes = {
    */
   onChange: PropTypes.func.isRequired,
   /**
-   * The function that closes the menu. This will be provided by the header/menu.
+   * The function that closes the menu.
+   * This will be provided by the terra-application-header or terra-application-menu
    */
   onRequestClose: PropTypes.func,
   /**
-   * Sets the Utility variant.
+   * Sets the Utility variant. One of Utils.VARIANTS.HEADER, Utils.VARIANTS.MENU.
    */
-  variant: PropTypes.oneOf([Utils.VARIANTS.HEADER, Utils.VARIANTS.MENU]).isRequired,
+  variant: PropTypes.oneOf([Utils.VARIANTS.HEADER, Utils.VARIANTS.MENU]),
 };
 
 const processMenuItems = (items) => {
@@ -59,21 +65,7 @@ const processMenuItems = (items) => {
   return map;
 };
 
-const hasChevron = (item) => {
-  if (item.childKeys && item.childKeys.length > 0) {
-    return true;
-  }
-  return false;
-};
-
-const contextTypes = {
-  /* eslint-disable consistent-return */
-  intl: (context) => {
-    if (context.intl === undefined) {
-      return new Error('Please add locale prop to Base component to load translations');
-    }
-  },
-};
+const hasChevron = item => item.childKeys && item.childKeys.length > 0;
 
 class UtilityMenu extends React.Component {
   constructor(props) {
@@ -85,24 +77,27 @@ class UtilityMenu extends React.Component {
     this.childrenHasCheckmark = this.childrenHasCheckmark.bind(this);
     this.childrenHasChevron = this.childrenHasChevron.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
-    this.handleRequestBack = this.handleRequestBack.bind(this);
     this.pop = this.pop.bind(this);
     this.push = this.push.bind(this);
     this.state = {
       map: processMenuItems(props.menuItems),
-      currentKey: props.selectedKey,
+      currentKey: props.initialSelectedKey,
       previousKeyStack: [],
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.menuItems === this.props.menuItems) {
-      return;
+    if (nextProps.initialSelectedKey !== this.props.initialSelectedKey) {
+      this.setState({
+        currentKey: nextProps.initialSelectedKey,
+      });
     }
 
-    this.setState({
-      map: processMenuItems(nextProps.menuItems),
-    });
+    if (nextProps.menuItems !== this.props.menuItems) {
+      this.setState({
+        map: processMenuItems(nextProps.menuItems),
+      });
+    }
   }
 
   getItem(key) {
@@ -136,13 +131,12 @@ class UtilityMenu extends React.Component {
       const leftInset = this.childrenHasCheckmark(currentItem);
       const rightInset = this.childrenHasChevron(currentItem);
       return (
-        <ul className={cx('body')}>
+        <ul className={cx('utility-menu-body')}>
           {currentItem.childKeys.map((key) => {
-            let item = null;
             if (this.getItem(key).contentLocation !== Utils.LOCATIONS.FOOTER) {
-              item = this.buildItem(key, leftInset, rightInset);
+              return this.buildItem(key, leftInset, rightInset);
             }
-            return item;
+            return null;
           })}
         </ul>
       );
@@ -153,11 +147,10 @@ class UtilityMenu extends React.Component {
   buildFooterContent(currentItem) {
     if (currentItem && currentItem.childKeys && currentItem.childKeys.length) {
       return currentItem.childKeys.map((key) => {
-        let item = null;
         if (this.getItem(key).contentLocation === Utils.LOCATIONS.FOOTER) {
-          item = this.buildItem(key);
+          return this.buildItem(key);
         }
-        return item;
+        return null;
       });
     }
     return null;
@@ -166,7 +159,7 @@ class UtilityMenu extends React.Component {
   childrenHasCheckmark(item) {
     const childrenHasCheckmark = item.childKeys.some((key) => {
       const currentItem = this.getItem(key);
-      return currentItem.isSelectable === true && currentItem.contentLocation === Utils.LOCATIONS.BODY;
+      return currentItem.isSelectable === true && currentItem.contentLocation !== Utils.LOCATIONS.FOOTER;
     });
     return childrenHasCheckmark;
   }
@@ -174,7 +167,7 @@ class UtilityMenu extends React.Component {
   childrenHasChevron(item) {
     const childrenHasChevron = item.childKeys.some((key) => {
       const childKeys = this.getItem(key).childKeys;
-      return childKeys && childKeys.length > 0 && this.getItem(key).contentLocation === Utils.LOCATIONS.BODY;
+      return childKeys && childKeys.length > 0 && this.getItem(key).contentLocation !== Utils.LOCATIONS.FOOTER;
     });
     return childrenHasChevron;
   }
@@ -190,28 +183,25 @@ class UtilityMenu extends React.Component {
   handleOnChange(event, key) {
     const childKeys = this.getItem(key).childKeys;
     const item = this.getItem(key);
-    if (typeof childKeys !== 'undefined' && childKeys.length > 0) {
+    if (childKeys && childKeys.length > 0) {
       this.setState({
         previousKey: this.push(this.state.currentKey),
         currentKey: key,
       });
     } else {
-      if (item.isSelectable !== true) {
+      if (!item.isSelectable) {
         this.props.onRequestClose();
       }
       this.props.onChange(event, key);
     }
   }
 
-  handleRequestBack() {
-    this.setState({ currentKey: this.pop() });
-  }
-
   pop() {
     const newStack = this.state.previousKeyStack.slice();
-    const lastKey = newStack.pop();
-    this.setState({ previousKeyStack: newStack });
-    return lastKey;
+    this.setState({
+      previousKeyStack: newStack,
+      currentKey: newStack.pop(),
+    });
   }
 
   push(key) {
@@ -223,7 +213,8 @@ class UtilityMenu extends React.Component {
   render() {
     const {
       menuItems,
-      selectedKey,
+      initialSelectedKey,
+      intl,
       isHeightBounded,
       onChange,
       onRequestClose,
@@ -231,37 +222,71 @@ class UtilityMenu extends React.Component {
       ...customProps
     } = this.props;
 
-    const { intl } = this.context;
-    const backText = intl.formatMessage({ id: 'Terra.application.utility.back' });
-    const closeText = intl.formatMessage({ id: 'Terra.application.utility.close' });
-    let menuClassNames = null;
-    if (variant === Utils.VARIANTS.HEADER) {
-      menuClassNames = cx(['header-utility-menu', customProps.className]);
-    } else {
-      menuClassNames = cx(['menu-utility-menu', customProps.className]);
-    }
-
     const currentKey = this.state.currentKey;
     const currentItem = this.getItem(currentKey);
-    const firstPage = currentKey === selectedKey;
-    let header = null;
-    let closeButton = null;
-    let backButton = null;
+    const firstPage = currentKey === initialSelectedKey;
 
-    backButton = (
+    const menuClassNames = cx([
+      'utility-menu',
+      { 'header-utility-menu': variant === Utils.VARIANTS.HEADER },
+      { 'menu-utility-menu': variant === Utils.VARIANTS.MENU },
+      customProps.className,
+    ]);
+
+    const headerClassNames = cx([
+      'utility-menu-header',
+      { 'header-utility-menu-header': variant === Utils.VARIANTS.HEADER },
+      { 'menu-utility-menu-header': variant === Utils.VARIANTS.MENU },
+    ]);
+
+    const contentContainerClassNames = cx([
+      'utility-menu-content-container',
+      { 'header-utility-menu-content-container': variant === Utils.VARIANTS.HEADER },
+      { 'menu-utility-menu-content-container': variant === Utils.VARIANTS.MENU },
+    ]);
+
+    const leftContentContainer = cx([
+      'utility-menu-left-content-container',
+      { 'header-utility-menu-left-content-container': variant === Utils.VARIANTS.HEADER },
+      { 'menu-utility-menu-left-content-container': variant === Utils.VARIANTS.MENU },
+    ]);
+
+    const headerTextClassName = cx([
+      { 'header-utility-menu-initial-page-header-text': firstPage && variant === Utils.VARIANTS.HEADER },
+      { 'menu-utility-menu-initial-page-header-text': firstPage && variant === Utils.VARIANTS.MENU },
+      { 'header-utility-menu-noninitial-page-header-text': !firstPage && variant === Utils.VARIANTS.HEADER },
+      { 'menu-utility-menu-noninitial-page-header-text': !firstPage && variant === Utils.VARIANTS.MENU },
+    ]);
+
+    const iconLeftClassNames = cx([
+      'utility-menu-icon-left',
+      { 'header-utility-menu-icon-left': variant === Utils.VARIANTS.HEADER },
+      { 'menu-utility-menu-icon-left': variant === Utils.VARIANTS.MENU },
+    ]);
+
+    const iconCloseClassNames = cx([
+      'utility-menu-icon-close',
+      { 'header-utility-menu-icon-close': variant === Utils.VARIANTS.HEADER },
+      { 'menu-utility-menu-icon-close': variant === Utils.VARIANTS.MENU },
+    ]);
+
+    const backText = intl.formatMessage({ id: 'Terra.application.utility.back' });
+    const backButton = (
       <Button
-        onClick={this.handleRequestBack}
-        icon={<IconLeft className={cx('icon-left')} />}
+        onClick={this.pop}
+        icon={<IconLeft className={iconLeftClassNames} />}
         isCompact
         isIconOnly
         text={backText}
         variant={Button.Opts.Variants.UTILITY}
       />
     );
-    closeButton = (
+
+    const closeText = intl.formatMessage({ id: 'Terra.application.utility.close' });
+    const closeButton = (
       <Button
         onClick={this.props.onRequestClose}
-        icon={<IconClose className={cx('icon-close')} />}
+        icon={<IconClose className={iconCloseClassNames} />}
         isCompact
         isIconOnly
         text={closeText}
@@ -269,23 +294,18 @@ class UtilityMenu extends React.Component {
       />
     );
 
-    const headerClassName = cx([
-      { 'initial-page-header-text': firstPage },
-      { 'noninital-page-header-text': !firstPage },
-    ]);
-
-    header = (
-      <div className={cx('header')}>
-        <span className={cx('content-container')}>
-          <span className={cx('left-content-container')}>
+    const header = (
+      <div className={headerClassNames}>
+        <span className={contentContainerClassNames}>
+          <span className={leftContentContainer}>
             {!firstPage && backButton}
-            <span className={headerClassName}>{currentItem.title}</span>
+            <span className={headerTextClassName}>{currentItem.title}</span>
           </span>
-          <span className={cx('right-content-container')}>
+          <span className={cx('utility-menu-right-content-container')}>
             {closeButton}
           </span>
         </span>
-        <MenuDivider />
+        <MenuDivider isTop />
       </div>
     );
 
@@ -294,13 +314,14 @@ class UtilityMenu extends React.Component {
     const hasFooterItems = footerItems.some(item => item !== null);
     if (hasFooterItems) {
       footer = (
-        <div className={cx('footer')}>
-          <MenuDivider isFooter className={cx('footer-divider')} />
+        <div className={cx('utility-menu-footer')}>
+          <MenuDivider className={cx('footer-divider')} />
           {footerItems}
         </div>
       );
     }
 
+    const menuText = intl.formatMessage({ id: 'Terra.application.utility.menu' });
     return (
       <ContentContainer
         {...customProps}
@@ -309,7 +330,7 @@ class UtilityMenu extends React.Component {
         fill={isHeightBounded}
         className={menuClassNames}
         role={'navigation'}
-        aria-label={'Utility Menu'}
+        aria-label={menuText}
       >
         {this.buildListContent(currentItem)}
       </ContentContainer>
@@ -320,6 +341,4 @@ class UtilityMenu extends React.Component {
 UtilityMenu.propTypes = propTypes;
 UtilityMenu.processMenuItems = processMenuItems;
 UtilityMenu.hasChevron = hasChevron;
-UtilityMenu.contextTypes = contextTypes;
-
-export default UtilityMenu;
+export default injectIntl(UtilityMenu);

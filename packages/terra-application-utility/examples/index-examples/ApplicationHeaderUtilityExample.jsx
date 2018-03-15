@@ -28,14 +28,14 @@ class ApplicationHeaderUtilityExample extends React.Component {
     const title = 'User Name';
 
     return (
-      <div>
-        <div style={{ height: '60px', position: 'relative', width: '150px', backgroundColor: 'bisque' }}>
+      <div style={{ paddingLeft: '4px' }}>
+        <div style={{ height: '60px', position: 'relative', width: '150px', backgroundColor: '#2481ca' }}>
           <ApplicationHeaderUtility
             id="default"
             menuItems={MockConfig(accessory)}
             onChange={this.handleOnChange}
             onDisclose={this.onDiscloseUtility}
-            selectedKey="menu"
+            initialSelectedKey="menu"
             title={title}
             accessory={accessory}
             variant={UtilityUtils.VARIANTS.HEADER}
