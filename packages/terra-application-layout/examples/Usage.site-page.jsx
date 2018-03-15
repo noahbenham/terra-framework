@@ -1,14 +1,14 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import Markdown from 'terra-markdown';
-import ImplementationGuideDoc from '../docs/implementationGuide.md';
+import UsageDoc from '../docs/usage.md';
 import { version } from '../package.json';
 
-const ImplementationGuide = () => (
+const Usage = () => (
   <div>
     <div id="version">Version: {version}</div>
-    <Markdown id="readme" src={ImplementationGuideDoc} />
+    <Markdown id="readme" src={UsageDoc} />
   </div>
 );
 
-export default ImplementationGuide;
+export default Usage;

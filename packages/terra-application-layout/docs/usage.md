@@ -1,6 +1,6 @@
-# Implementation Guide
+# Terra Application Layout
 
-## Summary
+## Usage Summary
 
 1. The ApplicationLayout requires a `Base` component (from `terra-base`) and any `Router` component (from `react-router-dom`) in its parent hierarchy.
 2. The `nameConfig` prop customizes the ApplicationLayout's branding.
