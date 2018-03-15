@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { injectIntl } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 import AppDelegate from 'terra-app-delegate';
 import ApplicationHeaderLayout from 'terra-application-header-layout';
 import { ApplicationHeaderUtility } from 'terra-application-utility';
@@ -14,6 +14,7 @@ import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurati
 import 'terra-base/lib/baseStyles';
 
 import ApplicationLayoutPropTypes from '../utils/propTypes';
+import ApplicationLayoutHelpers from '../utils/applicationLayoutHelpers';
 
 import styles from './ApplicationHeader.scss';
 
@@ -25,8 +26,8 @@ const propTypes = {
    */
   app: AppDelegate.propType,
   /**
-   * Navigational links that will generate list items that will update the path. These paths are matched with react-router to selection.
-+  */
+   * Navigational links that will generate list items that will update the path. These paths are matched with react-router for selection.
+   */
   applicationLinks: ApplicationLayoutPropTypes.applicationLinksPropType,
   /**
    * The element to be placed within the fit start area for extensions within the layout.
@@ -52,19 +53,29 @@ const propTypes = {
    * Configuration to be provided to the ApplicationUtility component.
    */
   utilityConfig: ApplicationLayoutPropTypes.utilityConfigPropType,
+  /**
+   * Internationalization object with translation APIs. Provided by `injectIntl`.
+   */
+  intl: intlShape,
 };
 
 class ApplicationHeader extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleOnRequestDisclose = this.handleOnRequestDisclose.bind(this);
-    this.handleOnRequestClose = this.handleOnRequestClose.bind(this);
-    this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleUtilityDiscloseRequest = this.handleUtilityDiscloseRequest.bind(this);
+    this.handleUtilityPopupCloseRequest = this.handleUtilityPopupCloseRequest.bind(this);
+    this.handleUtilityOnChange = this.handleUtilityOnChange.bind(this);
     this.getTargetRef = this.getTargetRef.bind(this);
     this.setContentNode = this.setContentNode.bind(this);
+    this.renderToggle = this.renderToggle.bind(this);
+    this.renderAppName = this.renderAppName.bind(this);
+    this.renderExtensions = this.renderExtensions.bind(this);
+    this.renderNavigation = this.renderNavigation.bind(this);
+    this.renderUtilities = this.renderUtilities.bind(this);
+    this.renderUtilitiesPopup = this.renderUtilitiesPopup.bind(this);
 
-    this.state = { utilityComponent: null };
+    this.state = { utilityComponent: undefined };
   }
 
   setContentNode(node) {
@@ -78,20 +89,127 @@ class ApplicationHeader extends React.Component {
     return undefined;
   }
 
-  handleOnRequestDisclose(utility) {
-    if (utility) {
-      this.setState({ utilityComponent: React.cloneElement(utility, { onRequestClose: this.handleOnRequestClose }) });
-    }
+  handleUtilityDiscloseRequest(utility) {
+    this.setState({
+      utilityComponent: React.cloneElement(utility, { onRequestClose: this.handleUtilityPopupCloseRequest }),
+    });
   }
 
-  handleOnRequestClose() {
+  handleUtilityPopupCloseRequest() {
     if (this.state.utilityComponent) {
-      this.setState({ utilityComponent: null });
+      this.setState({ utilityComponent: undefined });
     }
   }
 
-  handleOnChange(event, key) {
-    this.props.utilityConfig.onChange(event, key, this.props.app && this.props.app.disclose);
+  handleUtilityOnChange(event, key) {
+    const { utilityConfig, app } = this.props;
+
+    utilityConfig.onChange(event, key, app && app.disclose);
+  }
+
+  renderToggle() {
+    const { layoutConfig, intl } = this.props;
+
+    if (layoutConfig.toggleMenu) {
+      return (
+        <div className={cx('toolbar-toggle')}>
+          <button
+            className={cx('toggle-button')}
+            aria-label={intl.formatMessage({ id: 'Terra.applicationLayout.applicationHeader.menuToggleLabel' })}
+            onClick={layoutConfig.toggleMenu}
+          >
+            <IconMenu />
+          </button>
+        </div>
+      );
+    }
+
+    return null;
+  }
+
+  renderAppName() {
+    const { nameConfig } = this.props;
+
+    if (nameConfig.accessory || nameConfig.title) {
+      return (
+        <ApplicationHeaderName accessory={nameConfig.accessory} title={nameConfig.title} />
+      );
+    }
+
+    return null;
+  }
+
+  renderNavigation(isCompact) {
+    const { applicationLinks } = this.props;
+
+    if (!isCompact) {
+      if (applicationLinks && applicationLinks.length) {
+        return (
+          <ApplicationTabs links={applicationLinks} />
+        );
+      }
+
+      return null;
+    }
+
+    /**
+     * When compact, the navigation region of the header renders the application name component instead.
+     */
+    return this.renderAppName();
+  }
+
+  renderExtensions(isCompact) {
+    const { app, extensions } = this.props;
+
+    if (!isCompact && extensions) {
+      return React.cloneElement(extensions, { app });
+    }
+
+    return null;
+  }
+
+  renderUtilities(isCompact) {
+    const { utilityConfig } = this.props;
+
+    if (!isCompact && utilityConfig) {
+      return (
+        <ApplicationHeaderUtility
+          onChange={this.handleUtilityOnChange}
+          onDisclose={this.handleUtilityDiscloseRequest}
+          title={utilityConfig.title}
+          accessory={utilityConfig.accessory}
+          menuItems={utilityConfig.menuItems}
+          selectedKey={utilityConfig.selectedKey}
+          data-application-header-utility
+        />
+      );
+    }
+
+    return null;
+  }
+
+  renderUtilitiesPopup() {
+    const { utilityComponent } = this.state;
+
+    if (utilityComponent) {
+      return (
+        <Popup
+          attachmentBehavior="none"
+          contentAttachment="top center"
+          contentHeight="auto"
+          contentWidth="240"
+          isArrowDisplayed
+          isHeaderDisabled
+          isOpen
+          onRequestClose={this.handleUtilityPopupCloseRequest}
+          targetRef={this.getTargetRef}
+        >
+          {utilityComponent}
+        </Popup>
+      );
+    }
+
+    return null;
   }
 
   render() {
@@ -113,87 +231,18 @@ class ApplicationHeader extends React.Component {
       customProps.className,
     ]);
 
-    const isCompactFormFactor = ['tiny', 'small'].indexOf(layoutConfig.size) >= 0;
-
-    let toggle;
-    if (layoutConfig.toggleMenu) {
-      toggle = (
-        <div className={cx('toolbar-toggle')}>
-          <button
-            className={cx('toggle-button')}
-            aria-label={intl.formatMessage({ id: 'Terra.applicationLayout.applicationHeader.menuToggleLabel' })}
-            onClick={layoutConfig.toggleMenu}
-          >
-            <IconMenu />
-          </button>
-        </div>
-      );
-    }
-
-    let appName;
-    if (nameConfig.accessory || nameConfig.title) {
-      appName = <ApplicationHeaderName accessory={nameConfig.accessory} title={nameConfig.title} />;
-    }
-
-    let navigation;
-    let utilities;
-    let extensionsElement;
-    if (!isCompactFormFactor) {
-      if (applicationLinks.length) {
-        navigation = <ApplicationTabs links={applicationLinks} />;
-      }
-
-      if (extensions) {
-        extensionsElement = React.cloneElement(extensions, { app });
-      }
-
-      if (utilityConfig) {
-        utilities = (
-          <ApplicationHeaderUtility
-            onChange={this.handleOnChange}
-            onDisclose={this.handleOnRequestDisclose}
-            title={utilityConfig.title}
-            accessory={utilityConfig.accessory}
-            menuItems={utilityConfig.menuItems}
-            selectedKey={utilityConfig.selectedKey}
-            data-application-header-utility
-          />
-        );
-      }
-    } else {
-      navigation = appName;
-      appName = undefined;
-    }
-
-    let popup;
-    if (this.state.utilityComponent) {
-      popup = (
-        <Popup
-          attachmentBehavior="none"
-          contentAttachment="top center"
-          contentHeight="auto"
-          contentWidth="240"
-          isArrowDisplayed
-          isHeaderDisabled
-          isOpen
-          onRequestClose={this.handleOnRequestClose}
-          targetRef={this.getTargetRef}
-        >
-          {this.state.utilityComponent}
-        </Popup>
-      );
-    }
+    const isCompact = ApplicationLayoutHelpers.isSizeCompact(layoutConfig.size);
 
     return (
       <div {...customProps} className={headerClassNames} ref={this.setContentNode}>
         <ApplicationHeaderLayout
-          toggle={toggle}
-          logo={appName}
-          navigation={navigation}
-          extensions={extensionsElement}
-          utilities={utilities}
+          toggle={this.renderToggle()}
+          logo={!isCompact ? this.renderAppName() : null}
+          navigation={this.renderNavigation(isCompact)}
+          extensions={this.renderExtensions(isCompact)}
+          utilities={this.renderUtilities(isCompact)}
         />
-        {popup}
+        {this.renderUtilitiesPopup()}
       </div>
     );
   }

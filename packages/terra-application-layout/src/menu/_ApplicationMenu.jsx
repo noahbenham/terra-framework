@@ -68,16 +68,6 @@ class ApplicationMenu extends React.Component {
     this.renderFooter = this.renderFooter.bind(this);
     this.handleUtilityDiscloseRequest = this.handleUtilityDiscloseRequest.bind(this);
     this.handleUtilityOnChange = this.handleUtilityOnChange.bind(this);
-
-    this.state = {
-      isCompact: ApplicationLayoutHelpers.isSizeCompact(props.layoutConfig.size),
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      isCompact: ApplicationLayoutHelpers.isSizeCompact(nextProps.layoutConfig.size),
-    });
   }
 
   handleUtilityDiscloseRequest(utilityMenu) {
@@ -101,9 +91,8 @@ class ApplicationMenu extends React.Component {
     utilityConfig.onChange(event, key, app && app.disclose);
   }
 
-  renderHeader() {
+  renderHeader(isCompact) {
     const { nameConfig } = this.props;
-    const { isCompact } = this.state;
 
     if (isCompact && (nameConfig.accessory || nameConfig.title)) {
       return (
@@ -116,9 +105,8 @@ class ApplicationMenu extends React.Component {
     return null;
   }
 
-  renderExtensions() {
+  renderExtensions(isCompact) {
     const { app, extensions } = this.props;
-    const { isCompact } = this.state;
 
     if (isCompact && extensions) {
       return React.cloneElement(extensions, { app });
@@ -127,9 +115,8 @@ class ApplicationMenu extends React.Component {
     return null;
   }
 
-  renderFooter() {
+  renderFooter(isCompact) {
     const { utilityConfig } = this.props;
-    const { isCompact } = this.state;
 
     if (isCompact && utilityConfig) {
       return (
@@ -167,6 +154,8 @@ class ApplicationMenu extends React.Component {
       customProps.className,
     ]);
 
+    const isCompact = ApplicationLayoutHelpers.isSizeCompact(layoutConfig.size);
+
     let clonedContent;
     if (content) {
       clonedContent = React.cloneElement(content, { app, layoutConfig, routingStackDelegate, navigationLayoutRoutes, navigationLayoutSize });
@@ -175,10 +164,10 @@ class ApplicationMenu extends React.Component {
     return (
       <div {...customProps} className={menuClassNames}>
         <ApplicationMenuLayout
-          header={this.renderHeader()}
-          extensions={this.renderExtensions()}
+          header={this.renderHeader(isCompact)}
+          extensions={this.renderExtensions(isCompact)}
           content={clonedContent}
-          footer={this.renderFooter()}
+          footer={this.renderFooter(isCompact)}
         />
       </div>
     );
