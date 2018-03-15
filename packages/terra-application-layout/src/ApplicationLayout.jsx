@@ -18,7 +18,7 @@ const navigationLayoutSizes = ['default', 'tiny', 'small', 'medium', 'large', 'h
 
 const propTypes = {
   /**
-   * AppDelegate instance provided by `withModalManager`. If an AppDelegate instance is
+   * The AppDelegate instance provided by `withModalManager`. If an AppDelegate instance is
    * explicitly provided to the ApplicationLayout, the ModalManager will wrap it and
    * fall back to its defined APIs as needed.
    */
@@ -29,16 +29,15 @@ const propTypes = {
    */
   indexPath: PropTypes.string.isRequired,
   /**
-   * An array of Objects describing the ApplicationLayout's primary navigation items. These items are rendered as
-   * Application Tabs at medium/large/huge breakpoints and as navigation menu items at tiny and small breakpoints.
+   * An array of Objects describing the ApplicationLayout's primary navigation items.
    */
   navigationItems: ApplicationLayoutPropTypes.navigationItemsPropType,
   /**
-   * Configuration values for the ApplicationName component.
+   * The configuration values for the ApplicationName component.
    */
   nameConfig: ApplicationLayoutPropTypes.nameConfigPropType,
   /**
-   * Configuration values for the ApplicationUtility component.
+   * The configuration values for the ApplicationUtility component.
    */
   utilityConfig: ApplicationLayoutPropTypes.utilityConfigPropType,
   /**
@@ -51,7 +50,10 @@ const propTypes = {
     menu: routeConfigPropType,
     content: routeConfigPropType,
   }),
-  extensions: PropTypes.node,
+  /**
+   * The content to be rendered in the ApplicationLayout's extensions region.
+   */
+  extensions: PropTypes.element,
 };
 
 const defaultProps = {

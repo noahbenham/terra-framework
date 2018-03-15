@@ -41,13 +41,16 @@ const propTypes = {
      */
     overrideComponentClass: PropTypes.func,
     /**
-     * Configuration for ApplicationName component.
+     * The configuration for ApplicationName component.
      */
     nameConfig: ApplicationLayoutPropTypes.nameConfigPropType,
     /**
-     * Configuration for ApplicationUtility component.
+     * The configuration for ApplicationUtility component.
      */
     utilityConfig: ApplicationLayoutPropTypes.utilityConfigPropType,
+    /**
+     * The content to render in the menu's extensions region.
+     */
     extensions: PropTypes.node,
   }).isRequired,
 };

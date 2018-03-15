@@ -154,6 +154,26 @@ const navigationItems = [{
 }];
 ```
 
+### `extensions`
+
+The `extensions` prop allows consumers to render an element within the ApplicationLayout's extensions region. The `extensions` content will be rendered in various ways depending on the current breakpoint. The `extensions` element will receive `app` and `layoutConfig` props from the ApplicationLayout, allowing it to interact with and respond to changes within the ApplicationLayout.
+
+```jsx
+import { Utils } from 'terra-application-layout';
+
+const MyExtensions = ({ app, layoutConfig }) => {
+  if (Utils.helpers.isSizeCompact(layoutConfig.size)) {
+    return (
+      <div>Extensions for ApplicationLayout menu!</div>
+    );
+  } else {
+    return (
+      <div>Extensions for ApplicationLayout header!</div>
+    );
+  }
+};
+```
+
 ### `indexPath`
 
 The `indexPath` prop allows consumers to set the default path of the ApplicationLayout. The ApplicationLayout will redirect to this path should users of the consuming application attempt to route to a component not detailed in the `routingConfig` prop. Accordingly, the `indexPath` value must haved an associated entry within the `routingConfig` specification.
