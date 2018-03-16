@@ -1,6 +1,8 @@
+import React from 'react';
 import { UtilityUtils } from 'terra-application-utility';
+import UserData from '../user/_UserData';
 
-const KEYS = {
+const defaultKeys = {
   MENU: 'menu',
   USER_INFORMATION: 'user-information',
   CHANGE_PHOTO: 'change-photo',
@@ -73,44 +75,52 @@ const reconcileChildren = (config, additionalConfig) => {
  *  ]
  */
 const getDefaultUtilityConfig = (intl, userData, additionalConfig) => {
+  const userDataComponent = (
+    <UserData
+      userName={userData.name}
+      userDetail={userData.detail}
+      userPhoto={userData.photo}
+    />
+  );
+
   const defaultConfig = [
     {
-      key: KEYS.MENU,
+      key: defaultKeys.MENU,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: menuTitle(intl),
       isSelectable: false,
       isSelected: false,
       childKeys: [
-        KEYS.USER_INFORMATION,
-        KEYS.SETTINGS,
-        KEYS.HELP,
-        KEYS.LOG_OUT,
+        defaultKeys.USER_INFORMATION,
+        defaultKeys.SETTINGS,
+        defaultKeys.HELP,
+        defaultKeys.LOG_OUT,
       ],
     },
     {
-      key: KEYS.USER_INFORMATION,
+      key: defaultKeys.USER_INFORMATION,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: userInformationTitle(intl),
-      content: userData,
+      content: userDataComponent,
       isSelectable: false,
       isSelected: false,
       childKeys: [
-        KEYS.CHANGE_PHOTO,
+        defaultKeys.CHANGE_PHOTO,
       ],
     },
     {
-      key: KEYS.SETTINGS,
+      key: defaultKeys.SETTINGS,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: settingsTitle(intl),
       isSelectable: false,
       isSelected: false,
       childKeys: [
-        KEYS.APPEARANCE,
-        KEYS.SECURITY,
+        defaultKeys.APPEARANCE,
+        defaultKeys.SECURITY,
       ],
     },
     {
-      key: KEYS.LOG_OUT,
+      key: defaultKeys.LOG_OUT,
       contentLocation: UtilityUtils.LOCATIONS.FOOTER,
       title: logOutTitle(intl),
       isSelectable: false,
@@ -118,19 +128,19 @@ const getDefaultUtilityConfig = (intl, userData, additionalConfig) => {
       childKeys: [],
     },
     {
-      key: KEYS.HELP,
+      key: defaultKeys.HELP,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: helpTitle(intl),
       isSelectable: false,
       isSelected: false,
       childKeys: [
-        KEYS.GETTING_STARTED,
-        KEYS.ABOUT,
-        KEYS.TERMS_OF_USE,
+        defaultKeys.GETTING_STARTED,
+        defaultKeys.ABOUT,
+        defaultKeys.TERMS_OF_USE,
       ],
     },
     {
-      key: KEYS.CHANGE_PHOTO,
+      key: defaultKeys.CHANGE_PHOTO,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: changePhotoTitle(intl),
       isSelectable: false,
@@ -138,7 +148,7 @@ const getDefaultUtilityConfig = (intl, userData, additionalConfig) => {
       childKeys: [],
     },
     {
-      key: KEYS.APPEARANCE,
+      key: defaultKeys.APPEARANCE,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: appearanceTitle(intl),
       isSelectable: false,
@@ -146,7 +156,7 @@ const getDefaultUtilityConfig = (intl, userData, additionalConfig) => {
       childKeys: [],
     },
     {
-      key: KEYS.SECURITY,
+      key: defaultKeys.SECURITY,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: securityTitle(intl),
       isSelectable: false,
@@ -154,7 +164,7 @@ const getDefaultUtilityConfig = (intl, userData, additionalConfig) => {
       childKeys: [],
     },
     {
-      key: KEYS.GETTING_STARTED,
+      key: defaultKeys.GETTING_STARTED,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: gettingStartedTitle(intl),
       isSelectable: false,
@@ -162,7 +172,7 @@ const getDefaultUtilityConfig = (intl, userData, additionalConfig) => {
       childKeys: [],
     },
     {
-      key: KEYS.ABOUT,
+      key: defaultKeys.ABOUT,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: aboutTitle(intl),
       isSelectable: false,
@@ -170,7 +180,7 @@ const getDefaultUtilityConfig = (intl, userData, additionalConfig) => {
       childKeys: [],
     },
     {
-      key: KEYS.TERMS_OF_USE,
+      key: defaultKeys.TERMS_OF_USE,
       contentLocation: UtilityUtils.LOCATIONS.BODY,
       title: termsOfUseTitle(intl),
       isSelectable: false,
@@ -184,5 +194,5 @@ const getDefaultUtilityConfig = (intl, userData, additionalConfig) => {
 
 export default {
   getDefaultUtilityConfig,
-  KEYS,
+  defaultKeys,
 };

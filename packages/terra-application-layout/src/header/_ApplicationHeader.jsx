@@ -6,7 +6,7 @@ import AppDelegate from 'terra-app-delegate';
 import ApplicationHeaderLayout from 'terra-application-header-layout';
 import { ApplicationHeaderUtility } from 'terra-application-utility';
 import { ApplicationHeaderName } from 'terra-application-name';
-import { ApplicationTabs } from 'terra-application-links';
+import { ApplicationTabs, ApplicationLinksPropType } from 'terra-application-links';
 import IconMenu from 'terra-icon/lib/icon/IconMenu';
 import Popup from 'terra-popup';
 import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
@@ -14,7 +14,7 @@ import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurati
 import 'terra-base/lib/baseStyles';
 
 import ApplicationLayoutPropTypes from '../utils/propTypes';
-import ApplicationLayoutHelpers from '../utils/applicationLayoutHelpers';
+import Helpers from '../utils/helpers';
 
 import styles from './ApplicationHeader.scss';
 
@@ -28,7 +28,7 @@ const propTypes = {
   /**
    * Navigational links that will generate list items that will update the path. These paths are matched with react-router for selection.
    */
-  applicationLinks: ApplicationLayoutPropTypes.applicationLinksPropType,
+  applicationLinks: ApplicationLinksPropType,
   /**
    * The element to be placed within the fit start area for extensions within the layout.
    */
@@ -231,7 +231,7 @@ class ApplicationHeader extends React.Component {
       customProps.className,
     ]);
 
-    const isCompact = ApplicationLayoutHelpers.isSizeCompact(layoutConfig.size);
+    const isCompact = Helpers.isSizeCompact(layoutConfig.size);
 
     return (
       <div {...customProps} className={headerClassNames} ref={this.setContentNode}>

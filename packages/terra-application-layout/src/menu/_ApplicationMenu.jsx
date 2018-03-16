@@ -12,7 +12,7 @@ import { availableDisclosureSizes } from 'terra-disclosure-manager';
 
 import 'terra-base/lib/baseStyles';
 import ApplicationLayoutPropTypes from '../utils/propTypes';
-import ApplicationLayoutHelpers from '../utils/applicationLayoutHelpers';
+import Helpers from '../utils/helpers';
 
 import UtilityMenuWrapper from './_UtilityMenuWrapper';
 
@@ -154,7 +154,7 @@ class ApplicationMenu extends React.Component {
       customProps.className,
     ]);
 
-    const isCompact = ApplicationLayoutHelpers.isSizeCompact(layoutConfig.size);
+    const isCompact = Helpers.isSizeCompact(layoutConfig.size);
 
     let clonedContent;
     if (content) {

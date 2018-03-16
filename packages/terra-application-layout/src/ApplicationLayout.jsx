@@ -11,7 +11,7 @@ import PrimaryNavigationSideMenu from './menu/_PrimaryNavigationSideMenu';
 import ApplicationMenuConfigAdapter from './menu/_ApplicationMenuConfigAdapter';
 import ApplicationHeader from './header/_ApplicationHeader';
 import ApplicationLayoutPropTypes from './utils/propTypes';
-import ApplicationLayoutHelpers from './utils/applicationLayoutHelpers';
+import Helpers from './utils/helpers';
 import UtilityHelpers from './utils/utilityHelpers';
 
 const navigationLayoutSizes = ['default', 'tiny', 'small', 'medium', 'large', 'huge'];
@@ -211,7 +211,7 @@ ApplicationLayout.defaultProps = defaultProps;
 export default withModalManager(ApplicationLayout);
 
 const Utils = {
-  helpers: ApplicationLayoutHelpers,
+  helpers: Helpers,
   utilityHelpers: UtilityHelpers,
   propTypes: ApplicationLayoutPropTypes,
 };

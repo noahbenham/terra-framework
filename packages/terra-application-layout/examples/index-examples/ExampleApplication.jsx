@@ -8,7 +8,6 @@ import ContentContainer from 'terra-content-container';
 import { UtilityUtils } from 'terra-application-utility';
 
 import ApplicationLayout, { Utils } from '../../src/ApplicationLayout';
-import UserData from '../../src/user/_UserData';
 
 import ApplicationContent from './application-components/ApplicationContent';
 import ApplicationMenu from './application-components/ApplicationMenu';
@@ -17,7 +16,8 @@ import ApplicationExtensions from './application-components/ApplicationExtension
 import ProfilePicture from './henry.jpg';
 
 /**
- * The routingConfig API matches that of the NavigationLayout.
+ * The routingConfig API matches that of the NavigationLayout. Routing specifications for the
+ * menu and content regions are supported; the header region is not configurable.
  */
 const routingConfig = {
   menu: {
@@ -141,6 +141,13 @@ const routingConfig = {
   },
 };
 
+/**
+ * The navigationItems will be used to present the ApplicationLayout's navigation controls. The paths provided here must be present in
+ * the routingConfig. If no navigation controls are desired, these items can be omitted.
+ *
+ * With standard rendering, the items will be presented as tabs within the ApplicationLayout's header.
+ * With compact rendering, the items will be presented within the layout's menu region within a ApplicationLayout-managed menu.
+ */
 const navigationItems = [{
   path: '/page_1',
   text: 'Page 1',
@@ -164,6 +171,12 @@ const navigationItems = [{
   text: 'Page 7',
 }];
 
+/**
+ * The indexPath will be given to the NavigationLayout to set up the appropriate redirects. If users attempt to navigate to a path unsupported
+ * by the routingConfig, they will be redirected to this route. This path should therefore be present in the routingConfig.
+ */
+const indexPath = '/page_1';
+
 const userAvatar = (
   <Avatar
     image={ProfilePicture}
@@ -174,67 +187,76 @@ const userAvatar = (
   />
 );
 
-const userData = (
-  <UserData
-    userName="Swanson, Henry"
-    userDetail="Henry Swanson's my name, and excitement's my game."
-    userPhoto={userAvatar}
-  />
-);
+const userData = {
+  name: 'Swanson, Henry',
+  detail: 'Henry Swanson\'s my name, and excitement\'s my game.',
+  photo: userAvatar,
+};
 
+/**
+ * The data provided for nameConfig will be visible in the ApplicationLayout's header, as well
+ * as in any menus at the tiny and small breakpoints.
+ */
 const nameConfig = Object.freeze({
   title: 'Example Application',
   accessory: <Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" />,
 });
 
-const customUtilities = [{
+const customUtilityItems = [{
   key: 'additional-1',
-  contentLocation: UtilityUtils.LOCATIONS.BODY,
-  title: 'Addtional Item 1',
-  isSelectable: false,
-  isSelected: false,
+  title: 'Drill-in Item',
   childKeys: [
     'additional-sub-1',
     'additional-sub-2',
   ],
-  parentKey: Utils.utilityHelpers.KEYS.MENU,
+  parentKey: Utils.utilityHelpers.defaultKeys.MENU,
 }, {
   key: 'additional-sub-1',
-  contentLocation: UtilityUtils.LOCATIONS.BODY,
   title: 'Addtional Item 1 - Sub 1',
-  isSelectable: false,
-  isSelected: false,
   parentKey: 'additional-1',
-
 }, {
   key: 'additional-sub-2',
-  contentLocation: UtilityUtils.LOCATIONS.BODY,
   title: 'Addtional Item 1 - Sub 2',
-  isSelectable: false,
-  isSelected: false,
   parentKey: 'additional-1',
 }, {
   key: 'additional-2',
   contentLocation: UtilityUtils.LOCATIONS.BODY,
-  title: 'Addtional Item 2',
-  isSelectable: false,
-  isSelected: false,
-  parentKey: Utils.utilityHelpers.KEYS.MENU,
+  title: 'Custom Checkbox Item',
+  isSelectable: true,
+  parentKey: Utils.utilityHelpers.defaultKeys.MENU,
+}, {
+  key: 'additional-3',
+  contentLocation: UtilityUtils.LOCATIONS.FOOTER,
+  title: 'Custom Footer',
+  parentKey: Utils.utilityHelpers.defaultKeys.MENU,
 }];
 
 const ExampleApplication = withRouter(injectIntl(({ location, intl }) => {
+  /**
+   * The data provided for utilityConfig will be visible in the ApplicationLayout's header in the
+   * standard rendering mode and within the menus in the compact rendering mode.
+   *
+   * The ApplicationLayout's Utils export provides a helper function named getDefaultUtilityConfig that will
+   * generate the configuration for the standard set of utility options. If the standard configuration is not
+   * desirable, an entirely custom configuration can be used instead.
+   */
   const utilityConfig = Object.freeze({
     title: 'Swanson, Henry',
     accessory: userAvatar,
-    menuItems: Utils.utilityHelpers.getDefaultUtilityConfig(intl, userData, customUtilities),
-    initialSelectedKey: Utils.utilityHelpers.KEYS.MENU,
-    onChange: (event, itemKey, disclose) => {
+    menuItems: Utils.utilityHelpers.getDefaultUtilityConfig(intl, userData, customUtilityItems),
+    initialSelectedKey: Utils.utilityHelpers.defaultKeys.MENU,
+    onChange: (event, itemData, disclose) => {
+      /**
+       * This function will be called when items are selected within the utility menu.
+       * The disclose parameter is provided for convenience, but any presentation method
+       * could be used to handle that menu content selection.
+       */
       disclose({
         preferredType: 'modal',
         size: 'small',
         content: {
-          key: itemKey,
-          component: <UtilityOption name={itemKey} />,
+          key: itemData.key,
+          component: <UtilityOption name={itemData.key} />,
         },
       });
     },
@@ -251,7 +273,7 @@ const ExampleApplication = withRouter(injectIntl(({ location, intl }) => {
         routingConfig={routingConfig}
         navigationItems={navigationItems}
         extensions={<ApplicationExtensions />}
-        indexPath="/page_1"
+        indexPath={indexPath}
       />
     </ContentContainer>
   );

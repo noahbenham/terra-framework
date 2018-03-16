@@ -59,23 +59,25 @@ const myUtilityConfig = {
   accessory: <Avatar variant="user" ariaLabel="Doe, John" />,
   menuItems: [{
     key: 'menu',
-    contentLocation: UtilityUtils.LOCATIONS.BODY,
-    title: 'Item 1',
-    isSelectable: false,
-    isSelected: false,
-    childKeys: ['item-1', 'item-2'],
+    title: 'Menu',
+    childKeys: ['item-1', 'item-2', 'item-3', 'item-4'],
   }, {
     key: 'item-1',
-    contentLocation: UtilityUtils.LOCATIONS.BODY,
     title: 'Item 1',
-    isSelectable: false,
-    isSelected: false,
   }, {
     key: 'item-2',
-    contentLocation: UtilityUtils.LOCATIONS.BODY,
-    title: 'Item 2',
-    isSelectable: false,
+    title: 'Toggle Item - Checked',
+    isSelectable: true,
+    isSelected: true,
+  },  {
+    key: 'item-3',
+    title: 'Toggle Item - Not Checked',
+    isSelectable: true,
     isSelected: false,
+  }, {
+    key: 'item-4',
+    contentLocation: UtilityUtils.LOCATIONS.FOOTER,
+    title: 'Footer Item',
   }]),
   selectedKey: 'menu',
   onChange: (event, itemKey, disclose) => {
