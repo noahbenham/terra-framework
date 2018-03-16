@@ -24,8 +24,8 @@ class ApplicationMenu extends React.Component {
 
     for (let i = 0; i < 20; i += 1) {
       items.push({
-        text: `Section ${i}`,
-        path: `/section_${i}`,
+        text: `Item ${i}`,
+        path: `/item_${i}`,
       });
     }
 
@@ -71,7 +71,7 @@ class ApplicationMenu extends React.Component {
   }
 
   render() {
-    const { routingStackDelegate } = this.props;
+    const { layoutConfig, routingStackDelegate } = this.props;
     const { menuItems } = this.state;
 
     return (
@@ -83,13 +83,22 @@ class ApplicationMenu extends React.Component {
                 const evt = document.createEvent('CustomEvent');
                 evt.initCustomEvent('applicationMenu.itemSelected', false, false, 'Custom Event 1');
                 document.dispatchEvent(evt);
+
+                if (layoutConfig && layoutConfig.toggleMenu) {
+                  layoutConfig.toggleMenu();
+                }
               }}
+              style={{ marginBottom: '5px' }}
             />
             <Button
               text="Custom Event 2" isBlock onClick={() => {
                 const evt = document.createEvent('CustomEvent');
                 evt.initCustomEvent('applicationMenu.itemSelected', false, false, 'Custom Event 2');
                 document.dispatchEvent(evt);
+
+                if (layoutConfig && layoutConfig.toggleMenu) {
+                  layoutConfig.toggleMenu();
+                }
               }}
             />
           </div>

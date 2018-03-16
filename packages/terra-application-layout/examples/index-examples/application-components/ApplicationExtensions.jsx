@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import AppDelegate from 'terra-app-delegate';
 import Button from 'terra-button';
 import IconSettings from 'terra-icon/lib/icon/IconSettings';
@@ -11,7 +10,7 @@ import { Utils } from '../../../lib/ApplicationLayout';
 
 const propTypes = {
   app: AppDelegate.propType,
-  layoutConfig: PropTypes.string,
+  layoutConfig: Utils.propTypes.layoutConfigPropType,
 };
 
 class ApplicationExtensions extends React.Component {

@@ -69,46 +69,53 @@ class ApplicationContent extends React.Component {
   render() {
     const { layoutConfig, app, basePath, contentName, noMenu, showDummyContent } = this.props;
 
-    let content;
-    if (noMenu) {
-      content = (
+    let bodyContent;
+    if (showDummyContent) {
+      bodyContent = (
         <div>
-          <h2>No Menu? No Problem!</h2>
+          <h2>Another Page?</h2>
           <hr />
-          <p>Components for the menu region are optional. The ApplicationLayout will still render a default menu at tiny and small breakpoints to ensure utilities/navigation items are accessible.</p>
+          <p>These pages are here to demonstrate the responsive functionality of header navigation tabs. The tabs will collapse into a More tab as space is contrained.</p>
+          {dummyContent}
         </div>
       );
-    } else if (!showDummyContent) {
-      content = (
+    } else {
+      let dynamicContent;
+      if (noMenu) {
+        dynamicContent = (
+          <div>
+            <h2>No Menu? No Problem!</h2>
+            <hr />
+            <p>Components for the menu region are optional. The ApplicationLayout will still render a default menu at tiny and small breakpoints to ensure utilities/navigation items are accessible.</p>
+          </div>
+        );
+      } else {
+        dynamicContent = (
+          <div>
+            <h2>Nested Routing</h2>
+            <hr />
+            <p>The content and menu components will remain mounted as long as their associated path continues to match the current router location. Therefore, we can change what the content components render based on the presence of additional path segments.</p>
+            <p>For example, the displayed menu component will update the router location when its items are clicked. This content component will be notified of the location change and render the update below.</p>
+
+            <p>Menu item selected: {(
+              <Route
+                path={`${basePath}/*`}
+                render={({ location }) => (
+                  <b>{location.pathname}</b>
+              )}
+              />
+          )}</p>
+            <h2>Menu/Content Communication</h2>
+            <hr />
+            <p>Additionally, communication can occur through custom events or shared context.</p>
+            <p>Event detected: <b>{this.state.eventState}</b></p>
+          </div>
+        );
+      }
+
+      bodyContent = (
         <div>
-          <h2>Nested Routing</h2>
-          <hr />
-          <p>The content and menu components will remain mounted as long as their associated path continues to match the current router location. Therefore, we can change what the content components render based on the presence of additional path segments.</p>
-          <p>For example, the displayed menu component will update the router location when its items are clicked. This content component will be notified of the location change and render the update below.</p>
-
-          <p>Menu item selected: {(
-            <Route
-              path={`${basePath}/*`}
-              render={({ location }) => (
-                <b>{location.pathname}</b>
-            )}
-            />
-        )}</p>
-          <h2>Menu/Content Communication</h2>
-          <hr />
-          <p>Additionally, communication can occur through custom events or shared context.</p>
-          <p>Event detected: <b>{this.state.eventState}</b></p>
-        </div>
-      );
-    }
-
-    return (
-      <ContentContainer
-        fill
-      >
-        <div style={{ padding: '15px' }}>
-          <h1>{contentName}</h1>
-          {content}
+          {dynamicContent}
           <h2>Layout Control</h2>
           <hr />
           <p>Content and menu components will receive a prop named <b>layoutConfig</b> which contains APIs for manipulating the layout state. When the layout is tiny or small, the layoutConfig will include a function called `toggleMenu` which will present or dismiss the menu.</p>
@@ -128,7 +135,17 @@ class ApplicationContent extends React.Component {
               });
             }}
           />
-          {showDummyContent ? dummyContent : null}
+        </div>
+      );
+    }
+
+    return (
+      <ContentContainer
+        fill
+      >
+        <div style={{ padding: '15px' }}>
+          <h1>{contentName}</h1>
+          {bodyContent}
         </div>
       </ContentContainer>
     );
