@@ -1,9 +1,11 @@
 :local {
   .container {
     display: flex;
+    align-items: stretch;
     height: 100%;
-    overflow: auto;
+    overflow-y: auto;
     width: 100%;
+    border: 1px solid lightgrey;
   }
 
   .fixed {
@@ -11,6 +13,7 @@
     margin-right: 0.07143rem;
     min-height: 0px;
     display: flex;
+    overflow: auto;
 
     flex: 0 0 auto;
     max-width: 80%;
@@ -21,8 +24,7 @@
     display: flex;
     flex: 1 1 auto;
     min-height: 0px;
-
-    overflow-x: scroll;
+    overflow: auto;
     position: relative;
   }
 
@@ -43,13 +45,8 @@
     overflow: hidden;
   }
 
-  .header-cell + .cell {
-    margin-top: 29px;
-  }
-
   .header-cell {
     background-color: grey;
-    position: fixed;
     width: 100px;
   }
 
